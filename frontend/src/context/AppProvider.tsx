@@ -7,12 +7,12 @@ type AppContextType = {
 };
 
 export const AppContext = createContext<AppContextType>({
-  modalTitle: "Login",
+  modalTitle: "SignIn Page",
   setModalTitle: () => {},
 });
 
 const AppProvider = ({ children }: { children: React.ReactNode }) => {
-  const [modalTitle, setModalTitle] = useState<string>("Login");
+  const [modalTitle, setModalTitle] = useState<string>("SignIn Page");
 
   return (
     <>

@@ -13,7 +13,7 @@ const AuthPage = () => {
   const switchpage = () => {
     setLoginPage(!loginPage);
 
-    setModalTitle(loginPage ? "Login Page" : "SignUp");
+    setModalTitle(loginPage ? "SignIn Page" : "SignUp Page");
   };
 
   return (

@@ -182,11 +182,7 @@ function SignUp({ switchPage }: SignUpProps) {
           </Button>
           <div className="text-center text-sm">
             Don&apos;t have an account?{" "}
-            <a
-              href="Signup"
-              onClick={switchPage}
-              className="underline underline-offset-4"
-            >
+            <a onClick={switchPage} className="underline underline-offset-4">
               Signup/Login
             </a>
           </div>

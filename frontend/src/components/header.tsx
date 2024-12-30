@@ -1,8 +1,6 @@
 import React, { useContext, useState } from "react";
-import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { Button } from "@/components/ui/button";
-
+import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import Modal from "@/components/modal";
 import AuthPage from "@/features/auth";
 import { AppContext } from "@/context/AppProvider";
@@ -22,19 +20,25 @@ function Header() {
   const user = useSelector(selectCurrentToken);
 
   return (
-    <nav className="bg-white border-gray-200 dark:bg-gray-900">
+    <nav className="bg-white border-gray-200 dark:bg-gray-900 sticky top-0 z-50">
+      <div className="box-border md:box-content bg-yellow-200 p-2 ">
+        <h2>
+          <ErrorOutlineIcon /> <i className="text-red-600">important:</i>
+          update on rain to/from Addis Ababa to Djibouti
+        </h2>
+      </div>
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <a
           href="https://flowbite.com/"
           className="flex items-center space-x-3 rtl:space-x-reverse"
         >
           <img
-            src="https://flowbite.com/docs/images/logo.svg"
+            src="https://sholajobs.com/wp-content/uploads/2023/08/Ethiopian-Railways-Corporation-1.png"
             className="h-8"
-            alt="Flowbite Logo"
+            alt="Ethio Rail"
           />
           <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-            Flowbite
+            Ethiopian Midir Babur
           </span>
         </a>
         <div className="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
@@ -51,7 +55,7 @@ function Header() {
             {user ? (
               <img
                 className="w-8 h-8 rounded-full"
-                src="https://flowbite.com/docs/images/logo.svg"
+                src="https://sholajobs.com/wp-content/uploads/2023/08/Ethiopian-Railways-Corporation-1.png"
                 alt="user photo"
               />
             ) : (
@@ -104,7 +108,7 @@ function Header() {
             <svg
               className="w-5 h-5"
               aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
+              xmlns="https://sholajobs.com/wp-content/uploads/2023/08/Ethiopian-Railways-Corporation-1.png"
               fill="none"
               viewBox="0 0 17 14"
             >

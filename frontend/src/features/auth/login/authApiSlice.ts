@@ -17,16 +17,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
         return {
           url: "/auth/create",
           method: "POST",
-          body: {
-            ...{
-              firstName: "tsedey",
-              lastName: "solomon",
-              email: "tsedi@gmail.com",
-              password: "1234qwe!",
-              phone: "123456789",
-              role: "user",
-            },
-          },
+          body: { ...credentials },
         };
       },
     }),

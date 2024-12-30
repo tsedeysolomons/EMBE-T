@@ -5,6 +5,7 @@ import About from "./screen/about";
 import RequireAuth from "./features/auth/login/require-auth";
 import MainLayout from "./layout/main-layout";
 import Footer from "./components/footer";
+// Adjust the path as necessary
 //import AppProvider from "./context/AppProvider";
 
 const App = () => {

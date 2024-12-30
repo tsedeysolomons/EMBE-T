@@ -3,17 +3,18 @@ import React from "react";
 const Footer: React.FC = () => {
   return (
     <footer className="bg-white dark:bg-gray-900">
+      <hr className="w-48 h-1 mx-auto my-4 bg-gray-100 border-0 rounded md:my-10 dark:bg-gray-700"></hr>
       <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
         <div className="md:flex md:justify-between">
           <div className="mb-6 md:mb-0">
             <a href="https://flowbite.com/" className="flex items-center">
               <img
-                src="https://flowbite.com/docs/images/logo.svg"
+                src="https://sholajobs.com/wp-content/uploads/2023/08/Ethiopian-Railways-Corporation-1.png"
                 className="h-8 me-3"
-                alt="FlowBite Logo"
+                alt="image of EMB"
               />
               <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-                Flowbite
+                Ethiopian Railways Corporation
               </span>
             </a>
           </div>

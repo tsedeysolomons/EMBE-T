@@ -34,6 +34,8 @@ function SignIn({ switchPage }: SignInProps) {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
+      console.log({ email, password });
+
       const { accessToken } = await login({ email, password }).unwrap();
       dispatch(setCredentials({ accessToken }));
       setEmail("");
@@ -97,7 +99,7 @@ function SignIn({ switchPage }: SignInProps) {
       <form className="p-6 md:p-6" onSubmit={handleSubmit}>
         <div className="flex flex-col gap-6">
           <div className="flex flex-col items-center text-center">
-            <h1 className="text-2xl font-bold">Welcome back</h1>
+            <h1 className="text-2xl font-bold">Welcome back To EMBET</h1>
             <p className="text-balance text-muted-foreground">
               Login to your Ethiopian Midr Babur E-Ticket account
             </p>
@@ -119,7 +121,7 @@ function SignIn({ switchPage }: SignInProps) {
               <Label htmlFor="password">Password</Label>
               <a
                 href="#"
-                className="ml-auto text-sm underline-offset-2 hover:underline"
+                className="ml-auto text-sm underline-offset-2 hover:underline text-red-500"
               >
                 Forgot your password?
               </a>
@@ -148,7 +150,7 @@ function SignIn({ switchPage }: SignInProps) {
               onClick={switchPage}
               className="underline underline-offset-4"
             >
-              Signup/Login
+              Signup/Register
             </a>
           </div>
           {/* Add your image here */}

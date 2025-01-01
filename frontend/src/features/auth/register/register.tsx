@@ -1,18 +1,31 @@
 import { Button } from "@/components/ui/button";
-
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-
 import React, { FormEvent, useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
 import { useSignUpMutation } from "../login/authApiSlice";
-import { setCredentials } from "../login/authSlice";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useToast } from "@/hooks/use-toast";
-
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+} from "@/components/ui/popover"; // Adjust the import path as necessary
+//import { FormLabel, FormControl } from "@/components/ui/form"; // Adjust the import path as necessary
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import { format } from "date-fns";
+import { cn } from "@/lib/utils";
+import { Calendar } from "@/components/ui/calendar"; // Adjust the import path as necessary
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"; // Adjust the import path as necessary
 type SignUpProps = {
-  switchPage?: () => void;
+  switchPage: () => void;
 };
 
 function SignUp({ switchPage }: SignUpProps) {
@@ -21,14 +34,15 @@ function SignUp({ switchPage }: SignUpProps) {
   const userRef = useRef<HTMLInputElement>(null);
   const errRef = useRef<HTMLElement>(null);
 
+  const [title, setTitle] = useState("");
   const [firstName, setFirstName] = useState("");
+  const [middleName, setMiddleName] = useState("");
   const [lastName, setLastName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [country, setCountry] = useState("");
+  const [date, setDate] = useState<Date | undefined>(undefined);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [signUp, { isLoading }] = useSignUpMutation();
@@ -50,20 +64,28 @@ function SignUp({ switchPage }: SignUpProps) {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const { accessToken } = await signUp({
-        firstName,
-        lastName,
+      const result = await signUp({
+        title,
+        first_name: firstName,
+        middle_name: middleName,
+        last_name: lastName,
+        date_of_birth: date,
+        country,
         email,
         password,
-        phoneNumber,
+        phone: phoneNumber,
       }).unwrap();
-      dispatch(setCredentials({ accessToken }));
+
+      setTitle("");
       setFirstName("");
+      setMiddleName("");
       setLastName("");
+      setCountry("");
       setEmail("");
       setPassword("");
       setPhoneNumber("");
-      navigate("/");
+
+      switchPage();
     } catch (err: { status?: number; data?: { message: string } }) {
       if (!err?.status) {
         toast({
@@ -100,21 +122,37 @@ function SignUp({ switchPage }: SignUpProps) {
   return (
     <>
       <form className="p-6 md:p-8" onSubmit={handleSubmit}>
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-2">
           <div className="flex flex-col items-center text-center">
             <h1 className="text-2xl font-bold">
-              Welcome To EMB E-Ticket Signup page
+              Welcome To EMB E-Ticket Registration page
             </h1>
             <p className="text-balance text-muted-foreground">
               Register to your Ethiopian Midr Babur E-Ticket official account
             </p>
           </div>
           <ScrollArea className="h-64 w-full [&_div]:p-1 m-0">
+            <div>
+              <Label htmlFor="title">Title</Label>
+              <Select value={title} onValueChange={(value) => setTitle(value)}>
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="Select a your Title" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel>Title</SelectLabel>
+                    <SelectItem value="Mr">Mr.</SelectItem>
+                    <SelectItem value="Miss">Miss.</SelectItem>
+                    <SelectItem value="Mrs">Mrs.</SelectItem>
+                    <SelectItem value="Ms">Ms.</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </div>
             <div className="grid gap-2">
               <Label htmlFor="firstName">First Name</Label>
               <Input
-                id="firstName"
-                type="firstName"
+                name="first_name"
                 placeholder="Enter your first name"
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
@@ -122,17 +160,87 @@ function SignUp({ switchPage }: SignUpProps) {
                 ref={userRef}
               />
             </div>
+            <div>
+              <div className="grid gap-2">
+                <Label htmlFor="middlename">Middle Name</Label>
+                <Input
+                  name="middle_name"
+                  placeholder="Enter your middle name"
+                  value={middleName}
+                  onChange={(e) => setMiddleName(e.target.value)}
+                  required
+                  ref={userRef}
+                />
+              </div>
+            </div>
             <div className="grid gap-2">
               <Label htmlFor="lastName">Last Name</Label>
               <Input
-                id="lastname"
-                type="lastname"
+                name="last_name"
                 placeholder="Enter your last name"
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
                 required
                 ref={userRef}
               />
+            </div>
+            <div>
+              <h4 className="text-pretty text-red-500 ">
+                Title Your name must be entered in English as it appears on your
+                passport.
+              </h4>
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="dateOfBirth">Date of Birth</Label>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant={"outline"}
+                    className={cn(
+                      "w-[280px] justify-start text-left font-normal",
+                      !date && "text-muted-foreground"
+                    )}
+                  >
+                    <CalendarMonthIcon />
+                    {date ? (
+                      format(date, "PPP")
+                    ) : (
+                      <span>Pick your Birht Day</span>
+                    )}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0">
+                  <Calendar
+                    mode="single"
+                    selected={date}
+                    onSelect={(date) => setDate(date)}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="dateOfBirth">Country</Label>
+              <Select
+                value={country}
+                onValueChange={(value) => setCountry(value)}
+              >
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="Select a Country" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel>COuntry</SelectLabel>
+                    <SelectItem value="Ethiopia">Ethiopia</SelectItem>
+                    <SelectItem value="Djiubti">Djibuti</SelectItem>
+                    <SelectItem value="Eritrea">Eritrea</SelectItem>
+                    <SelectItem value="Somalia">Somalia</SelectItem>
+                    <SelectItem value="Kenya">Kenya</SelectItem>
+                    <SelectItem value="Sudan">Sudan</SelectItem>
+                    <SelectItem value="South Sudan">South Sudan</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
             </div>
             <div className="grid gap-2">
               <Label htmlFor="email">Email</Label>
@@ -151,7 +259,7 @@ function SignUp({ switchPage }: SignUpProps) {
                 <Label htmlFor="password">Password</Label>
                 <a
                   href="#"
-                  className="ml-auto text-sm underline-offset-2 hover:underline"
+                  className="ml-auto text-sm underline-offset-2 hover:underline text-red-500 "
                 >
                   Forgot your password?
                 </a>
@@ -167,7 +275,7 @@ function SignUp({ switchPage }: SignUpProps) {
             <div className="grid gap-2">
               <Label htmlFor="phoneNumber">phoneNumber</Label>
               <Input
-                id="phoneNumber"
+                name="phone"
                 type="tel"
                 placeholder="Entere your phoneNumber"
                 value={phoneNumber}
@@ -181,9 +289,9 @@ function SignUp({ switchPage }: SignUpProps) {
             Signup
           </Button>
           <div className="text-center text-sm">
-            Don&apos;t have an account?{" "}
+            If You have allready an account?{" "}
             <a onClick={switchPage} className="underline underline-offset-4">
-              Signup/Login
+              Back toLogin
             </a>
           </div>
         </div>

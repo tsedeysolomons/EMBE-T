@@ -291,7 +291,7 @@ function SignUp({ switchPage }: SignUpProps) {
           <div className="text-center text-sm">
             If You have allready an account?{" "}
             <a onClick={switchPage} className="underline underline-offset-4">
-              Back toLogin
+              Back to Login
             </a>
           </div>
         </div>

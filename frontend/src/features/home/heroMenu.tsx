@@ -10,72 +10,92 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
-import { Plane, Tag, Clock, Info } from "lucide-react";
-//import Link from "next/link";
+import { Tag, Info } from "lucide-react";
+import TrainIcon from "@mui/icons-material/Train";
 
 export default function Search() {
   return (
-    <div className="w-full max-w-6xl mx-auto p-4 z-50">
-      {/* Navigation Tabs */}
-      <div className="flex border-b mb-8">
-        <Button
-          variant="ghost"
-          className="border-b-2 border-red-600 text-red-600 rounded-none px-6"
-        >
-          <Plane className="mr-2 h-4 w-4" />
-          Search flights
-        </Button>
-        <Button variant="ghost" className="text-white rounded-none px-6">
-          <Tag className="mr-2 h-4 w-4" />
-          Manage booking / Check in
-        </Button>
-        <Button variant="ghost" className="text-white rounded-none px-6">
-          <Info className="mr-2 h-4 w-4" />
-          What&apos;s on your flight
-        </Button>
-        <Button variant="ghost" className="text-white rounded-none px-6">
-          <Clock className="mr-2 h-4 w-4" />
-          Flight status
-        </Button>
-      </div>
-
-      <Card className="border-none shadow-lg">
+    <div className=" flex-auto w-full max-w-6x2 mx-auto p-4 z-50 ">
+      <Card className="border-none shadow-lg  ">
         <CardContent className="p-6">
-          <div className="mb-4">
-            <div
-              href="#"
-              className="text-red-600 hover:text-red-700 text-sm flex justify-end items-center"
+          {/* Navigation Tabs */}
+          <div className="flex flex-wrap border-separate mb-8 ">
+            <Button
+              variant="ghost"
+              className="border-b-2 border-red-600 text-red-600 rounded-none px-6"
             >
-              Advanced search: multi-city, promo codes, partner airlines →
-            </div>
+              <TrainIcon className="mr-2 h-4 w-4" />
+              Search TrainRide
+            </Button>
+            <Button
+              variant="ghost"
+              className="border-b-2 border-red-600 text-red-600 rounded-none px-6"
+            >
+              <Tag className="mr-2 h-4 w-4" />
+              <a onClick={ManageBooking}>Manage booking</a>
+            </Button>
+            <Button
+              variant="ghost"
+              className="border-b-2  border-red-600 text-red-600 rounded-none px-6 space-x-1"
+            >
+              <Info className="mr-2 h-4 w-4" />
+              What&apos;s on your flight
+            </Button>
+          </div>
+          <div className="mb-4">
+            <a
+              href="#"
+              className="text-red-600 hover:text-red-950 text-sm flex justify-end items-center underline underline-offset-4"
+            >
+              Advanced search: multi-city, promo codes, partner TrainRide →
+            </a>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             {/* Departure Airport */}
             <div className="space-y-2">
-              <label className="text-sm font-medium">Departure airport</label>
-              <Input
-                type="text"
-                placeholder="Departure airport"
-                value="Addis Ababa (ADD)"
-                className="w-full"
-              />
+              <label className="text-sm font-medium">Departure TrainRide</label>
+              <Select defaultValue="Addis Ababa">
+                <SelectTrigger>
+                  <SelectValue placeholder="Addis Ababa" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Addis Ababa">Addis Ababa</SelectItem>
+                  <SelectItem value="Adama">Adama </SelectItem>
+                  <SelectItem value="Modjo">Modjo</SelectItem>
+                  <SelectItem value="Awash">Awash</SelectItem>
+                  <SelectItem value="Dire Dawa">Dire Dawa</SelectItem>
+                  <SelectItem value="Dewele">Dewele</SelectItem>
+                  <SelectItem value="Nagad">Nagad </SelectItem>
+                  <SelectItem value="Djibouti">Djibouti </SelectItem>
+                </SelectContent>
+              </Select>
             </div>
 
             {/* Arrival Airport */}
             <div className="space-y-2">
-              <label className="text-sm font-medium">Arrival airport</label>
-              <Input
-                type="text"
-                placeholder="Arrival airport"
-                className="w-full"
-              />
+              <label className="text-sm font-medium ">Arrival TrainRide</label>
+              <Select defaultValue="Djibouti">
+                <SelectTrigger>
+                  <SelectValue placeholder="Djibouti" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Addis Ababa">Addis Ababa</SelectItem>
+                  <SelectItem value="Adama">Adama </SelectItem>
+                  <SelectItem value="Modjo">Modjo</SelectItem>
+                  <SelectItem value="Awash">Awash</SelectItem>
+                  <SelectItem value="Dire Dawa">Dire Dawa</SelectItem>
+                  <SelectItem value="Dewele">Dewele</SelectItem>
+                  <SelectItem value="Nagad">Nagad </SelectItem>
+                  <SelectItem value="Djibouti">Djibouti </SelectItem>
+                </SelectContent>
+              </Select>
             </div>
 
             {/* Date Selection */}
             <div className="space-y-2">
               <label className="text-sm font-medium">Travel dates</label>
-              <div className="flex gap-2">
+              <div className="flex flex-col md:flex-row gap-2">
                 <Input type="date" placeholder="Departing" className="w-full" />
                 <Input type="date" placeholder="Returning" className="w-full" />
               </div>
@@ -106,7 +126,6 @@ export default function Search() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="economy">Economy Class</SelectItem>
-                  <SelectItem value="business">Business Class</SelectItem>
                   <SelectItem value="first">First Class</SelectItem>
                 </SelectContent>
               </Select>

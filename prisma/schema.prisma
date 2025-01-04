@@ -13,19 +13,125 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id      Int      @id @default(autoincrement())
-  first_name    String
-  last_name     String
-  email   String   @unique
-  role  Role    @default(USER)
-  password String
-  createdAt DateTime @default(now())
-  phone String
+model Passenger {
+  id           Int           @id @default(autoincrement())
+  title       String
+  firstName   String   @map("first_name")
+  middleName  String   @map("middle_name")
+  lastName    String   @map("last_name")
+  dateOfBirth DateTime @map("date_of_birth")
+  country     String
+  email       String   @unique
+  password    String
+  role        Role     @default(USER)
+  phone       String
+  createdAt   DateTime @default(now())
+  reservations Reservation[]
+  eTickets     ETicket[] // One Passenger can have multiple E-Tickets
+}
+
+
+model Conductor {
+  id        Int     @id @default(autoincrement())
+  username  String
+  password  String
+  name      String
+  contactNo String
+  address   String?
+}
+
+model Admin {
+  id        Int     @id @default(autoincrement())
+  username  String
+  password  String
+  name      String
+  email     String  @unique
+  contactNo String?
+  role      String  @default("Admin") // Super Admin, Regional Admin
+  trains    Train[]
+}
+
+model Train {
+  id            Int           @id @default(autoincrement())
+  name          String
+  trainNo       Int           @unique
+  startStation  String // Starting station
+  endStation    String // Ending station
+  stops         Json? // List of intermediate stops (optional)
+  departureTime DateTime
+  arrivalTime   DateTime
+  type          String // e.g., "Express", "Local", "Freight"
+  status        String // e.g., "On-Time", "Delayed", "Cancelled"
+  economyPrice  Float // Price for Economy class
+  FirstPrice Float // Price for Business class
+  capacity      Int
+  reservations  Reservation[]
+  eTickets      ETicket[]
+  adminId       Int
+  admin         Admin         @relation(fields: [adminId], references: [id])
+}
+
+model Reservation {
+  id                Int       @id @default(autoincrement())
+  trainId           Int
+  passengerId       Int
+  ticketNo          Int
+  selectFromTo      String
+  departureDate     DateTime
+  arrivalDate       DateTime
+  dateOfReservation DateTime
+  setNo             Int
+  class             String
+  status            String    @default("Pending") // Confirmed, Cancelled, Pending
+  referenceCode     String    @unique // A unique code for tracking
+  train             Train     @relation(fields: [trainId], references: [id])
+  passenger         Passenger @relation(fields: [passengerId], references: [id])
+  payment           Payment?
+}
+
+model ETicket {
+  id              Int       @id @default(autoincrement())
+  ticketNo        Int       @unique
+  passengerId     Int // Remove @unique to allow multiple E-Tickets for one Passenger
+  trainId         Int
+  setNo           Int
+  class           String
+  journeyDate     DateTime
+  departureStatus String
+  ticketPrice     Int
+  bookingInfo     String
+  train           Train     @relation(fields: [trainId], references: [id])
+  passenger       Passenger @relation(fields: [passengerId], references: [id])
+  payment         Payment?  @relation(fields: [paymentId], references: [id])
+  paymentId       Int?
+}
+
+model Payment {
+  id                Int                @id @default(autoincrement())
+  paymentType       String
+  paymentAmount     Float
+  paymentDate       DateTime
+  currency          String             @default("ETB")
+  status            String
+  reservationId     Int                @unique
+  reservation       Reservation        @relation(fields: [reservationId], references: [id])
+  onlineTransaction OnlineTransaction?
+  ETicket           ETicket[]
+}
+
+model OnlineTransaction {
+  id        Int      @id @default(autoincrement())
+  ticketId  String
+  amount    Float
+  status    String
+  date      DateTime
+  paymentId Int      @unique
+  payment   Payment  @relation(fields: [paymentId], references: [id])
 }
 
 enum Role {
-  USER
-  ADMIN
+  Admin
   CONDUCTOR
+  USER
 }
+

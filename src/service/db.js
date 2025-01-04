@@ -1,14 +1,17 @@
+// prisma.js
 const { PrismaClient } = require("@prisma/client");
 
-class DataBase {
-  static instance;
+let prisma;
 
-  static getInstance() {
-    if (!DataBase.instance) {
-        DataBase.instance = new PrismaClient();
-    }
-    return DataBase.instance;
+if (process.env.NODE_ENV === "production") {
+  // Create a new PrismaClient instance in production
+  prisma = new PrismaClient();
+} else {
+  // Use a global variable to maintain a single instance in development
+  if (!global.__prisma) {
+    global.__prisma = new PrismaClient();
   }
+  prisma = global.__prisma;
 }
 
-module.exports = DataBase;
+module.exports = prisma;

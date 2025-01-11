@@ -7,8 +7,14 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import TrainAvalability from "@/features/searchResult/trainavalability"; // Adjust the import path as necessary
+import { Link } from "react-router-dom";
+//import { useState } from "react";
+
+//type TabsType = "trainValidation";
 
 const SearchTrain = () => {
+  // const [tabs, setTabs] = useState<TabsType | null>(null);
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-2 gap-4 w-full">
       {/* Departure Airport */}
@@ -53,15 +59,34 @@ const SearchTrain = () => {
 
       {/* Date Selection */}
       <div className="space-y-2">
-        <label className="text-sm font-medium">Travel dates</label>
+        <label className="text-sm font-medium">Travel dates and times</label>
         <div className="flex flex-col md:flex-row gap-2">
-          <Input type="date" placeholder="Departing" className="w-full" />
-          <Input type="date" placeholder="Returning" className="w-full" />
+          <div className="flex flex-col md:flex-row gap-2 w-full">
+            <Input
+              type="date"
+              placeholder="Departing Date"
+              className="w-full"
+            />
+            <div className="flex flex-col md:flex-row gap-2 w-full">
+              <Input
+                type="date"
+                placeholder="Returning Date"
+                className="w-full"
+              />
+            </div>
+          </div>
+          {/* 
+            <Input
+              type="time"
+              placeholder="Returning Time"
+              className="w-full"
+            />
+           */}
         </div>
       </div>
 
       {/* Passengers */}
-      <div className="space-y-2">
+      <div className="  space-y-2">
         <label className="text-sm font-medium">Passengers</label>
         <Select defaultValue="1">
           <SelectTrigger>
@@ -91,11 +116,11 @@ const SearchTrain = () => {
       </div>
 
       {/* Search Button */}
-      <div className="flex items-end">
+      <Link to="/TrainAvalability">
         <Button className="w-full bg-red-600 hover:bg-red-700 text-white">
           Search flights
         </Button>
-      </div>
+      </Link>
     </div>
   );
 };

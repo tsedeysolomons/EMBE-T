@@ -3,16 +3,16 @@ export const navbar = [
     lable: "Home",
   },
   {
-    lable: "about",
+    lable: "About",
   },
   {
-    lable: "book",
+    lable: "Manage Booking",
   },
   {
-    lable: "manage",
+    lable: "View History",
   },
   {
-    lable: "download",
+    lable: "Download E-Ticket",
   },
 ];
 

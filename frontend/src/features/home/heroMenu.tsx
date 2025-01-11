@@ -4,9 +4,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Tag, Info } from "lucide-react";
 import TrainIcon from "@mui/icons-material/Train";
 import ManageBooking from "./managebook";
-import FlightDetails from "./whatontrain";
 import SearchTrain from "./searchtrain";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 type TabsType = "search" | "manage" | "whats";
 
@@ -35,14 +35,15 @@ export default function Search() {
               <Tag className="mr-2 h-4 w-4" />
               <a>Manage booking</a>
             </Button>
-            <Button
-              variant="ghost"
-              className="border-b-2  border-red-600 text-red-600 rounded-none px-6 space-x-1"
-              onClick={() => setTabs("whats")}
-            >
-              <Info className="mr-2 h-4 w-4" />
-              What&apos;s on your flight
-            </Button>
+            <Link to="/FlightDetails">
+              <Button
+                variant="ghost"
+                className="border-b-2  border-red-600 text-red-600 rounded-none px-6 space-x-1"
+              >
+                <Info className="mr-2 h-4 w-4" />
+                What&apos;s on your Train Ride
+              </Button>
+            </Link>
           </div>
           <div className="mb-4">
             <a
@@ -52,10 +53,8 @@ export default function Search() {
               Advanced search: multi-city, promo codes, partner TrainRide →
             </a>
           </div>
-
           {tabs === "search" && <SearchTrain />}
           {tabs === "manage" && <ManageBooking />}
-          {tabs === "whats" && <FlightDetails />}
         </CardContent>
       </Card>
     </div>

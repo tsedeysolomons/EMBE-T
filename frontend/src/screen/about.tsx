@@ -1,64 +1,31 @@
 import {} from "@/asset";
 import { Button } from "@/components/ui/button";
-import {
-  NavigationMenu,
-  NavigationMenuList,
-  NavigationMenuItem,
-  NavigationMenuLink,
-} from "@/components/ui/navigation-menu";
 
 export default function About() {
   return (
     <div className="min-h-screen">
-      {/* Main Navigation */}
-      <header className="bg-[#333333] text-white">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between h-16">
-            <NavigationMenu>
-              <NavigationMenuList className="flex space-x-6">
-                <NavigationMenuItem>
-                  <NavigationMenuLink className="hover:text-gray-300">
-                    BOOK
-                  </NavigationMenuLink>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                  <NavigationMenuLink className="hover:text-gray-300">
-                    MANAGE
-                  </NavigationMenuLink>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                  <NavigationMenuLink className="hover:text-gray-300">
-                    EXPERIENCE
-                  </NavigationMenuLink>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                  <NavigationMenuLink className="hover:text-gray-300">
-                    WHERE WE FLY
-                  </NavigationMenuLink>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                  <NavigationMenuLink className="hover:text-gray-300">
-                    LOYALTY
-                  </NavigationMenuLink>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                  <NavigationMenuLink className="hover:text-gray-300">
-                    HELP
-                  </NavigationMenuLink>
-                </NavigationMenuItem>
-              </NavigationMenuList>
-            </NavigationMenu>
-            <div className="flex items-center space-x-4">
-              <Button variant="ghost" className="text-white">
-                GLOBAL
-              </Button>
-              <Button variant="ghost" className="text-white">
-                LOG IN
-              </Button>
-            </div>
-          </div>
+      {/*video */}
+      <div className="relative h-[400px] w-full overflow-hidden">
+        {/* Video Background */}
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 h-full w-full object-cover"
+        >
+          <source src="/video_2025-01-09_10-18-32.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-black/40" />
+
+        {/* Content */}
+        <div className="relative z-10 flex h-full items-center justify-center">
+          <h1 className="text-6xl font-bold text-white md:text-8xl"></h1>
         </div>
-      </header>
+      </div>
 
       {/* Secondary Navigation */}
       <nav className="bg-white border-b">

@@ -58,12 +58,12 @@ model Train {
   startStation  String // Starting station
   endStation    String // Ending station
   stops         Json? // List of intermediate stops (optional)
-  departureTime DateTime
-  arrivalTime   DateTime
+  departureDate DateTime
+  arrivalDate   DateTime
   type          String // e.g., "Express", "Local", "Freight"
   status        String // e.g., "On-Time", "Delayed", "Cancelled"
-  economyPrice  Float // Price for Economy class
-  FirstPrice Float // Price for Business class
+  HardSeatPrice  Float // Price for Economy class
+  HardSleepPrice Float // Price for Business class
   capacity      Int
   reservations  Reservation[]
   eTickets      ETicket[]

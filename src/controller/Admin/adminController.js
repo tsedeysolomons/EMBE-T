@@ -1,18 +1,31 @@
+const bcrypt = require("bcrypt");
 const prisma = require("../../service/db");
+const { filterNotUndefined } = require("../../utiles");
 
 const createAdmin = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { username, name, email, password, contactNo } = req.body;
 
-    if (!name || !email || !password) {
+    if (!username || !name || !email || !password || !contactNo) {
       return res.status(400).send({ message: "All fields are required!" });
     }
 
+    const adminExist = await prisma.admin.findUnique({ where: { email } });
+
+    if (adminExist)
+      return res.status(400).send({ message: "Admin already exists!" });
+
+    console.log("Admin does not exist");
+
+    const hashPassword = await bcrypt.hash(password, 10);
+
     const admin = await prisma.admin.create({
       data: {
+        username,
         name,
         email,
-        password,
+        password: hashPassword,
+        contactNo,
       },
     });
 
@@ -51,14 +64,31 @@ const getAdminById = async (req, res) => {
 const updateAdmin = async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, email, password } = req.body;
+    let { username, name, email, password, contactNo } = req.body;
+
+    const adminExist = await prisma.admin.findUnique({
+      where: { id: parseInt(id) },
+    });
+
+    if (!adminExist)
+      return res.status(404).send({ message: "Admin not found!" });
+
+    if (password) password = await bcrypt.hash(password, 10);
+
+    const data = {
+      username,
+      name,
+      email,
+      password,
+      contactNo,
+    };
+
+    const filteredData = filterNotUndefined(data);
 
     const admin = await prisma.admin.update({
       where: { id: parseInt(id) },
       data: {
-        name,
-        email,
-        password,
+        ...filteredData,
       },
     });
 

@@ -1,4 +1,6 @@
+const { values } = require("lodash");
 const prisma = require("../../service/db");
+const { filterNotUndefined } = require("../../utiles");
 
 const createTrain = async (req, res) => {
   try {
@@ -8,12 +10,12 @@ const createTrain = async (req, res) => {
       startStation,
       endStation,
       stops,
-      departureTime,
-      arrivalTime,
+      departureDate,
+      arrivalDate,
       type,
       status,
-      economyPrice,
-      firstPrice,
+      HardSleepPrice,
+      HardSeatPrice,
       capacity,
       adminId,
     } = req.body;
@@ -23,12 +25,12 @@ const createTrain = async (req, res) => {
       !trainNo ||
       !startStation ||
       !endStation ||
-      !departureTime ||
-      !arrivalTime ||
+      !departureDate ||
+      !arrivalDate ||
       !type ||
       !status ||
-      !economyPrice ||
-      !firstPrice ||
+      !HardSleepPrice ||
+      !HardSeatPrice ||
       !capacity ||
       !adminId
     ) {
@@ -42,12 +44,12 @@ const createTrain = async (req, res) => {
         startStation,
         endStation,
         stops: JSON.parse(stops),
-        departureTime: new Date(departureTime),
-        arrivalTime: new Date(arrivalTime),
+        departureDate: new Date(departureDate),
+        arrivalDate: new Date(arrivalDate),
         type,
         status,
-        economyPrice: parseFloat(economyPrice),
-        FirstPrice: parseFloat(firstPrice),
+        HardSleepPrice: parseFloat(HardSleepPrice),
+        HardSeatPrice: parseFloat(HardSeatPrice),
         capacity: parseInt(capacity),
         adminId: parseInt(adminId),
       },
@@ -96,32 +98,40 @@ const updateTrain = async (req, res) => {
       startStation,
       endStation,
       stops,
-      departureTime,
-      arrivalTime,
+      departureDate,
+      arrivalDate,
       type,
       status,
-      economyPrice,
-      firstPrice,
+      HardSleepPrice,
+      HardSeatPrice,
       capacity,
       adminId,
     } = req.body;
 
+    // filter out undefined values
+    const data = {
+      name,
+      trainNo,
+      startStation,
+      endStation,
+      stops: stops ? JSON.parse(stops) : [],
+      departureDate: new Date(departureDate),
+      arrivalDate: new Date(arrivalDate),
+      type,
+      status,
+      HardSleepPrice: parseFloat(HardSleepPrice),
+      HardSeatPrice: parseFloat(HardSeatPrice),
+      capacity: parseInt(capacity),
+      adminId: parseInt(adminId),
+    };
+
+    const filteredData = filterNotUndefined(data);
+    console.log(filteredData);
+
     const train = await prisma.train.update({
       where: { id: parseInt(id) },
       data: {
-        name,
-        trainNo,
-        startStation,
-        endStation,
-        stops: JSON.parse(stops),
-        departureTime: new Date(departureTime),
-        arrivalTime: new Date(arrivalTime),
-        type,
-        status,
-        economyPrice: parseFloat(economyPrice),
-        firstPrice: parseFloat(firstPrice),
-        capacity: parseInt(capacity),
-        adminId: parseInt(adminId),
+        ...filteredData,
       },
     });
 

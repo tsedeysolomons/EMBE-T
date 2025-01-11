@@ -1,0 +1,326 @@
+### User Controller
+# Create User
+POST http://localhost:3000/api/user
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "email": "john.doe@example.com"
+}
+
+###
+
+# Get All Users
+GET http://localhost:3000/api/user
+Content-Type: application/json
+
+###
+
+# Get User by ID
+GET http://localhost:3000/api/user/1
+Content-Type: application/json
+
+###
+
+# Update User
+PUT http://localhost:3000/api/user/1
+Content-Type: application/json
+
+{
+  "name": "Jane Doe",
+  "email": "jane.doe@example.com"
+}
+
+###
+
+# Delete User
+DELETE http://localhost:3000/api/user/2
+Content-Type: application/json
+
+###
+
+### Train Controller
+# Create Train
+POST http://localhost:3000/api/train/create
+Content-Type: application/json
+
+{
+    "name": "Express",
+    "trainNo": 103,
+    "startStation": "Adiss Abeba",
+    "endStation": "Djibouti",
+    "stops":["Dire Dawa", "Shinile"],
+    "departureDate": "2023-20-12",
+    "arrivalDate": "2023-20-13",
+    "type": "Express",
+    "status": "On-Time",
+    "HardSeatPrice": 2000.00,
+    "HardSleepPrice": 2500.00,
+    "capacity": 200,
+    "adminId": 1
+}
+
+###
+
+# Get All Trains
+GET http://localhost:3000/api/train
+Content-Type: application/json
+
+###
+
+# Get Train by ID
+GET http://localhost:3000/api/train/1
+Content-Type: application/json
+
+###
+
+# Update Train
+PUT http://localhost:3000/api/train/1
+Content-Type: application/json
+
+{
+    "endStation": "NYC",
+    "startStation": "LA",
+    "departureTime": "2023-10-10",
+    "arrivalTime": "2023-10-10",
+    "capacity": 200
+}
+
+
+###
+
+# Delete Train
+DELETE http://localhost:3000/api/train/1
+Content-Type: application/json
+
+###
+
+### Admin Controller
+# Create Admin
+POST http://localhost:3000/api/admin
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "password123"
+}
+
+###
+
+# Get All Admins
+GET http://localhost:3000/api/admin
+Content-Type: application/json
+
+###
+
+# Get Admin by ID
+GET http://localhost:3000/api/admin/1
+Content-Type: application/json
+
+###
+
+# Update Admin
+PUT http://localhost:3000/api/admin/1
+Content-Type: application/json
+
+{
+  "username": "superadmin",
+  "password": "newpassword123"
+}
+
+###
+
+# Delete Admin
+DELETE http://localhost:3000/api/admin/2
+Content-Type: application/json
+
+###
+
+### ETicket Controller
+# Create ETicket
+POST http://localhost:3000/api/eticket/create
+Content-Type: application/json
+
+{
+ "ticketNo": 104,
+  "passengerId": 20,
+  "trainId": 3,
+  "setNo": 9,
+  "class": "HardSeat",
+  "journeyDate": "2023-12-06",
+  "departureStatus": "On-Time",
+  "ticketPrice": 300,
+  "bookingInfo": "Booking",
+  "paymentId": 1
+}
+
+###
+
+# Get All ETickets
+GET http://localhost:3000/api/eticket/
+Content-Type: application/json
+
+###
+
+# Get ETicket by ID
+GET http://localhost:3000/api/eticket/3
+Content-Type: application/json
+
+###
+
+# Update ETicket
+PUT http://localhost:3000/api/eticket/3
+Content-Type: application/json
+
+{
+  
+  "class": "HardSeat",
+  "bookingInfo":"Booked",
+  "setNo": 11
+}
+
+###
+
+# Delete ETicket
+DELETE http://localhost:3000/api/eticket/2
+Content-Type: application/json
+
+###
+
+### Payment Controller
+# Create Payment
+POST http://localhost:3000/api/payment/create
+Content-Type: application/json
+
+{
+  "paymentType": "Credit Card",
+  "paymentAmount": 1200.50,
+  "paymentDate": "2025-01-03T12:00:00Z",
+  "currency": "ETB",
+  "status": "Completed",
+  "reservationId": 12
+  
+   
+}  
+
+###
+
+# Get All Payments
+GET http://localhost:3000/api/payment/2
+Content-Type: application/json
+
+###
+
+# Get Payment by ID
+GET http://localhost:3000/api/payment/3
+Content-Type: application/json
+
+###
+
+# Update Payment
+PUT http://localhost:3000/api/payment/3
+Content-Type: application/json
+
+{
+  "paymentAmount": 1800.5,
+  "status": "pending"
+}
+
+###
+
+# Delete Payment
+DELETE http://localhost:3000/api/payment/2
+Content-Type: application/json
+
+###
+
+### Online Transaction Controller
+# Create Online Transaction
+POST http://localhost:3000/api/onlineTransaction/create
+Content-Type: application/json
+
+{
+  "ticketId":"6",
+  "amount":1200.50,
+  "status":"Completed",
+  "date":"2025-01-03",
+  "paymentId":3
+}
+
+###
+
+# Get All Online Transactions
+GET http://localhost:3000/api/onlineTransaction/2
+Content-Type: application/json
+
+###
+
+# Get Online Transaction by ID
+GET http://localhost:3000/api/onlineTransaction/2
+Content-Type: application/json
+
+###
+
+# Update Online Transaction
+PUT http://localhost:3000/api/onlineTransaction/1
+Content-Type: application/json
+
+{
+  "amount": 1600.5
+}
+
+###
+
+# Delete Online Transaction
+DELETE http://localhost:3000/api/onlineTransaction/1
+Content-Type: application/json
+
+###
+
+### Reservation Controller
+# Create Reservation
+POST http://localhost:3000/api/reservation/create
+Content-Type: application/json
+
+{
+      "trainId":101,
+      "passengerId":1,
+      "ticketNo":8,
+      "selectFromTo":"Adiss Ababa- Dredawa",
+      "departureDate":"2017/04/01",
+      "arrivalDate":"2017/04/01",
+      "dateOfReservation":"2017/04/02",
+      "setNo":15,
+      "class": "hardseat",
+      "status":"pending",
+      "referenceCode":"AD101"
+}
+
+###
+
+# Get All Reservations
+GET http://localhost:3000/api/reservation/3
+Content-Type: application/json
+
+###
+
+# Get Reservation by ID
+GET http://localhost:3000/api/reservation/3
+Content-Type: application/json
+
+###
+
+# Update Reservation
+PUT http://localhost:3000/api/reservation/1
+Content-Type: application/json
+
+{
+  "selectFromTo": "Adiss Ababa- Dredawa",
+  "setNo": 20
+}
+
+###
+
+# Delete Reservation
+DELETE http://localhost:3000/api/reservation/1
+Content-Type: application/json

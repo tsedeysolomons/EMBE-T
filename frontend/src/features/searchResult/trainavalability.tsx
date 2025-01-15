@@ -1,19 +1,26 @@
 import { useState } from "react";
 import HardSleep from "@/features/searchResult/haedsleep"; // Adjusted path
-import HardSeat from "@/features/searchResult/hardseat"; // Adjusted path
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
 import { useGetTrainsQuery } from "./searchApiSlice";
 import TrainCard, { TrainCardProps } from "@/features/searchResult/train-card"; // Adjusted path
+import { useSearchParams } from "react-router-dom";
 
 type TabsType = "HardSeat" | "HardSleep";
 
 function SearchTrainAvalability() {
   const [tabs, setTabs] = useState<TabsType>("HardSeat");
 
-  const { data: trains, error } = useGetTrainsQuery({});
+  const [searchParams] = useSearchParams();
+
+  const { data: trains, error } = useGetTrainsQuery({
+    departure: searchParams.get("departure") ?? "",
+    arrival: searchParams.get("arrival") ?? "",
+    travelTimeAndDate: searchParams.get("departureDate") ?? "",
+    classType: searchParams.get("classType") ?? "",
+  });
 
   if (error) return <div>Error: {error?.message}</div>;
 

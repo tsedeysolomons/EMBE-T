@@ -8,28 +8,45 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import TrainAvalability from "@/features/searchResult/trainavalability"; // Adjust the import path as necessary
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
 //import { useState } from "react";
 
 //type TabsType = "trainValidation";
 
 const SearchTrain = () => {
   // const [tabs, setTabs] = useState<TabsType | null>(null);
+
+  const [departure, setDeparture] = useState("Adiss Ababa");
+  const [arrival, setArrival] = useState("Dredawa");
+
+  const [departureDate, setDepartureDate] = useState<string>("");
+
+  const [classType, setClassType] = useState("");
+
+  const navigate = useNavigate();
+
+  const searchResult = () => {
+    navigate(
+      `/TrainAvalability?departure=${departure}&arrival=${arrival}&departureDate=${departureDate}&classType=${classType}`
+    );
+  };
+
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-2 gap-4 w-full">
       {/* Departure Airport */}
       <div className="space-y-2">
         <label className="text-sm font-medium">Departure TrainRide</label>
-        <Select defaultValue="Addis Ababa">
+        <Select defaultValue={departure} onValueChange={(e) => setDeparture(e)}>
           <SelectTrigger>
             <SelectValue placeholder="Addis Ababa" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="Addis Ababa">Addis Ababa</SelectItem>
+            <SelectItem value="Addis">Addis Ababa</SelectItem>
             <SelectItem value="Adama">Adama </SelectItem>
             <SelectItem value="Modjo">Modjo</SelectItem>
             <SelectItem value="Awash">Awash</SelectItem>
-            <SelectItem value="Dire Dawa">Dire Dawa</SelectItem>
+            <SelectItem value="Dredawa">Dire Dawa</SelectItem>
             <SelectItem value="Dewele">Dewele</SelectItem>
             <SelectItem value="Nagad">Nagad </SelectItem>
             <SelectItem value="Djibouti">Djibouti </SelectItem>
@@ -40,7 +57,7 @@ const SearchTrain = () => {
       {/* Arrival Airport */}
       <div className="space-y-2">
         <label className="text-sm font-medium ">Arrival TrainRide</label>
-        <Select defaultValue="Djibouti">
+        <Select defaultValue={arrival} onValueChange={(e) => setArrival(e)}>
           <SelectTrigger>
             <SelectValue placeholder="Djibouti" />
           </SelectTrigger>
@@ -49,7 +66,7 @@ const SearchTrain = () => {
             <SelectItem value="Adama">Adama </SelectItem>
             <SelectItem value="Modjo">Modjo</SelectItem>
             <SelectItem value="Awash">Awash</SelectItem>
-            <SelectItem value="Dire Dawa">Dire Dawa</SelectItem>
+            <SelectItem value="Dredawa">Dire Dawa</SelectItem>
             <SelectItem value="Dewele">Dewele</SelectItem>
             <SelectItem value="Nagad">Nagad </SelectItem>
             <SelectItem value="Djibouti">Djibouti </SelectItem>
@@ -66,6 +83,8 @@ const SearchTrain = () => {
               type="date"
               placeholder="Departing Date"
               className="w-full"
+              onChange={(e) => setDepartureDate(e.target.value)}
+              value={departureDate}
             />
             <div className="flex flex-col md:flex-row gap-2 w-full">
               <Input
@@ -104,7 +123,7 @@ const SearchTrain = () => {
       {/* Class */}
       <div className="space-y-2">
         <label className="text-sm font-medium">Class</label>
-        <Select defaultValue="economy">
+        <Select defaultValue={classType} onValueChange={(v) => setClassType(v)}>
           <SelectTrigger>
             <SelectValue placeholder="Select class" />
           </SelectTrigger>
@@ -116,11 +135,12 @@ const SearchTrain = () => {
       </div>
 
       {/* Search Button */}
-      <Link to="/TrainAvalability">
-        <Button className="w-full bg-red-600 hover:bg-red-700 text-white">
-          Search flights
-        </Button>
-      </Link>
+      <Button
+        className="w-full bg-red-600 hover:bg-red-700 text-white"
+        onClick={searchResult}
+      >
+        Search flights
+      </Button>
     </div>
   );
 };

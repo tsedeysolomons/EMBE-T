@@ -11,8 +11,20 @@ const initialState = trainsAdapter.getInitialState();
 export const searchApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getTrains: builder.query({
-      query: () => ({
-        url: "/api/train",
+      query: ({
+        departure,
+        arrival,
+        travelTimeAndDate,
+        classType,
+      }: {
+        departure?: string;
+        arrival?: string;
+        travelTimeAndDate?: string;
+        classType?: string;
+      }) => ({
+        url: `/api/train?startStation=${departure ?? ""}&endStation=${
+          arrival ?? ""
+        }&departureDate=${travelTimeAndDate ?? ""}&type=${classType ?? ""}`,
         validateStatus: (response, result) => {
           return response.status === 200 && !result.isError;
         },

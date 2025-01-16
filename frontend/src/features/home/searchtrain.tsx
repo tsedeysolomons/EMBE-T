@@ -22,7 +22,7 @@ const SearchTrain = () => {
 
   const [departureDate, setDepartureDate] = useState<string>("");
 
-  const [classType, setClassType] = useState("");
+  const [classType, setClassType] = useState("local");
 
   const navigate = useNavigate();
 
@@ -42,7 +42,7 @@ const SearchTrain = () => {
             <SelectValue placeholder="Addis Ababa" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="Addis">Addis Ababa</SelectItem>
+            <SelectItem value="Adis">Addis Ababa</SelectItem>
             <SelectItem value="Adama">Adama </SelectItem>
             <SelectItem value="Modjo">Modjo</SelectItem>
             <SelectItem value="Awash">Awash</SelectItem>
@@ -62,7 +62,7 @@ const SearchTrain = () => {
             <SelectValue placeholder="Djibouti" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="Addis Ababa">Addis Ababa</SelectItem>
+            <SelectItem value="Adis Ababa">Addis Ababa</SelectItem>
             <SelectItem value="Adama">Adama </SelectItem>
             <SelectItem value="Modjo">Modjo</SelectItem>
             <SelectItem value="Awash">Awash</SelectItem>
@@ -105,7 +105,7 @@ const SearchTrain = () => {
       </div>
 
       {/* Passengers */}
-      <div className="  space-y-2">
+      {/* <div className="  space-y-2">
         <label className="text-sm font-medium">Passengers</label>
         <Select defaultValue="1">
           <SelectTrigger>
@@ -118,7 +118,7 @@ const SearchTrain = () => {
             <SelectItem value="4">4 Passengers</SelectItem>
           </SelectContent>
         </Select>
-      </div>
+      </div> */}
 
       {/* Class */}
       <div className="space-y-2">
@@ -128,8 +128,8 @@ const SearchTrain = () => {
             <SelectValue placeholder="Select class" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="economy">Economy Class</SelectItem>
-            <SelectItem value="first">First Class</SelectItem>
+            <SelectItem value="local">Hard Seat</SelectItem>
+            <SelectItem value="Express">Hard Sleep</SelectItem>
           </SelectContent>
         </Select>
       </div>

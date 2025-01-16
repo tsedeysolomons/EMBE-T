@@ -123,15 +123,13 @@ function SearchTrainAvalability() {
                 HardSleep
               </Button>
             </div>
-            {tabs === "HardSeat" &&
-              trains.ids.map((idx) => (
-                <TrainCard
-                  {...(trains.entities[idx] as TrainCardProps)}
-                  key={idx}
-                />
-              ))}
-
-            {tabs === "HardSleep" && <HardSleep />}
+            {trains.ids.map((idx) => (
+              <TrainCard
+                {...(trains.entities[idx] as TrainCardProps)}
+                tabs={tabs}
+                key={idx}
+              />
+            ))}
           </div>
         </div>
       </div>

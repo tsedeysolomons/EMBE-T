@@ -17,6 +17,7 @@ export type TrainCardProps = {
   stops: string[];
   trainNo: number;
   type: string;
+  tabs: "HardSeat" | "HardSleep";
 };
 
 const TrainCard = ({
@@ -34,6 +35,7 @@ const TrainCard = ({
   stops,
   trainNo,
   type,
+  tabs,
 }: TrainCardProps) => {
   return (
     <section className="mb-6 shadow-lg hover:scale-105">
@@ -110,7 +112,9 @@ const TrainCard = ({
               <div className="text-lg">HardSleep Class</div>
               <div className="text-sm text-muted-foreground">from ETB</div>
               <div className="text-2xl font-semibold text-green-700">
-                {HardSleepPrice.toFixed(2)}
+                {tabs === "HardSeat"
+                  ? HardSeatPrice.toFixed(2)
+                  : HardSleepPrice.toFixed(2)}
               </div>
               <div className="text-sm text-green-700">Lowest price</div>
             </div>

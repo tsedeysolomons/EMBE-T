@@ -1,6 +1,7 @@
 // import { ChevronLeft, ChevronRight, X } from "lucide-react";
 // import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+
 // import {
 //   Select,
 //   SelectContent,
@@ -50,7 +51,11 @@ function HardSleep() {
                 <div className="text-2xl font-semibold text-green-700">
                   1200.50
                 </div>
-                <div className="text-sm text-green-700">Lowest price</div>
+                <div className="text-sm text-green-700">
+                  <button className="hover: ">
+                    Go-to pay
+                  </button>
+                </div>
               </div>
             </div>
           </CardContent>

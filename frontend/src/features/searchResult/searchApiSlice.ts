@@ -104,6 +104,7 @@ export const {
   selectAll: selectAllTrains,
   selectById: selectTrainById,
   selectIds: selectTrainIds,
+  selectTotal: selectTotalTrains,
 } = trainsAdapter.getSelectors(
   (state) => selectTrainsData(state) ?? initialState
 );

@@ -42,14 +42,14 @@ const SearchTrain = () => {
             <SelectValue placeholder="Addis Ababa" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="Adis">Addis Ababa</SelectItem>
-            <SelectItem value="Adama">Adama </SelectItem>
-            <SelectItem value="Modjo">Modjo</SelectItem>
+            <SelectItem value="Adis">Adiss Ababa(Furi-Lebu)</SelectItem>
+            <SelectItem value="Adama">Modjo </SelectItem>
+            <SelectItem value="Modjo">Adama</SelectItem>
             <SelectItem value="Awash">Awash</SelectItem>
             <SelectItem value="Dredawa">Dire Dawa</SelectItem>
             <SelectItem value="Dewele">Dewele</SelectItem>
-            <SelectItem value="Nagad">Nagad </SelectItem>
-            <SelectItem value="Djibouti">Djibouti </SelectItem>
+            <SelectItem value="Dewele">Ali Sabieh</SelectItem>
+            <SelectItem value="Djibouti">Djibouti(Nagad) </SelectItem>
           </SelectContent>
         </Select>
       </div>
@@ -62,14 +62,14 @@ const SearchTrain = () => {
             <SelectValue placeholder="Djibouti" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="Adis Ababa">Addis Ababa</SelectItem>
-            <SelectItem value="Adama">Adama </SelectItem>
-            <SelectItem value="Modjo">Modjo</SelectItem>
+            <SelectItem value="Adis">Adiss Ababa(Furi-Lebu)</SelectItem>
+            <SelectItem value="Adama">Modjo </SelectItem>
+            <SelectItem value="Modjo">Adama</SelectItem>
             <SelectItem value="Awash">Awash</SelectItem>
             <SelectItem value="Dredawa">Dire Dawa</SelectItem>
             <SelectItem value="Dewele">Dewele</SelectItem>
-            <SelectItem value="Nagad">Nagad </SelectItem>
-            <SelectItem value="Djibouti">Djibouti </SelectItem>
+            <SelectItem value="Dewele">Ali Sabieh</SelectItem>
+            <SelectItem value="Djibouti">Djibouti(Nagad) </SelectItem>
           </SelectContent>
         </Select>
       </div>
@@ -139,7 +139,7 @@ const SearchTrain = () => {
         className="w-full bg-red-600 hover:bg-red-700 text-white"
         onClick={searchResult}
       >
-        Search flights
+        Search Train
       </Button>
     </div>
   );

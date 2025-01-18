@@ -1,10 +1,14 @@
-import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Check, Copy, Plane } from "lucide-react";
 import { useState } from "react";
+import TrainIcon from "@mui/icons-material/Train";
 
-export default function ConfirmationPage() {
+export default function ConfirmationPage({
+  handleNext,
+}: {
+  handleNext: (step: number) => void;
+}) {
   const [isCopied, setIsCopied] = useState(false);
 
   const copyBookingReference = () => {
@@ -18,8 +22,8 @@ export default function ConfirmationPage() {
       {/* Header */}
       <div className="w-full bg-gray-900 px-6 py-4">
         <div className="max-w-[1400px] mx-auto">
-          <Image
-            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202025-01-16%20170503-sonwxVBHqMXYubVz9b3yivmaFrwnVt.png"
+          <img
+            src="https://i.onthe.io/0fgjhsio0qm4co98o.70ca36e5.jpg"
             alt="Emirates Logo"
             width={130}
             height={40}
@@ -35,7 +39,7 @@ export default function ConfirmationPage() {
           <div className="flex items-center gap-2 text-gray-600 mb-4">
             <Check className="h-5 w-5 text-green-600" />
             <span className="uppercase text-sm font-medium">
-              Your trip to dubai
+              Your trip to Djibuti
             </span>
           </div>
 
@@ -44,13 +48,12 @@ export default function ConfirmationPage() {
               <h1 className="text-4xl font-serif mb-3">Booking confirmed</h1>
               <p className="text-gray-600">
                 You&apos;ll receive a confirmation email to{" "}
-                <span className="font-medium">tsedeys19@gmail.com</span>{" "}
-                shortly.
+                <span className="font-medium">EMAIL</span> shortly.
               </p>
             </div>
             <div className="flex flex-col items-start md:items-end">
               <span className="text-gray-600 mb-1">Booking reference:</span>
-              <div className="flex items-center gap-2">
+              {/* <div className="flex items-center gap-2">
                 <span className="text-2xl font-medium">BBSJZ2</span>
                 <Button
                   variant="ghost"
@@ -64,19 +67,17 @@ export default function ConfirmationPage() {
                     <Copy className="h-4 w-4" />
                   )}
                 </Button>
-              </div>
+              </div> */}
             </div>
           </div>
 
           {/* Dubai Image Card */}
           <Card className="w-full overflow-hidden mb-8">
             <div className="relative w-full h-[500px]">
-              <Image
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202025-01-16%20170503-sonwxVBHqMXYubVz9b3yivmaFrwnVt.png"
+              <img
+                src="https://static01.nyt.com/images/2019/04/14/travel/08ethiopia-train1/08ethiopia-train1-superJumbo-v2.jpg?quality=90&auto=webp"
                 alt="Dubai Skyline"
-                fill
                 className="object-cover"
-                priority
               />
             </div>
           </Card>
@@ -97,7 +98,7 @@ export default function ConfirmationPage() {
                 <div className="flex items-center gap-2 w-full max-w-[300px]">
                   <div className="h-3 w-3 rounded-full bg-gray-400" />
                   <div className="h-[2px] flex-1 bg-gray-300" />
-                  <Plane className="h-5 w-5 rotate-90" />
+                  <TrainIcon className="h-5 w-5 " />
                 </div>
                 <div className="text-sm text-gray-600 mt-2">Non-stop</div>
               </div>
@@ -106,9 +107,9 @@ export default function ConfirmationPage() {
               <div className="text-right">
                 <div className="text-sm text-gray-600">Sun 19 Jan</div>
                 <div className="text-3xl font-semibold">20:00</div>
-                <div className="text-xl">DXB</div>
+                <div className="text-xl">DBT</div>
                 <div className="text-lg font-medium text-green-700 mt-2">
-                  Economy Flex
+                  Enjoy your Travel
                 </div>
               </div>
             </div>
@@ -125,9 +126,12 @@ export default function ConfirmationPage() {
             <div className="flex items-center gap-6">
               <div className="flex items-baseline gap-2">
                 <span className="text-gray-700">ETB</span>
-                <span className="text-md font-semibold">54,948</span>
+                <span className="text-md font-semibold">948</span>
               </div>
-              <Button className="bg-red-500 hover:bg-red-700 text-white  text-md h-auto">
+              <Button
+                className="bg-red-500 hover:bg-red-700 text-white  text-md h-auto"
+                onClick={() => handleNext(5)}
+              >
                 Pay now
               </Button>
             </div>

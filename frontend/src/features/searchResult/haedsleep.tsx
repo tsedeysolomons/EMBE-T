@@ -232,7 +232,9 @@ function HardSleep() {
                 <div className="text-2xl font-semibold text-green-700">
                   1200.50
                 </div>
-                <div className="text-sm text-green-700">Lowest price</div>
+                <div className="text-base text-green-700">
+                  <button>Select</button>
+                </div>
               </div>
             </div>
           </CardContent>

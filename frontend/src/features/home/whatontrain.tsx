@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import TrainIcon from "@mui/icons-material/Train";
 import { ScrollArea } from "@/components/ui/scroll-area";
-export default function FlightDetails() {
+export default function TrainDetails() {
   return (
     <ScrollArea className="h-screen">
       <div className="container mx-auto p-4 space-y-6  overflow-scroll">

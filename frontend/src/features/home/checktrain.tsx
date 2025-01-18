@@ -108,7 +108,9 @@ export default function Payment() {
                     <span className="text-sm">from ETB</span>
                     <span className="text-xl font-bold">454,064</span>
                   </div>
-                  <div className="text-sm text-green-600">Lowest price</div>
+                  <div className="text-sm text-green-600">
+                    <Button>Select</Button>
+                  </div>
                 </div>
               </CardContent>
             </Card>

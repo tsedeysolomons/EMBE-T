@@ -35,7 +35,7 @@ export default function Search() {
               <Tag className="mr-2 h-4 w-4" />
               <a>Manage booking</a>
             </Button>
-            <Link to="/FlightDetails">
+            <Link to="/TrainDetails">
               <Button
                 variant="ghost"
                 className="border-b-2  border-red-600 text-red-600 rounded-none px-6 space-x-1"

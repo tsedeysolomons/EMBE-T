@@ -9,7 +9,7 @@ export default function ETicket() {
       <div className="flex items-start gap-4">
         {/* Logo and Title Section */}
         <div className="flex flex-col items-center">
-          <Image
+          <img
             src="/placeholder.svg?height=50&width=50"
             alt="Ethiopian Railways Logo"
             width={50}
@@ -58,7 +58,7 @@ export default function ETicket() {
 
               {/* Right Column */}
               <div className="space-y-4">
-                <Image
+                <img
                   src={`https://hebbkx1anhila5yf.public.blob.vercel-storage.com/DALL%C2%B7E%202025-01-11%2018.24.11%20-%20A%20realistic%20and%20professional%20design%20for%20a%20digital%20E-Ticket%20for%20an%20Ethiopian%20train%20service.%20The%20ticket%20is%20presented%20in%20a%20real-world%20style%20with%20elements-8Hx6p6EiXd962XpjS90ux7sGHaOhIl.webp`}
                   alt="Ethiopian Train"
                   width={200}

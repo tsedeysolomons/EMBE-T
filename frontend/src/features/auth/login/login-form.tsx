@@ -8,6 +8,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { toast } from "@/hooks/use-toast";
+import usePersist from "@/hooks/usePersist";
 //import { AlignJustify } from "lucide-react";
 
 type SignInProps = {
@@ -20,6 +21,8 @@ function SignIn({ switchPage }: SignInProps) {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+
 
   const navigate = useNavigate();
   const dispatch = useDispatch();

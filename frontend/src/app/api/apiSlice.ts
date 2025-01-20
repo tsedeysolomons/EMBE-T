@@ -7,14 +7,16 @@ import {
 import { setCredentials } from "../../features/auth/login/authSlice";
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: "http://localhost:3000",
+  baseUrl: "http://localhost:3000/api",
   credentials: "include",
   prepareHeaders: (headers, { getState }) => {
-    const token = getState().auth.token;
+    const token = (getState() as { auth: { token: string } }).auth.token;
 
     if (token) {
       headers.set("authorization", `Bearer ${token}`);
     }
+
+    console.log(token, "test whethe...");
     return headers;
   },
 });

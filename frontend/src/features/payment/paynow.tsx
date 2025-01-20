@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Check, Copy, Plane } from "lucide-react";
+import { Check } from "lucide-react";
 import { useState } from "react";
 import TrainIcon from "@mui/icons-material/Train";
 

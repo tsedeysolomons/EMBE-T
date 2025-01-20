@@ -1,95 +1,120 @@
-import { Image } from "/asset/image";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+//import Image from "next/image";
 import { QRCodeSVG } from "qrcode.react";
-import { Card } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
+import { format } from "date-fns";
 
-export default function ETicket() {
+interface ETicketProps {
+  ticketNo: number;
+  passengerId: number;
+  trainId: number;
+  setNo: number;
+  class: string;
+  journeyDate: Date;
+  departureStatus: string;
+  ticketPrice: number;
+  passenger: {
+    name: string;
+  };
+}
+
+export default function ETicket({
+  ticketNo,
+  trainId,
+  setNo,
+  class: ticketClass,
+  journeyDate,
+  departureStatus,
+  ticketPrice,
+  passenger,
+}: ETicketProps) {
+  const ticketData = JSON.stringify({
+    ticketNo,
+    trainId,
+    passenger: passenger.name,
+  });
+
   return (
-    <Card className="w-full max-w-2xl mx-auto bg-white p-4 relative overflow-hidden">
-      <div className="flex items-start gap-4">
-        {/* Logo and Title Section */}
-        <div className="flex flex-col items-center">
-          <img
-            src="/placeholder.svg?height=50&width=50"
-            alt="Ethiopian Railways Logo"
-            width={50}
-            height={50}
-            className="mb-2"
-          />
-          <span className="text-sm font-semibold">Ethiopian</span>
-        </div>
-
-        <div className="flex-1">
-          {/* Header */}
-          <div className="bg-[#1B5E4B] text-white p-3 rounded-t-lg">
-            <div className="flex justify-between items-center">
-              <h1 className="text-2xl font-bold">E-Digital E-Ticket</h1>
-              <span className="text-lg">ETBE1</span>
-            </div>
-            <div className="flex justify-between items-center mt-1">
-              <span>EthiSeat</span>
-              <span>ETB</span>
-            </div>
+    <Card className="w-full max-w-2xl bg-white">
+      <CardHeader className="bg-[#1B5E20] text-white">
+        <div className="flex items-center justify-between">
+          <div>
+            <CardTitle className="text-2xl font-bold">
+              E-Digital E-Ticket
+            </CardTitle>
+            <p className="text-lg">EthiSeat</p>
           </div>
-
-          {/* Ticket Content */}
-          <div className="border-2 border-t-0 border-[#1B5E4B] p-4 rounded-b-lg">
-            <div className="grid grid-cols-2 gap-6">
-              {/* Left Column */}
-              <div className="space-y-4">
-                <QRCodeSVG
-                  value="https://ethiopian-railways.com/ticket/123"
-                  size={120}
-                  className="mb-4"
-                />
-                <div>
-                  <h3 className="text-sm text-gray-600">Train Details</h3>
-                  <Separator className="my-2" />
-                  <div className="grid grid-cols-2 gap-2 text-sm">
-                    <span className="font-semibold">ID:</span>
-                    <span>2</span>
-                    <span className="font-semibold">Departure:</span>
-                    <span>2/2/20</span>
-                    <span className="font-semibold">Class:</span>
-                    <span>22B</span>
-                  </div>
-                </div>
+          <div className="text-right">
+            <p className="text-xl font-semibold">ETB{ticketPrice}</p>
+            <p className="text-sm">ETB</p>
+          </div>
+        </div>
+      </CardHeader>
+      <CardContent className="grid grid-cols-2 gap-8 p-6">
+        <div className="space-y-6">
+          <QRCodeSVG value={ticketData} size={150} />
+          <div className="space-y-4">
+            <h3 className="text-lg font-semibold border-b pb-2">
+              Train Details
+            </h3>
+            <div className="space-y-2">
+              <div className="flex justify-between">
+                <span className="font-medium">ID:</span>
+                <span>{trainId}</span>
               </div>
-
-              {/* Right Column */}
-              <div className="space-y-4">
-                <img
-                  src={`https://hebbkx1anhila5yf.public.blob.vercel-storage.com/DALL%C2%B7E%202025-01-11%2018.24.11%20-%20A%20realistic%20and%20professional%20design%20for%20a%20digital%20E-Ticket%20for%20an%20Ethiopian%20train%20service.%20The%20ticket%20is%20presented%20in%20a%20real-world%20style%20with%20elements-8Hx6p6EiXd962XpjS90ux7sGHaOhIl.webp`}
-                  alt="Ethiopian Train"
-                  width={200}
-                  height={100}
-                  className="w-full object-cover rounded-lg"
-                />
-                <div>
-                  <h3 className="text-sm text-gray-600">Passenger Details</h3>
-                  <Separator className="my-2" />
-                  <div className="grid grid-cols-2 gap-2 text-sm">
-                    <span className="font-semibold">Name:</span>
-                    <span>22</span>
-                    <span className="font-semibold">Seat:</span>
-                    <span>22</span>
-                    <span className="font-semibold">Class:</span>
-                    <span>ETB</span>
-                  </div>
-                </div>
+              <div className="flex justify-between">
+                <span className="font-medium">Departure:</span>
+                <span>{format(journeyDate, "MM/dd/yy")}</span>
               </div>
-            </div>
-
-            {/* Barcode Section */}
-            <div className="mt-6 text-center">
-              <div className="inline-block">
-                <div className="h-8 w-48 bg-gradient-to-r from-black to-black bg-[length:8px_100%] bg-repeat-x"></div>
-                <span className="text-sm text-gray-600">ETB123456789</span>
+              <div className="flex justify-between">
+                <span className="font-medium">Class:</span>
+                <span>{ticketClass}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="font-medium">Status:</span>
+                <span>{departureStatus}</span>
               </div>
             </div>
           </div>
         </div>
-      </div>
+        <div className="space-y-6">
+          <div className="relative h-48 w-full">
+            <img
+              src="./asset/image/train1.jpg"
+              alt="E-Ticket Preview"
+              className="object-cover rounded-lg"
+            />
+          </div>
+          <div className="space-y-4">
+            <h3 className="text-lg font-semibold border-b pb-2">
+              Passenger Details
+            </h3>
+            <div className="space-y-2">
+              <div className="flex justify-between">
+                <span className="font-medium">Name:</span>
+                <span>{passenger.name}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="font-medium">Seat:</span>
+                <span>{setNo}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="font-medium">Class:</span>
+                <span>{ticketClass}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="col-span-2 mt-4">
+          <div className="w-full flex justify-center">
+            <div className="text-center">
+              <div className="h-12 w-64 bg-black mb-2" />
+              <p className="font-mono">
+                ETB{ticketNo.toString().padStart(9, "0")}
+              </p>
+            </div>
+          </div>
+        </div>
+      </CardContent>
     </Card>
   );
 }

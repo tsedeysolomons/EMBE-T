@@ -7,8 +7,8 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import TrainAvalability from "@/features/searchResult/trainavalability"; // Adjust the import path as necessary
-import { Link, useNavigate } from "react-router-dom";
+//import TrainAvalability from "@/features/searchResult/trainavalability"; // Adjust the import path as necessary
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 //import { useState } from "react";
 
@@ -42,14 +42,14 @@ const SearchTrain = () => {
             <SelectValue placeholder="Addis Ababa" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="Adis">Adiss Ababa(Furi-Lebu)</SelectItem>
-            <SelectItem value="Adama">Modjo </SelectItem>
+            <SelectItem value="Adis">Adiss Ababa (Furi-Lebu)</SelectItem>
+            <SelectItem value="Adama">Modjo</SelectItem>
             <SelectItem value="Modjo">Adama</SelectItem>
             <SelectItem value="Awash">Awash</SelectItem>
             <SelectItem value="Dredawa">Dire Dawa</SelectItem>
             <SelectItem value="Dewele">Dewele</SelectItem>
-            <SelectItem value="Dewele">Ali Sabieh</SelectItem>
-            <SelectItem value="Djibouti">Djibouti(Nagad) </SelectItem>
+            <SelectItem value="AliSabieh">Ali Sabieh</SelectItem>
+            <SelectItem value="Djibouti">Djibouti (Nagad)</SelectItem>
           </SelectContent>
         </Select>
       </div>

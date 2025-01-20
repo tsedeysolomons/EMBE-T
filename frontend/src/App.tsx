@@ -16,6 +16,8 @@ import Options from "./features/payment/options";
 import PaymentReview from "./features/payment/Paymentggetway";
 import Payment from "./features/payment/payment"; // Adjust the path as necessary
 import SeatSelection from "./features/payment/seatselection"; // Adjust the path as necessary
+import ETicket from "./screen/eticket";
+import PersistLogin from "./features/auth/login/PersistLogin";
 
 // Adjust the path as necessary
 //import AppProvider from "./context/AppProvider";
@@ -26,15 +28,40 @@ const App = () => {
       <Route path="/" element={<MainLayout />}>
         <Route index element={<Home />} />
         <Route index element={<Footer />} />
-        <Route element={<RequireAuth />}></Route>
-        <Route path="/about" element={<About />} />
+        <Route element={<PersistLogin />}>
+          <Route element={<RequireAuth />}>
+            <Route path="/about" element={<About />} />
+            <Route
+              path="/trainavalability"
+              element={<SearchTrainAvalability />}
+            />
+          </Route>
+        </Route>
         <Route path="/BookingHistory" element={<BookingHistory />} />
       </Route>
       <Route path="/test-test" element={<SearchApiSlice />} />
-      <Route path="/trainavalability" element={<SearchTrainAvalability />} />
+
       <Route path="/TrainDetails" element={<TrainDetails />} />
       <Route path="/DownloadTicket" element={<DownloadTicket />} />
       <Route path="/PaymentReview/:id" element={<PaymentReview />} />
+      <Route
+        path="/ETicket"
+        element={
+          <ETicket
+            ticketNo={0}
+            passengerId={0}
+            trainId={0}
+            setNo={0}
+            class={""}
+            journeyDate={new Date()}
+            departureStatus={""}
+            ticketPrice={0}
+            passenger={{
+              name: "",
+            }}
+          />
+        }
+      />
     </Routes>
   );
 };

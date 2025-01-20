@@ -66,10 +66,10 @@ function SignUp({ switchPage }: SignUpProps) {
     try {
       const result = await signUp({
         title,
-        first_name: firstName,
-        middle_name: middleName,
-        last_name: lastName,
-        date_of_birth: date,
+        firstName,
+        middleName,
+        lastName,
+        dateOfBirth: date,
         country,
         email,
         password,

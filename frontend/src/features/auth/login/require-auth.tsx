@@ -7,6 +7,8 @@ const RequireAuth = () => {
 
   const token = useSelector(selectCurrentToken);
 
+  
+
   console.log({ token });
 
   const content = token ? (

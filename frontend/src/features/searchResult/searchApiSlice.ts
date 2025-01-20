@@ -22,7 +22,7 @@ export const searchApiSlice = apiSlice.injectEndpoints({
         travelTimeAndDate?: string;
         classType?: string;
       }) => ({
-        url: `/api/train?startStation=${departure ?? ""}&endStation=${
+        url: `/train?startStation=${departure ?? ""}&endStation=${
           arrival ?? ""
         }&departureDate=${travelTimeAndDate ?? ""}&type=${classType ?? ""}`,
         validateStatus: (response, result) => {

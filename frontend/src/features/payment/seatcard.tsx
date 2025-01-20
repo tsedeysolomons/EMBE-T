@@ -1,3 +1,4 @@
+/*
 import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Typography } from "@/components/ui/Typography";
@@ -34,3 +35,4 @@ const TrainCard: React.FC = () => {
 };
 
 export default TrainCard;
+*/

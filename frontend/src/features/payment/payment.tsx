@@ -1,4 +1,4 @@
-import { Plane, Luggage, CreditCard, Building2, Check } from "lucide-react";
+import { Luggage, CreditCard, Building2 } from "lucide-react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";

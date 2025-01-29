@@ -2,7 +2,6 @@ const prisma = require("../../service/db");
 const { filterNotUndefined } = require("../../utiles");
 const axios = require("axios");
 
-
 const initiatePayment = async (req, res) => {
   try {
     const { amount, currency, email, firstName, lastName, callbackUrl } =

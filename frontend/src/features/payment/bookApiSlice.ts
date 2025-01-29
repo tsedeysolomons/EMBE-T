@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-export const bookingApiSlice = createApi({
-  reducerPath: "bookingApi",
+export const bookApiSlice = createApi({
+  reducerPath: "bookApi",
   baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3000/api" }),
   endpoints: (builder) => ({
     registerGust: builder.mutation({
@@ -49,4 +49,4 @@ export const {
   useUpdateBookingMutation,
   useDeleteBookingMutation,
   useRegisterGustMutation,
-} = bookingApiSlice;
+} = bookApiSlice;

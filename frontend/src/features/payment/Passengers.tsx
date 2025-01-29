@@ -23,7 +23,9 @@ import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { selectCurrentToken } from "../auth/login/authSlice";
 import { useSelector } from "react-redux";
-import { useRegisterGustMutation } from "./bookingApiSlice";
+import { useRegisterGustMutation } from "./bookApiSlice";
+import { useDispatch } from "react-redux";
+import { setUser } from "./bookSlice";
 
 interface PassengerDetailsProps {
   handleNext: (step: number) => void;
@@ -44,6 +46,8 @@ function PassengerDetails({ handleNext }: PassengerDetailsProps) {
 
   const navigate = useNavigate();
 
+  const dispatch = useDispatch();
+
   const [registerGust, { isLoading }] = useRegisterGustMutation();
 
   const { toast } = useToast();
@@ -58,11 +62,26 @@ function PassengerDetails({ handleNext }: PassengerDetailsProps) {
         firstName,
         middleName,
         lastName,
-        dateOfBirth: new Date(),
+        dateOfBirth: new Date().toISOString(),
         country,
         email,
         phone: mobileNumber,
       }).unwrap();
+
+      dispatch(
+        setUser({
+          user: {
+            title,
+            firstName,
+            middleName,
+            lastName,
+            dateOfBirth: new Date(),
+            country,
+            email,
+            phone: mobileNumber,
+          },
+        })
+      );
 
       handleNext(2);
 

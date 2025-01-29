@@ -18,7 +18,7 @@ import PaymentReview from "./features/payment/Paymentggetway";
 //import SeatSelection from "./features/payment/seatselection"; // Adjust the path as necessary
 import ETicket from "./screen/eticket";
 import PersistLogin from "./features/auth/login/PersistLogin";
-//import ManageBooking from "./screen/managebooking";
+import ManageBooking from "./screen/managebooking";
 
 // Adjust the path as necessary
 //import AppProvider from "./context/AppProvider";

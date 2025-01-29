@@ -3,7 +3,7 @@ import { apiSlice } from "../../app/api/apiSlice";
 
 const trainsAdapter = createEntityAdapter({
   // Customize sorting logic if needed
-  // sortComparer: (a, b) => String(a)?.name?.localeCompare(b?.name),
+  //sortComparer: (a, b) => String(a?.name)?.localeCompare(b?.name),
 });
 
 const initialState = trainsAdapter.getInitialState();
@@ -11,31 +11,20 @@ const initialState = trainsAdapter.getInitialState();
 export const searchApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getTrains: builder.query({
-      query: ({
-        departure,
-        arrival,
-        travelTimeAndDate,
-        classType,
-      }: {
-        departure?: string;
-        arrival?: string;
-        travelTimeAndDate?: string;
-        classType?: string;
-      }) => ({
+      query: ({ departure, arrival, travelTimeAndDate, classType }) => ({
         url: `/train?startStation=${departure ?? ""}&endStation=${
           arrival ?? ""
         }&departureDate=${travelTimeAndDate ?? ""}&type=${classType ?? ""}`,
         validateStatus: (response, result) => {
-          return response.status === 200 && !result.isError;
+          return response.status === 200 && !result?.isError;
         },
       }),
       transformResponse: (responseData) => {
         const loadedTrains = responseData.map((train) => {
-          //train.id = train._id; // Assuming the API returns a field `_id` for each train
+          // Uncomment and modify if the API uses `_id` instead of `id`
+          // train.id = train._id;
           return train;
         });
-
-        console.log(responseData);
 
         return trainsAdapter.setAll(initialState, loadedTrains);
       },
@@ -50,7 +39,13 @@ export const searchApiSlice = apiSlice.injectEndpoints({
       },
       */
     }),
-    /*addNewTrain: builder.mutation({
+    getTrainById: builder.query({
+      query: (id) => ({
+        url: `/train/${id}`,
+      }),
+    }),
+    /*
+    addNewTrain: builder.mutation({
       query: (initialTrain) => ({
         url: "/trains",
         method: "POST",
@@ -72,17 +67,18 @@ export const searchApiSlice = apiSlice.injectEndpoints({
     }),
     deleteTrain: builder.mutation({
       query: ({ id }) => ({
-        url: `/trains`,
+        url: `/trains/${id}`,
         method: "DELETE",
-        body: { id },
       }),
       invalidatesTags: (result, error, arg) => [{ type: "Train", id: arg.id }],
-    }),*/
+    }),
+    */
   }),
 });
 
 export const {
   useGetTrainsQuery,
+  useGetTrainByIdQuery,
   /*
   useAddNewTrainMutation,
   useUpdateTrainMutation,
@@ -90,21 +86,20 @@ export const {
   */
 } = searchApiSlice;
 
-// returns the query result object
-export const selectTrainsResult = searchApiSlice.endpoints.getTrains.select();
+// Returns the query result object
+export const selectTrainsResult =
+  searchApiSlice.endpoints.getTrains.select(undefined);
 
-// creates memoized selector
+// Creates memoized selector
 const selectTrainsData = createSelector(
   selectTrainsResult,
-  (trainsResult) => trainsResult.data // normalized state object with ids & entities
+  (trainsResult) => trainsResult?.data ?? initialState // Ensure fallback to initialState
 );
 
-//getSelectors creates these selectors and we rename them with aliases using destructuring
+// GetSelectors creates these selectors and we rename them with aliases using destructuring
 export const {
   selectAll: selectAllTrains,
   selectById: selectTrainById,
   selectIds: selectTrainIds,
   selectTotal: selectTotalTrains,
-} = trainsAdapter.getSelectors(
-  (state) => selectTrainsData(state) ?? initialState
-);
+} = trainsAdapter.getSelectors((state) => selectTrainsData(state));

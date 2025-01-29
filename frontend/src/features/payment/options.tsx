@@ -1,12 +1,22 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import TrainIcon from "@mui/icons-material/Train";
+
+import { TrainIcon } from "lucide-react";
+import { Train } from "./types";
+import { useSelector } from "react-redux";
+import { selectClassType } from "../searchResult/searchSlice";
 
 export default function Options({
   handleNext,
+  train,
 }: {
   handleNext: (step: number) => void;
+  train: Train;
 }) {
+  const classType = useSelector(selectClassType);
+
+  console.log(classType);
+
   return (
     <div className="w-full px-6 py-4">
       {/* Header */}
@@ -32,9 +42,23 @@ export default function Options({
       {/* Flight Info */}
       <div className="mb-8">
         <div className="flex items-center gap-2 text-lg mb-2">
-          <span>Addis Ababa (ADD)</span>
-          <TrainIcon className="h-5 w-5 rotate-90" />
-          <span>Djibuti (DBT)</span>
+          <span>
+            {train?.startStation} (
+            {train?.startStation
+              .split(" ")
+              .map((v: string) => v.charAt(0).toUpperCase())
+              .join("")}
+            )
+          </span>
+          <TrainIcon className="h-5 w-5" />
+          <span>
+            {train?.endStation} (
+            {train?.startStation
+              .split(" ")
+              .map((v: string) => v.charAt(0).toUpperCase())
+              .join("")}
+            )
+          </span>
         </div>
         <div className="flex gap-4 text-sm text-gray-600">
           <span>One way</span>
@@ -44,7 +68,14 @@ export default function Options({
         <div className="flex justify-end">
           <div className="text-sm">
             Cost
-            <div className="text-xl text-green-500  font-semibold">ETB 948</div>
+            <div className="text-xl text-green-500 font-semibold">
+              {
+                classType === "HardSeat"
+                  ? train?.HardSeatPrice.toFixed(2)
+                  : train?.HardSleepPrice.toFixed(2) // Correct price for "HardSeat"
+              }
+              {/* Fallback in case neither class type is selected */}
+            </div>
           </div>
         </div>
       </div>

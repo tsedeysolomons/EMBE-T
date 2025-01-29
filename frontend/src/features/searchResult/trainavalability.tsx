@@ -1,5 +1,5 @@
 import { useState } from "react";
-import HardSleep from "@/features/searchResult/haedsleep"; // Adjusted path
+//import HardSleep from "@/features/searchResult/haedsleep"; // Adjusted path
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -7,6 +7,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { useGetTrainsQuery } from "./searchApiSlice";
 import TrainCard, { TrainCardProps } from "@/features/searchResult/train-card"; // Adjusted path
 import { useSearchParams } from "react-router-dom";
+import { setClassType } from "./searchSlice";
+import { useDispatch } from "react-redux";
 
 type TabsType = "HardSeat" | "HardSleep";
 
@@ -14,6 +16,8 @@ function SearchTrainAvalability() {
   const [tabs, setTabs] = useState<TabsType>("HardSeat");
 
   const [searchParams] = useSearchParams();
+
+  const dispatch = useDispatch();
 
   const { data: trains, error } = useGetTrainsQuery({
     departure: searchParams.get("departure") ?? "",
@@ -57,7 +61,7 @@ function SearchTrainAvalability() {
             <div className="text-sm text-muted-foreground">
               Lowest total price for 1 passenger ETB
             </div>
-            <div className="text-2xl font-semibold text-green-700">200</div>
+            <div className="text-2xl font-semibold text-green-700">128</div>
             <div className="text-sm text-muted-foreground">
               Inclusive of trainfare, breakfast and launch,
             </div>
@@ -112,13 +116,19 @@ function SearchTrainAvalability() {
               <span className="text-sm">Show prices for:</span>
               <Button
                 variant={tabs === "HardSeat" ? "default" : "outline"}
-                onClick={() => setTabs("HardSeat")}
+                onClick={() => {
+                  setTabs("HardSeat");
+                  dispatch(setClassType({ classType: "HardSeat" }));
+                }}
               >
                 HardSeat
               </Button>
               <Button
                 variant={tabs === "HardSleep" ? "default" : "outline"}
-                onClick={() => setTabs("HardSleep")}
+                onClick={() => {
+                  setTabs("HardSleep");
+                  dispatch(setClassType({ classType: "HardSleep" }));
+                }}
               >
                 HardSleep
               </Button>

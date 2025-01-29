@@ -4,6 +4,8 @@ import Options from "./options";
 import Payment from "./payment";
 import SetSelection from "./seatselection";
 import ConfirmationPage from "./paynow";
+import { useParams } from "react-router-dom";
+import { useGetTrainByIdQuery } from "../searchResult/searchApiSlice";
 
 type TabsType =
   | "PassengerDetails"
@@ -15,6 +17,20 @@ type TabsType =
 export default function PaymentReview() {
   const [tabs, setTabs] = useState<TabsType>("PassengerDetails");
   const [activeStep, setActiveStep] = useState<number>(1);
+
+  const params = useParams();
+
+  const trainId = params.trainId ?? "";
+
+  console.log(trainId);
+
+  const { data: train, error, isLoading } = useGetTrainByIdQuery(trainId);
+
+  if (isLoading) return <div>Loading</div>;
+
+  if (error) return <div>Error</div>;
+
+  console.log(train);
 
   const handleStepClick = (step: number) => {
     setActiveStep(step);
@@ -96,11 +112,15 @@ export default function PaymentReview() {
       {tabs === "PassengerDetails" && (
         <PassengerDetails handleNext={handleStepClick} />
       )}
-      {tabs === "Options" && <Options handleNext={handleStepClick} />}
-      {tabs === "Payment" && <Payment handleNext={handleStepClick} />}
+      {tabs === "Options" && (
+        <Options handleNext={handleStepClick} train={train} />
+      )}
+      {tabs === "Payment" && (
+        <Payment handleNext={handleStepClick} train={train} />
+      )}
       {tabs === "SetSelection" && <SetSelection handleNext={handleStepClick} />}
       {tabs === "ConfirmationPage" && (
-        <ConfirmationPage handleNext={handleStepClick} />
+        <ConfirmationPage handleNext={handleStepClick} train={train} />
       )}
     </div>
   );

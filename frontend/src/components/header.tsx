@@ -11,7 +11,6 @@ import { selectCurrentToken } from "@/features/auth/login/authSlice";
 function Header() {
   //const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
- 
   const [dropdown, setDropdown] = useState(false);
 
   const { modalTitle } = useContext(AppContext);
@@ -148,4 +147,3 @@ function Header() {
 }
 
 export default Header;
-

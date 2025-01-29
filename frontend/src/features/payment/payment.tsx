@@ -6,12 +6,19 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import TrainIcon from "@mui/icons-material/Train";
+import { Train } from "./types";
+import { useSelector } from "react-redux";
+import { selectClassType } from "../searchResult/searchSlice";
 
 export default function Payment({
   handleNext,
+  train,
 }: {
   handleNext: (stepe: number) => void;
+  train: Train;
 }) {
+  const clasType = useSelector(selectClassType);
+
   return (
     <div className="container mx-auto p-4 max-w-4xl bg-gradient-to-b from-slate-50 to-white min-h-screen">
       <h1 className="text-3xl font-semibold text-center mb-8">
@@ -32,7 +39,15 @@ export default function Payment({
               charges)
             </div>
             <div className="text-xl text-green-500 font-semibold">
-              Total: ETB 948
+              Total: ETB{" "}
+              <div className="text-xl text-green-500 font-semibold">
+                {
+                  clasType === "HardSeat"
+                    ? train?.HardSeatPrice.toFixed(2) ||
+                      clasType === " HardSleep " // Correct price for "HardSleep"
+                    : train?.HardSleepPrice.toFixed(2) // Correct price for "HardSeat"
+                }
+              </div>
             </div>
           </div>
         </CardHeader>
@@ -40,9 +55,20 @@ export default function Payment({
         <CardContent className="pt-6">
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-8">
             <div className="space-y-1">
-              <div className="text-sm text-muted-foreground">Sun 19 Jan 25</div>
-              <div className="text-2xl font-bold">14:50</div>
-              <div className="text-lg">Addis Ababa (ADD)</div>
+              <div className="text-sm text-muted-foreground">
+                {new Date(train.departureDate).toDateString()}
+              </div>
+              <div className="text-2xl font-bold">
+                {new Date(train.departureDate).toTimeString().split(" ")[0]}
+              </div>
+              <div className="text-lg">
+                {train?.startStation} (
+                {train?.startStation
+                  .split(" ")
+                  .map((v: string) => v.charAt(0).toUpperCase())
+                  .join("")}
+                )
+              </div>
             </div>
 
             <div className="flex flex-col items-center my-4 md:my-0">
@@ -55,9 +81,20 @@ export default function Payment({
             </div>
 
             <div className="space-y-1 text-right">
-              <div className="text-sm text-muted-foreground">Sun 19 Jan 25</div>
-              <div className="text-2xl font-bold">20:00</div>
-              <div className="text-lg">Djibuti(DBT)</div>
+              <div className="text-sm text-muted-foreground">
+                {new Date(train.arrivalDate).toDateString()}
+              </div>
+              <div className="text-2xl font-bold">
+                {new Date(train.arrivalDate).toTimeString().split(" ")[0]}
+              </div>
+              <div className="text-lg">
+                {train?.endStation} (
+                {train?.endStation
+                  .split(" ")
+                  .map((v: string) => v.charAt(0).toUpperCase())
+                  .join("")}
+                )
+              </div>
             </div>
           </div>
 
@@ -94,15 +131,32 @@ export default function Payment({
               <div className="space-y-4">
                 <div className="flex justify-between">
                   <span>Base fare</span>
-                  <span>ETB 450</span>
+                  <span>
+                    ETB{" "}
+                    <div className="text-xl text-green-500 font-semibold">
+                      {
+                        clasType === "HardSeat"
+                          ? train?.HardSeatPrice.toFixed(2) ||
+                            clasType === " HardSleep " // Correct price for "HardSleep"
+                          : train?.HardSleepPrice.toFixed(2) // Correct price for "HardSeat"
+                      }
+                    </div>
+                  </span>
                 </div>
                 <div className="flex justify-between">
                   <span>Taxes & fees</span>
-                  <span>ETB 48.21</span>
+                  <span>ETB 00.00</span>
                 </div>
                 <div className="flex justify-between font-bold border-t pt-4">
                   <span>Total to be paid:</span>
-                  <span>ETB 948</span>
+                  <span>
+                    {
+                      clasType === "HardSeat"
+                        ? train?.HardSeatPrice.toFixed(2) ||
+                          clasType === " HardSleep " // Correct price for "HardSleep"
+                        : train?.HardSleepPrice.toFixed(2) // Correct price for "HardSeat"
+                    }
+                  </span>
                 </div>
               </div>
             </CardContent>
@@ -127,7 +181,7 @@ export default function Payment({
             </div> */}
             <div className="border-2 rounded-lg p-6 bg-gradient-to-br from-purple-50 to-slate-50 border-purple-200 shadow-md hover:shadow-lg transition-shadow">
               <h3 className="text-lg font-semibold mb-2 border-b border-primary pb-2">
-                Select-Chapa
+                Use-Chapa
               </h3>
               <p className="text-muted-foreground">
                 Use chapa Miles to pay the total price
@@ -170,7 +224,16 @@ export default function Payment({
               <CardContent className="pt-6">
                 <div className="flex justify-between items-center mb-6">
                   <span className="font-medium">Total to be paid:</span>
-                  <span className="text-xl font-bold">ETB 948</span>
+                  <span className="text-xl font-bold">
+                    <div className="text-xl text-green-500 font-semibold">
+                      {
+                        clasType === "HardSeat"
+                          ? train?.HardSeatPrice.toFixed(2) ||
+                            clasType === " HardSleep " // Correct price for "HardSleep"
+                          : train?.HardSleepPrice.toFixed(2) // Correct price for "HardSeat"
+                      }
+                    </div>
+                  </span>
                 </div>
               </CardContent>
             </Card>

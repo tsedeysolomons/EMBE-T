@@ -1,4 +1,4 @@
-import { heroImage  } from "@/asset";
+import { heroImage } from "@/asset";
 import HroMenu from "./heroMenu";
 // import { Link } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
@@ -13,25 +13,25 @@ interface Destination {
 
 const destinations: Destination[] = [
   {
-    city: "Dubai",
+    city: "DJIBUOTI",
     country: "UNITED ARAB EMIRATES",
     image: "heroImage",
     tagline: "Discover for yourself",
   },
   {
-    city: "London",
+    city: "ADISS ABABA",
     country: "UNITED KINGDOM",
     image: "train1",
     tagline: "Discover for yourself",
   },
   {
-    city: "Malé",
+    city: "DREDAWA",
     country: "MALDIVES",
     image: "/placeholder.svg?height=400&width=800",
     tagline: "Discover for yourself",
   },
   {
-    city: "Karachi",
+    city: "NAGAD",
     country: "PAKISTAN",
     image: "/placeholder.svg?height=400&width=800",
     tagline: "Discover for yourself",
@@ -72,7 +72,7 @@ const Home = () => {
     <section>
       <div>
         <div>
-          {/* Hero Image */} 
+          {/* Hero Image */}
 
           <div className="relative border border-red-900">
             <img
@@ -133,14 +133,14 @@ const Home = () => {
                   <div className="absolute inset-0 bg-black/30" />
                   <div className="relative z-10 container mx-auto px-4 h-full flex flex-col justify-center items-center text-center text-white">
                     <span className="tracking-wider text-sm md:text-base uppercase mb-4">
-                      Double Miles Offer
+                      Djibuti Miles Offer
                     </span>
                     <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold max-w-4xl mb-6">
-                      Earn double Miles with Emirates and flydubai
+                      Earn double Miles with Ethiopian Midr Babur
                     </h1>
                     <p className="text-lg md:text-xl mb-8 max-w-2xl">
-                      Choose from hundreds of destinations worldwide. Book by 24
-                      January 2025 to earn more Miles on flights.
+                      Choose from hundreds of destinations national. Book by
+                      deference people to earn more Miles on Train.
                     </p>
                     <Button size="lg" variant="secondary" className="text-lg">
                       Register and book
@@ -152,14 +152,14 @@ const Home = () => {
                 <section className="py-20 px-4">
                   <div className="container mx-auto text-center max-w-4xl">
                     <span className="text-sm tracking-wider uppercase text-muted-foreground mb-4 block">
-                      Flying with Emirates
+                      Travel With Ethiiopian Midr Babur corportion
                     </span>
                     <h2 className="text-3xl md:text-5xl font-bold mb-6">
                       Make it an incredible journey
                     </h2>
                     <p className="text-lg text-muted-foreground">
-                      Explore the Emirates experience and plan an unforgettable
-                      trip beyond your flight.
+                      Explore the Ethiiopian Midr Babur corportion experience
+                      and plan an unforgettable trip beyond your Ttrain Ride.
                     </p>
                   </div>
                 </section>
@@ -178,10 +178,10 @@ const Home = () => {
               />
               <div className="absolute top-8 left-8">
                 <p className="text-sm tracking-wider mb-2 text-gray-800">
-                  DUBAI AND THE UAE
+                  DJIBUOTI AND ADISS ABABA RAILWAY
                 </p>
                 <h1 className="text-5xl font-bold mb-4 text-gray-900">
-                  Discover Dubai
+                  Discover DJIBUOTI
                 </h1>
                 <a
                   href="#"

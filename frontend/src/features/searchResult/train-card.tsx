@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { getTimeDifference } from "@/lib/utils";
 import { Link } from "react-router-dom";
@@ -24,8 +24,8 @@ export type TrainCardProps = {
 const TrainCard = ({
   HardSeatPrice,
   HardSleepPrice,
-  arrivalDate, // ISO 8601 date-time string
-  departureDate, // ISO 8601 date-time string
+  arrivalDate,
+  departureDate,
   endStation,
   startStation,
   stops,

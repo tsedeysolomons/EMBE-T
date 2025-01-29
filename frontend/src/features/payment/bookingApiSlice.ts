@@ -4,15 +4,21 @@ export const bookingApiSlice = createApi({
   reducerPath: "bookingApi",
   baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3000/api" }),
   endpoints: (builder) => ({
+    registerGust: builder.mutation({
+      query: (credentials) => ({
+        url: "/user/auth/register-gust",
+        method: "POST",
+        body: {
+          ...credentials,
+        },
+      }),
+    }),
     getBookings: builder.query({
       query: () => "/bookings",
     }),
     getBookingById: builder.query({
       query: (id) => `/bookings/${id}`,
     }),
-
-    
-
     createBooking: builder.mutation({
       query: (newBooking) => ({
         url: "/bookings",
@@ -42,4 +48,5 @@ export const {
   useCreateBookingMutation,
   useUpdateBookingMutation,
   useDeleteBookingMutation,
+  useRegisterGustMutation,
 } = bookingApiSlice;

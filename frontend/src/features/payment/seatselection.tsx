@@ -147,6 +147,8 @@ export default function SeatSelection({
     );
   };
 
+  /**
+   */
   const hardSeats = seats.slice(0, 48);
   const hardSleepSeats = seats.slice(48);
 

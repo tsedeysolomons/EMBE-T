@@ -15,18 +15,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible";
-import { ChevronDown } from "lucide-react";
+import { Collapsible, CollapsibleContent } from "@/components/ui/collapsible";
+//import { ChevronDown } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { useSignUpMutation } from "../auth/login/authApiSlice";
+//import { useSignUpMutation } from "../auth/login/authApiSlice";
 // Adjust the import path as necessary
 import { useToast } from "@/hooks/use-toast";
 import { selectCurrentToken } from "../auth/login/authSlice";
 import { useSelector } from "react-redux";
+import { useRegisterGustMutation } from "./bookingApiSlice";
 
 interface PassengerDetailsProps {
   handleNext: (step: number) => void;
@@ -38,7 +35,7 @@ function PassengerDetails({ handleNext }: PassengerDetailsProps) {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [middleName, setMiddleName] = useState("");
-  const [contactPerson, setContactPerson] = useState("");
+  //const [contactPerson, setContactPerson] = useState("");
   const [country, setCountry] = useState("");
   const [mobileNumber, setMobileNumber] = useState("");
   const [email, setEmail] = useState("");
@@ -47,7 +44,7 @@ function PassengerDetails({ handleNext }: PassengerDetailsProps) {
 
   const navigate = useNavigate();
 
-  const [signUp, { isLoading }] = useSignUpMutation();
+  const [registerGust, { isLoading }] = useRegisterGustMutation();
 
   const { toast } = useToast();
 
@@ -56,36 +53,29 @@ function PassengerDetails({ handleNext }: PassengerDetailsProps) {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      if (token) {
-        /* empty */
+      const result = await registerGust({
+        title,
+        firstName,
+        middleName,
+        lastName,
+        dateOfBirth: new Date(),
+        country,
+        email,
+        phone: mobileNumber,
+      }).unwrap();
 
-        
+      handleNext(2);
 
-
-      } else {
-        /* empty */
-        const result = await signUp({
-          title,
-          first_name: firstName,
-          middle_name: "",
-          last_name: lastName,
-          date_of_birth: new Date(),
-          country,
-          email,
-          password: "",
-          phone: mobileNumber,
-        }).unwrap();
-
-        setTitle("");
-        setFirstName("");
-
-        setLastName("");
-        setCountry("");
-        setEmail("");
-
-        setMobileNumber("");
-      }
-    } catch (err: { status?: number; data?: { message: string } }) {
+      setTitle("");
+      setFirstName("");
+      setLastName("");
+      setCountry("");
+      setEmail("");
+      setMobileNumber("");
+    } catch (err: {
+      status?: number;
+      data?: { message: string };
+    }) {
       if (!err?.status) {
         toast({
           variant: "destructive",
@@ -122,7 +112,7 @@ function PassengerDetails({ handleNext }: PassengerDetailsProps) {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
-          <form className="space-y-6">
+          <form className="space-y-6" onSubmit={handleSubmit}>
             {/* Passenger Details */}
             <div className="grid gap-6 md:grid-cols-2">
               <div className="col-span-2 md:col-span-1">
@@ -252,10 +242,7 @@ function PassengerDetails({ handleNext }: PassengerDetailsProps) {
               >
                 Return to Trains
               </Button>
-              <Button
-                className="bg-red-600 hover:bg-red-800"
-                onClick={() => handleNext(2)}
-              >
+              <Button className="bg-red-600 hover:bg-red-800" type="submit">
                 Continue to Options
               </Button>
             </div>

@@ -11,13 +11,14 @@ import DownloadTicket from "./screen/download"; // Adjust the path as necessary
 import BookingHistory from "./screen/viewhistory"; // Adjust the path as necessary
 import SearchApiSlice from "./features/searchResult/searchResult";
 //import PassengerDetails from "./features/payment/Passengers";
-import ConfirmationPage from "./features/payment/paynow";
-import Options from "./features/payment/options";
+//import ConfirmationPage from "./features/payment/paynow";
+//import Options from "./features/payment/options";
 import PaymentReview from "./features/payment/Paymentggetway";
-import Payment from "./features/payment/payment"; // Adjust the path as necessary
-import SeatSelection from "./features/payment/seatselection"; // Adjust the path as necessary
+//import Payment from "./features/payment/payment"; // Adjust the path as necessary
+//import SeatSelection from "./features/payment/seatselection"; // Adjust the path as necessary
 import ETicket from "./screen/eticket";
 import PersistLogin from "./features/auth/login/PersistLogin";
+//import ManageBooking from "./screen/managebooking";
 
 // Adjust the path as necessary
 //import AppProvider from "./context/AppProvider";
@@ -29,21 +30,18 @@ const App = () => {
         <Route index element={<Home />} />
         <Route index element={<Footer />} />
         <Route element={<PersistLogin />}>
-          <Route element={<RequireAuth />}>
-            <Route path="/about" element={<About />} />
-            <Route
-              path="/trainavalability"
-              element={<SearchTrainAvalability />}
-            />
-          </Route>
+          <Route element={<RequireAuth />}></Route>
         </Route>
+        {/* <Route path="/ManageBooking" element={<ManageBooking />} /> */}
+        <Route path="/trainavalability" element={<SearchTrainAvalability />} />
         <Route path="/BookingHistory" element={<BookingHistory />} />
+        <Route path="/about" element={<About />} />
       </Route>
-      <Route path="/test-test" element={<SearchApiSlice />} />
-
-      <Route path="/TrainDetails" element={<TrainDetails />} />
       <Route path="/DownloadTicket" element={<DownloadTicket />} />
-      <Route path="/PaymentReview/:id" element={<PaymentReview />} />
+      <Route path="/PaymentReview/:trainId" element={<PaymentReview />} />
+      <Route path="/TrainDetails" element={<TrainDetails />} />
+      <Route path="/SearchApiSlice" element={<SearchApiSlice />} />
+
       <Route
         path="/ETicket"
         element={

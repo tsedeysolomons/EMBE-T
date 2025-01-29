@@ -3,11 +3,16 @@ import { Card } from "@/components/ui/card";
 import { Check } from "lucide-react";
 import { useState } from "react";
 import TrainIcon from "@mui/icons-material/Train";
+import { selectClassType } from "../searchResult/searchSlice";
+import { useSelector } from "react-redux";
+import { Train } from "./types";
 
 export default function ConfirmationPage({
   handleNext,
+  train,
 }: {
   handleNext: (step: number) => void;
+  train: Train;
 }) {
   const [isCopied, setIsCopied] = useState(false);
 
@@ -17,6 +22,29 @@ export default function ConfirmationPage({
     setTimeout(() => setIsCopied(false), 2000);
   };
 
+  const clasType = useSelector(selectClassType);
+  /*
+  const handlePayment = () => {
+    const chapa = new.chapa({
+      publicKey: "YOUR_CHAPA_PUBLIC_KEY", // Replace with your Chapa public key
+      amount:
+        clasType === "HardSeat"
+          ? train?.HardSeatPrice.toFixed(2)
+          : train?.HardSleepPrice.toFixed(2),
+      currency: "ETB",
+      email: "customer@example.com", // Replace with the customer's email
+      firstName: "Customer", // Replace with the customer's first name
+      lastName: "Name", // Replace with the customer's last name
+      tx_ref: "TX_REF_" + Date.now(), // Unique transaction reference
+      callback_url: "http://localhost:3000/payment-success", // Replace with your callback URL
+      customization: {
+        title: "Ethiopian Midr Babur",
+        description: "Payment for train ticket",
+        logo: "https://www.chinadaily.com.cn/world/images/attachement/jpg/site1/20161005/eca86bd9d543195e77c102.jpg", // Replace with your logo URL
+      },
+    });
+  };
+*/
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
@@ -39,7 +67,7 @@ export default function ConfirmationPage({
           <div className="flex items-center gap-2 text-gray-600 mb-4">
             <Check className="h-5 w-5 text-green-600" />
             <span className="uppercase text-sm font-medium">
-              Your trip to Djibuti
+              Your trip to {train?.endStation}
             </span>
           </div>
 
@@ -87,9 +115,13 @@ export default function ConfirmationPage({
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8 items-center">
               {/* Departure */}
               <div>
-                <div className="text-sm text-gray-600">Sun 19 Jan</div>
-                <div className="text-3xl font-semibold">14:50</div>
-                <div className="text-xl">ADD</div>
+                <div className="text-sm text-gray-600">
+                  {new Date(train.departureDate).toDateString()}
+                </div>
+                <div className="text-3xl font-semibold">
+                  {new Date(train.departureDate).toTimeString().split(" ")[0]}
+                </div>
+                <div className="text-xl">{train?.startStation}</div>
               </div>
 
               {/* Flight Duration */}
@@ -105,9 +137,13 @@ export default function ConfirmationPage({
 
               {/* Arrival */}
               <div className="text-right">
-                <div className="text-sm text-gray-600">Sun 19 Jan</div>
-                <div className="text-3xl font-semibold">20:00</div>
-                <div className="text-xl">DBT</div>
+                <div className="text-sm text-gray-600">
+                  {new Date(train.arrivalDate).toTimeString().split(" ")[0]}
+                </div>
+                <div className="text-3xl font-semibold">
+                  {new Date(train.arrivalDate).toTimeString().split(" ")[0]}
+                </div>
+                <div className="text-xl">{train?.endStation}</div>
                 <div className="text-lg font-medium text-green-700 mt-2">
                   Enjoy your Travel
                 </div>
@@ -126,13 +162,16 @@ export default function ConfirmationPage({
             <div className="flex items-center gap-6">
               <div className="flex items-baseline gap-2">
                 <span className="text-gray-700">ETB</span>
-                <span className="text-md font-semibold">948</span>
+                <span className="text-md font-semibold">
+                  <div className="text-xl text-green-500 font-semibold">
+                    {clasType === "HardSleep"
+                      ? train?.HardSleepPrice.toFixed(2)
+                      : train?.HardSeatPrice.toFixed(2)}
+                  </div>
+                </span>
               </div>
-              <Button
-                className="bg-red-500 hover:bg-red-700 text-white  text-md h-auto"
-                onClick={() => handleNext(5)}
-              >
-                Pay now
+              <Button className="bg-red-500 hover:bg-red-700 text-white  text-md h-auto">
+                Pay now with Chapa <TrainIcon className="ml-2" />
               </Button>
             </div>
           </div>

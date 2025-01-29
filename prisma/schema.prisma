@@ -15,21 +15,32 @@ datasource db {
 
 model Passenger {
   id           Int           @id @default(autoincrement())
-  title       String
-  firstName   String   @map("first_name")
-  middleName  String   @map("middle_name")
-  lastName    String   @map("last_name")
-  dateOfBirth DateTime @map("date_of_birth")
-  country     String
-  email       String   @unique
-  password    String
-  role        Role     @default(USER)
-  phone       String
-  createdAt   DateTime @default(now())
+  title        String
+  firstName    String        @map("first_name")
+  middleName   String        @map("middle_name")
+  lastName     String        @map("last_name")
+  dateOfBirth  DateTime      @map("date_of_birth")
+  country      String
+  email        String        @unique
+  password     String
+  role         Role          @default(USER)
+  phone        String
+  createdAt    DateTime      @default(now())
   reservations Reservation[]
   eTickets     ETicket[] // One Passenger can have multiple E-Tickets
 }
 
+model Guest {
+  id         Int       @id @default(autoincrement())
+  title      String
+  firstName  String
+  middleName String
+  lastName   String
+  country    String
+  email      String    @unique
+  phone      String
+  eTickets   ETicket[]
+}
 
 model Conductor {
   id        Int     @id @default(autoincrement())
@@ -52,31 +63,32 @@ model Admin {
 }
 
 model Train {
-  id            Int           @id @default(autoincrement())
-  name          String
-  trainNo       Int           @unique
-  startStation  String // Starting station
-  endStation    String // Ending station
-  stops         Json? // List of intermediate stops (optional)
-  departureDate DateTime
-  arrivalDate   DateTime
-  type          String // e.g., "Express", "Local", "Freight"
-  status        String // e.g., "On-Time", "Delayed", "Cancelled"
+  id             Int           @id @default(autoincrement())
+  name           String
+  trainNo        Int           @unique
+  startStation   String // Starting station
+  endStation     String // Ending station
+  stops          Json? // List of intermediate stops (optional)
+  departureDate  DateTime
+  arrivalDate    DateTime
+  type           String // e.g., "Express", "Local", "Freight"
+  status         String // e.g., "On-Time", "Delayed", "Cancelled"
   HardSeatPrice  Float // Price for Economy class
   HardSleepPrice Float // Price for Business class
-  capacity      Int
-  reservations  Reservation[]
-  eTickets      ETicket[]
-  adminId       Int
-  admin         Admin         @relation(fields: [adminId], references: [id])
+  capacity       Int
+  reservations   Reservation[]
+  eTickets       ETicket[]
+  adminId        Int
+  admin          Admin         @relation(fields: [adminId], references: [id])
 }
+
 
 model Reservation {
   id                Int       @id @default(autoincrement())
   trainId           Int
-  passengerId       Int
   ticketNo          Int
-  selectFromTo      String
+  startStation   String // Starting station
+  endStation     String // Ending station
   departureDate     DateTime
   arrivalDate       DateTime
   dateOfReservation DateTime
@@ -84,15 +96,18 @@ model Reservation {
   class             String
   status            String    @default("Pending") // Confirmed, Cancelled, Pending
   referenceCode     String    @unique // A unique code for tracking
+  relatedTo         String    // "PASSENGER" or "GUEST"
+  relatedId         Int       // ID of the passenger or guest
   train             Train     @relation(fields: [trainId], references: [id])
-  passenger         Passenger @relation(fields: [passengerId], references: [id])
-  payment           Payment?
+
+  @@index([relatedTo, relatedId]) // Composite index for polymorphic relationship
 }
 
+
 model ETicket {
-  id              Int       @id @default(autoincrement())
-  ticketNo        Int       @unique
-  passengerId     Int // Remove @unique to allow multiple E-Tickets for one Passenger
+  id              Int        @id @default(autoincrement())
+  ticketNo        Int        @unique
+  passengerId     Int? // Remove @unique to allow multiple E-Tickets for one Passenger
   trainId         Int
   setNo           Int
   class           String
@@ -100,10 +115,12 @@ model ETicket {
   departureStatus String
   ticketPrice     Int
   bookingInfo     String
-  train           Train     @relation(fields: [trainId], references: [id])
-  passenger       Passenger @relation(fields: [passengerId], references: [id])
-  payment         Payment?  @relation(fields: [paymentId], references: [id])
+  train           Train      @relation(fields: [trainId], references: [id])
+  passenger       Passenger? @relation(fields: [passengerId], references: [id])
+  payment         Payment?   @relation(fields: [paymentId], references: [id])
   paymentId       Int?
+  guestId         Int?
+  Guest           Guest?     @relation(fields: [guestId], references: [id])
 }
 
 model Payment {
@@ -134,4 +151,3 @@ enum Role {
   CONDUCTOR
   USER
 }
-

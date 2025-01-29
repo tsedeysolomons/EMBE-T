@@ -13,6 +13,7 @@ const adminRoutes = require("./route/Admin/adminRoutes");
 
 const DataBase = require("./service/db");
 const corsOptions = require("./config/corsOptions");
+const verifyJWT = require("./middleware/verifyJWT");
 
 const app = express();
 

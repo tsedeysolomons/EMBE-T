@@ -1,5 +1,45 @@
 const prisma = require("../../service/db");
 const { filterNotUndefined } = require("../../utiles");
+const axios = require("axios");
+
+
+const initiatePayment = async (req, res) => {
+  try {
+    const { amount, currency, email, firstName, lastName, callbackUrl } =
+      req.body;
+
+    // Replace with your Chapa public key
+    const publicKey = process.env.CHAPA_PUBLIC_KEY;
+
+    const response = await axios.post(
+      "https://api.chapa.co/v1/transaction/initialize",
+      {
+        amount,
+        currency,
+        email,
+        first_name: firstName,
+        last_name: lastName,
+        tx_ref: "TX_REF_" + Date.now(),
+        callback_url: callbackUrl,
+        customization: {
+          title: "Ethiopian Midr Babur",
+          description: "Payment for train ticket",
+          logo: "https://www.chinadaily.com.cn/world/images/attachement/jpg/site1/20161005/eca86bd9d543195e77c102.jpg", // Replace with your logo URL
+        },
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${publicKey}`,
+        },
+      }
+    );
+
+    res.status(200).json(response.data);
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+};
+
 const createPayment = async (req, res) => {
   try {
     const {
@@ -128,4 +168,5 @@ module.exports = {
   getPaymentById,
   updatePayment,
   deletePayment,
+  initiatePayment, // Add the new function to the exports
 };

@@ -1,13 +1,19 @@
 ### User Controller
 # Create User
-POST http://localhost:3000/api/user
+POST http://localhost:3000/api/user/auth/create
 Content-Type: application/json
-
-{
-  "name": "John Doe",
-  "email": "john.doe@example.com"
-}
-
+ 
+ {
+  "title":"Mr",
+  "firstName":"Solomon",
+  "middleName":"Hailu",
+ "lastName":"Baye",
+ "dateOfBirth":"1968/07/24",
+ "country":"Ethiopia",
+ "email":"solomonhailu@gmail.com",
+"password":"solomon123",
+"phone":"0978451202"
+ }
 ###
 
 # Get All Users
@@ -46,19 +52,20 @@ Content-Type: application/json
 
 {
     "name": "Express",
-    "trainNo": 103,
-    "startStation": "Adiss Abeba",
-    "endStation": "Djibouti",
-    "stops":["Dire Dawa", "Shinile"],
-    "departureDate": "2023-20-12",
-    "arrivalDate": "2023-20-13",
-    "type": "Express",
+    "trainNo": 108,
+    "startStation": "Addis Ababa",
+    "endStation": "Modjo",
+    "stops":"[\"Djibouti(Nagad)\"]",
+    "departureDate": "2025-01-22",
+    "arrivalDate": "2025-01-22",
+    "type": "local",
     "status": "On-Time",
-    "HardSeatPrice": 2000.00,
-    "HardSleepPrice": 2500.00,
-    "capacity": 200,
+    "HardSeatPrice": 130.00,
+    "HardSleepPrice":169.00,
+    "capacity": 100,
     "adminId": 1
 }
+
 
 ###
 
@@ -69,21 +76,20 @@ Content-Type: application/json
 ###
 
 # Get Train by ID
-GET http://localhost:3000/api/train/1
+GET http://localhost:3000/api/train/15
 Content-Type: application/json
 
 ###
 
 # Update Train
-PUT http://localhost:3000/api/train/1
+PUT http://localhost:3000/api/train/15
 Content-Type: application/json
 
 {
-    "endStation": "NYC",
-    "startStation": "LA",
-    "departureTime": "2023-10-10",
-    "arrivalTime": "2023-10-10",
-    "capacity": 200
+    "startStation": "Adiss Ababa(Furi-Lebu)",
+    "HardSleepPrice":0.00,
+    "HardSeatPrice": 145.00 
+  
 }
 
 

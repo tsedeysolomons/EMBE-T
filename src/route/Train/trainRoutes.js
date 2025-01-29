@@ -1,14 +1,15 @@
+const express = require("express");
 const {
   createTrain,
   getTrains,
   getTrainById,
   updateTrain,
   deleteTrain,
-  //   createReservation,
-  //   getReservations,
-  //   getReservationById,
-  //   updateReservation,
-  //   deleteReservation,
+  createReservation,
+  getReservations,
+  getReservationById,
+  updateReservation,
+  deleteReservation,
 } = require("../../controller/Train/trainController");
 const router = require("express").Router();
 

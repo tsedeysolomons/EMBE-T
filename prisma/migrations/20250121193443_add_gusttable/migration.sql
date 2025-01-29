@@ -18,6 +18,21 @@ CREATE TABLE `Passenger` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
+CREATE TABLE `Guest` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `title` VARCHAR(191) NOT NULL,
+    `firstName` VARCHAR(191) NOT NULL,
+    `middleName` VARCHAR(191) NOT NULL,
+    `lastName` VARCHAR(191) NOT NULL,
+    `country` VARCHAR(191) NOT NULL,
+    `email` VARCHAR(191) NOT NULL,
+    `phone` VARCHAR(191) NOT NULL,
+
+    UNIQUE INDEX `Guest_email_key`(`email`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
 CREATE TABLE `Conductor` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `username` VARCHAR(191) NOT NULL,
@@ -87,7 +102,7 @@ CREATE TABLE `Reservation` (
 CREATE TABLE `ETicket` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `ticketNo` INTEGER NOT NULL,
-    `passengerId` INTEGER NOT NULL,
+    `passengerId` INTEGER NULL,
     `trainId` INTEGER NOT NULL,
     `setNo` INTEGER NOT NULL,
     `class` VARCHAR(191) NOT NULL,
@@ -96,6 +111,7 @@ CREATE TABLE `ETicket` (
     `ticketPrice` INTEGER NOT NULL,
     `bookingInfo` VARCHAR(191) NOT NULL,
     `paymentId` INTEGER NULL,
+    `guestId` INTEGER NULL,
 
     UNIQUE INDEX `ETicket_ticketNo_key`(`ticketNo`),
     PRIMARY KEY (`id`)
@@ -141,10 +157,13 @@ ALTER TABLE `Reservation` ADD CONSTRAINT `Reservation_passengerId_fkey` FOREIGN 
 ALTER TABLE `ETicket` ADD CONSTRAINT `ETicket_trainId_fkey` FOREIGN KEY (`trainId`) REFERENCES `Train`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `ETicket` ADD CONSTRAINT `ETicket_passengerId_fkey` FOREIGN KEY (`passengerId`) REFERENCES `Passenger`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `ETicket` ADD CONSTRAINT `ETicket_passengerId_fkey` FOREIGN KEY (`passengerId`) REFERENCES `Passenger`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `ETicket` ADD CONSTRAINT `ETicket_paymentId_fkey` FOREIGN KEY (`paymentId`) REFERENCES `Payment`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `ETicket` ADD CONSTRAINT `ETicket_guestId_fkey` FOREIGN KEY (`guestId`) REFERENCES `Guest`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Payment` ADD CONSTRAINT `Payment_reservationId_fkey` FOREIGN KEY (`reservationId`) REFERENCES `Reservation`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

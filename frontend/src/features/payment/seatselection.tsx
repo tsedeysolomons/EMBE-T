@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
@@ -9,21 +9,14 @@ import { useGetSeatNumbersQuery } from "./bookApiSlice";
 interface Seat {
   id: number;
   isSelected: boolean;
+  isDisabled: boolean;
 }
 
-function SeatButton({
-  seat,
-  onClick,
-  isDisabled,
-}: {
-  seat: Seat;
-  onClick: () => void;
-  isDisabled: boolean;
-}) {
+function SeatButton({ seat, onClick }: { seat: Seat; onClick: () => void }) {
   return (
     <button
       onClick={onClick}
-      disabled={isDisabled}
+      disabled={seat.isDisabled}
       className={`
         relative aspect-square p-2 rounded-lg transition-colors
         ${
@@ -31,7 +24,7 @@ function SeatButton({
             ? "bg-primary text-primary-foreground"
             : "bg-primary/10 hover:bg-primary/20"
         }
-        ${isDisabled ? "opacity-50 cursor-not-allowed" : ""}
+        ${seat.isDisabled ? "opacity-50 cursor-not-allowed" : ""}
       `}
       aria-label={`Seat ${seat.id}`}
     >
@@ -59,11 +52,9 @@ function SeatButton({
 function HardSeatSection({
   seats,
   onSeatClick,
-  selectedCount,
 }: {
   seats: Seat[];
   onSeatClick: (seat: Seat) => void;
-  selectedCount: number;
 }) {
   return (
     <div>
@@ -74,7 +65,6 @@ function HardSeatSection({
             key={seat.id}
             seat={seat}
             onClick={() => onSeatClick(seat)}
-            isDisabled={selectedCount >= 4 && !seat.isSelected}
           />
         ))}
       </div>
@@ -85,11 +75,9 @@ function HardSeatSection({
 function HardSleepSection({
   seats,
   onSeatClick,
-  selectedCount,
 }: {
   seats: Seat[];
   onSeatClick: (seat: Seat) => void;
-  selectedCount: number;
 }) {
   return (
     <div>
@@ -106,7 +94,6 @@ function HardSleepSection({
                   key={seat.id}
                   seat={seat}
                   onClick={() => onSeatClick(seat)}
-                  isDisabled={selectedCount >= 4 && !seat.isSelected}
                 />
               ))}
             </div>
@@ -123,49 +110,38 @@ export default function SeatSelection({
   handleNext: (step: number) => void;
 }) {
   const { capacity, id } = useSelector(selectTrain);
-
   const { data: seatData, error } = useGetSeatNumbersQuery(id);
 
-  const [seats, setSeats] = useState<Seat[]>(() => {
-    return Array.from({ length: capacity }, (_, index) => ({
-      id: index + 1,
-      isSelected: seatData?.takenSets?.includes(index + 1),
-    }));
-  });
+  const [seats, setSeats] = useState<Seat[]>([]);
+  const [selectedSeat, setSelectedSeat] = useState<number | null>(null);
 
-  const [selectedCount, setSelectedCount] = useState(
-    seatData?.takenSets?.length ?? 0
-  );
+  useEffect(() => {
+    if (seatData) {
+      setSeats(
+        Array.from({ length: capacity }, (_, index) => ({
+          id: index + 1,
+          isSelected: false,
+          isDisabled: seatData.takenSets.includes(index + 1),
+        }))
+      );
+    }
+  }, [capacity, seatData]);
 
   const handleSeatClick = (clickedSeat: Seat) => {
-    console.log(seats.filter((seat) => seat.isSelected).length);
-    console.log(selectedCount + 1);
-    if (
-      seatData.takenSets.includes(clickedSeat?.id) &&
-      clickedSeat.isSelected
-    ) {
-      return;
-    }
+    if (clickedSeat.isDisabled) return;
 
     setSeats((currentSeats) =>
-      currentSeats.map((seat) => {
-        if (
-          seat.id === clickedSeat.id &&
-          
-        ) {
-          return { ...seat, isSelected: !seat.isSelected };
-        }
-        return seat;
-      })
+      currentSeats.map((seat) => ({
+        ...seat,
+        isSelected: seat.id === clickedSeat.id && seat.id !== selectedSeat,
+      }))
     );
 
-    setSelectedCount((count) =>
-      clickedSeat.isSelected ? count - 1 : count + 1
+    setSelectedSeat((current) =>
+      current === clickedSeat.id ? null : clickedSeat.id
     );
   };
 
-  /**
-   */
   const hardSeats = seats.slice(0, 48);
   const hardSleepSeats = seats.slice(48);
 
@@ -176,7 +152,9 @@ export default function SeatSelection({
           <div className="text-center mb-6">
             <h1 className="text-2xl font-bold mb-2">SELECT YOUR SEAT</h1>
             <p className="text-gray-600">
-              You have already selected {selectedCount} seats
+              {selectedSeat
+                ? `You have selected seat ${selectedSeat}`
+                : "Please select a seat"}
             </p>
           </div>
 
@@ -189,14 +167,12 @@ export default function SeatSelection({
               <HardSeatSection
                 seats={hardSeats}
                 onSeatClick={handleSeatClick}
-                selectedCount={selectedCount}
               />
             </TabsContent>
             <TabsContent value="hardsleep">
               <HardSleepSection
                 seats={hardSleepSeats}
                 onSeatClick={handleSeatClick}
-                selectedCount={selectedCount}
               />
             </TabsContent>
           </Tabs>
@@ -209,6 +185,10 @@ export default function SeatSelection({
             <div className="flex items-center gap-2">
               <div className="w-4 h-4 bg-primary rounded" />
               <span className="text-sm">Selected</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-4 h-4 bg-gray-300 rounded" />
+              <span className="text-sm">Allready-Selected</span>
             </div>
           </div>
         </CardContent>
@@ -224,6 +204,7 @@ export default function SeatSelection({
         <Button
           className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white shadow-md"
           onClick={() => handleNext(5)}
+          disabled={!selectedSeat}
         >
           Go-To Pay
         </Button>

@@ -1,4 +1,6 @@
-import { FormEvent, useState } from "react";
+"use client";
+
+import { type FormEvent, useState } from "react";
 import {
   Card,
   CardContent,
@@ -16,10 +18,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Collapsible, CollapsibleContent } from "@/components/ui/collapsible";
-//import { ChevronDown } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-//import { useSignUpMutation } from "../auth/login/authApiSlice";
-// Adjust the import path as necessary
 import { useToast } from "@/hooks/use-toast";
 import { selectCurrentToken } from "../auth/login/authSlice";
 import { useSelector } from "react-redux";
@@ -37,7 +36,6 @@ function PassengerDetails({ handleNext }: PassengerDetailsProps) {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [middleName, setMiddleName] = useState("");
-  //const [contactPerson, setContactPerson] = useState("");
   const [country, setCountry] = useState("");
   const [mobileNumber, setMobileNumber] = useState("");
   const [email, setEmail] = useState("");
@@ -45,13 +43,9 @@ function PassengerDetails({ handleNext }: PassengerDetailsProps) {
   const [membershipNumber, setMembershipNumber] = useState("");
 
   const navigate = useNavigate();
-
   const dispatch = useDispatch();
-
   const [registerGust, { isLoading }] = useRegisterGustMutation();
-
   const { toast } = useToast();
-
   const token = useSelector(selectCurrentToken);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -68,7 +62,7 @@ function PassengerDetails({ handleNext }: PassengerDetailsProps) {
         phone: mobileNumber,
       }).unwrap();
 
-      if (!isLoading && result) {
+      if (result) {
         dispatch(
           setUser({
             user: {
@@ -86,38 +80,32 @@ function PassengerDetails({ handleNext }: PassengerDetailsProps) {
 
         handleNext(2);
 
+        // Reset form fields
         setTitle("");
         setFirstName("");
         setLastName("");
+        setMiddleName("");
         setCountry("");
         setEmail("");
         setMobileNumber("");
       }
-    } catch (err: {
-      status?: number;
-      data?: { message: string };
-    }) {
-      if (!err?.status) {
-        toast({
-          variant: "destructive",
-          title: "Uh oh!No Server Response",
-        });
-      } else if (err?.status === 400) {
-        toast({
-          variant: "destructive",
-          title: "Uh oh!Missing email or Password",
-        });
-      } else if (err?.status === 401) {
-        toast({
-          variant: "destructive",
-          title: "Uh oh!Unauthorized",
-        });
-      } else {
-        toast({
-          variant: "destructive",
-          title: err?.data?.message,
-        });
+    } catch (err: unknown) {
+      console.error("Error submitting form:", err);
+      let errorMessage = "An unexpected error occurred. Please try again.";
+
+      if (err.status === 400) {
+        errorMessage = "Missing required fields. Please check your input.";
+      } else if (err.status === 401) {
+        errorMessage = "Unauthorized. Please log in and try again.";
+      } else if (err.data && err.data.message) {
+        errorMessage = err.data.message;
       }
+
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: errorMessage,
+      });
     }
   };
 
@@ -156,7 +144,7 @@ function PassengerDetails({ handleNext }: PassengerDetailsProps) {
                   onChange={(e) => setFirstName(e.target.value)}
                 />
                 <Input
-                  placeholder="Middel name"
+                  placeholder="Middle name"
                   value={middleName}
                   onChange={(e) => setMiddleName(e.target.value)}
                 />
@@ -174,14 +162,6 @@ function PassengerDetails({ handleNext }: PassengerDetailsProps) {
               onOpenChange={setIsFrequentFlyerOpen}
               className="border rounded-md px-4"
             >
-              {/* <CollapsibleTrigger className="flex items-center justify-between w-full py-4">
-                <span>Add frequent Train membership details (optional)</span>
-                <ChevronDown
-                  className={`h-4 w-4 transition-transform ${
-                    isFrequentTrainOpen ? "transform rotate-180" : ""
-                  }`}
-                />
-              </CollapsibleTrigger> */}
               <CollapsibleContent className="pb-4 space-y-4">
                 <Select
                   value={frequentTrainProgram}
@@ -194,7 +174,7 @@ function PassengerDetails({ handleNext }: PassengerDetailsProps) {
                     <SelectItem value="ethiopian">
                       Ethiopian Midr Babur
                     </SelectItem>
-                    <SelectItem value="Djibuti">Djibuti Rainway</SelectItem>
+                    <SelectItem value="Djibuti">Djibuti Railway</SelectItem>
                   </SelectContent>
                 </Select>
                 <Input
@@ -208,23 +188,6 @@ function PassengerDetails({ handleNext }: PassengerDetailsProps) {
             {/* Contact Details */}
             <div className="space-y-4">
               <h3 className="text-lg font-semibold">Contact details</h3>
-              {/* <Select value={contactPerson} onValueChange={setContactPerson}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Contact person" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="passenger1">Passenger 1</SelectItem>
-                  <SelectItem value="passenger2">Passenger 2</SelectItem>
-                  <SelectItem value="passenger3">Passenger 3</SelectItem>
-                  <SelectItem value="passenger4">Passenger 4</SelectItem>
-                  <SelectItem value="passenger5">Passenger 5</SelectItem>
-                  <SelectItem value="passenger6">Passenger 6</SelectItem>
-                  <SelectItem value="passenger7">Passenger 7</SelectItem>
-                  <SelectItem value="passenger8">Passenger 8</SelectItem>
-                  <SelectItem value="passenger9">Passenger 9</SelectItem>
-                  <SelectItem value="passenger10">Passenger 10</SelectItem>
-                </SelectContent>
-              </Select> */}
               <div className="grid gap-6 md:grid-cols-2">
                 <Select value={country} onValueChange={setCountry}>
                   <SelectTrigger>
@@ -232,7 +195,7 @@ function PassengerDetails({ handleNext }: PassengerDetailsProps) {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="et">Ethiopia</SelectItem>
-                    <SelectItem value="ae">Djibuti</SelectItem>
+                    <SelectItem value="dj">Djibouti</SelectItem>
                     <SelectItem value="er">Eritrea</SelectItem>
                     <SelectItem value="so">Somalia</SelectItem>
                     <SelectItem value="ke">Kenya</SelectItem>
@@ -263,8 +226,12 @@ function PassengerDetails({ handleNext }: PassengerDetailsProps) {
               >
                 Return to Trains
               </Button>
-              <Button className="bg-red-600 hover:bg-red-800" type="submit">
-                Continue to Options
+              <Button
+                className="bg-red-600 hover:bg-red-800"
+                type="submit"
+                disabled={isLoading}
+              >
+                {isLoading ? "Submitting..." : "Continue to Options"}
               </Button>
             </div>
           </form>

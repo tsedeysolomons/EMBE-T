@@ -1,8 +1,6 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { apiSlice } from "@/app/api/apiSlice";
 
-export const bookApiSlice = createApi({
-  reducerPath: "bookApi",
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3000/api" }),
+export const bookApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     registerGust: builder.mutation({
       query: (credentials) => ({
@@ -39,6 +37,9 @@ export const bookApiSlice = createApi({
         method: "DELETE",
       }),
     }),
+    getSeatNumbers: builder.query({
+      query: (trainId: number) => `/reservation/sets-availability/${trainId}`,
+    }),
   }),
 });
 
@@ -49,4 +50,5 @@ export const {
   useUpdateBookingMutation,
   useDeleteBookingMutation,
   useRegisterGustMutation,
+  useGetSeatNumbersQuery,
 } = bookApiSlice;

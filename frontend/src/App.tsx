@@ -1,5 +1,4 @@
 import { Routes, Route } from "react-router";
-
 import Home from "./features/home/home";
 import About from "./screen/about";
 import RequireAuth from "./features/auth/login/require-auth";
@@ -7,7 +6,6 @@ import MainLayout from "./layout/main-layout";
 import Footer from "./components/footer";
 import SearchTrainAvalability from "./features/searchResult/trainavalability"; // Adjust the path as necessary
 import TrainDetails from "./features/home/whatontrain"; // Adjust the path as necessary
-import DownloadTicket from "./screen/download"; // Adjust the path as necessary
 import BookingHistory from "./screen/viewhistory"; // Adjust the path as necessary
 import SearchApiSlice from "./features/searchResult/searchResult";
 //import PassengerDetails from "./features/payment/Passengers";
@@ -18,7 +16,7 @@ import PaymentReview from "./features/payment/Paymentggetway";
 //import SeatSelection from "./features/payment/seatselection"; // Adjust the path as necessary
 import ETicket from "./screen/eticket";
 import PersistLogin from "./features/auth/login/PersistLogin";
-import ManageBooking from "./screen/managebooking";
+//import ManageBookingPage from "./screen/managebooking";
 
 // Adjust the path as necessary
 //import AppProvider from "./context/AppProvider";
@@ -32,12 +30,12 @@ const App = () => {
         <Route element={<PersistLogin />}>
           <Route element={<RequireAuth />}></Route>
         </Route>
-        {/* <Route path="/ManageBooking" element={<ManageBooking />} /> */}
+
         <Route path="/trainavalability" element={<SearchTrainAvalability />} />
         <Route path="/BookingHistory" element={<BookingHistory />} />
         <Route path="/about" element={<About />} />
       </Route>
-      <Route path="/DownloadTicket" element={<DownloadTicket />} />
+      {/* <Route path="/ManageBookingPage" element={<ManageBookingPage />} /> */}
       <Route path="/PaymentReview/:trainId" element={<PaymentReview />} />
       <Route path="/TrainDetails" element={<TrainDetails />} />
       <Route path="/SearchApiSlice" element={<SearchApiSlice />} />

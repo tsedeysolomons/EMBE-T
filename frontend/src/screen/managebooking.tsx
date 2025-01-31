@@ -1,128 +1,164 @@
-import { useState } from "react";
-import Link from "next/link";
-import { ChevronDown, ChevronUp } from "lucide-react";
+// import * as React from "react";
+// import Image from "next/image";
+// import Link from "next/link";
+// import { HelpCircle, RotateCcw, Ticket, X } from "lucide-react";
 
- function ManageBooking() {
-  const [openAccordion, setOpenAccordion] = useState<string | null>(null);
+// import { Button } from "@/components/ui/button";
+// import { Card, CardContent, CardHeader } from "@/components/ui/card";
+// import { Separator } from "@/components/ui/separator";
 
-  const toggleAccordion = (id: string) => {
-    setOpenAccordion(openAccordion === id ? null : id);
-  };
+// // Define TypeScript interfaces for our data structures
+// interface QuickAction {
+//   icon: React.ElementType;
+//   label: string;
+//   description?: string;
+//   href: string;
+//   variant?: "default" | "outline";
+// }
 
-  return (
-    <div className="bg-white min-h-screen">
-      <div className="max-w-[1000px] mx-auto px-4 py-6">
-        <h1 className="text-[40px] font-normal text-[#333] mb-6">
-          Cancelling or changing a booking
-        </h1>
+// interface MainAction extends QuickAction {
+//   description: string;
+// }
 
-        <div className="grid grid-cols-[300px,1fr] gap-6">
-          {/* Left sidebar */}
-          <div className="border border-[#ddd] rounded-sm overflow-hidden">
-            <div className="bg-[#f9f9f9] border-b border-[#ddd] py-3 px-4">
-              <span className="text-[#333] font-semibold">
-                Cancelling an Emirates flight booking
-              </span>
-            </div>
-            <div className="border-b border-[#ddd] py-3 px-4">
-              <span className="text-[#333]">Change a booking</span>
-            </div>
-            <div className="py-3 px-4">
-              <span className="text-[#333]">Refunds and travel vouchers</span>
-            </div>
-          </div>
+// // Define our action data
+// const mainActions: MainAction[] = [
+//   {
+//     icon: X,
+//     label: "Cancel Ticket",
+//     description: "Ethiopian Railways",
+//     href: "/cancel",
+//     variant: "outline",
+//   },
+//   {
+//     icon: RotateCcw,
+//     label: "Change Ticket",
+//     description: "Modify your booking",
+//     href: "/change",
+//     variant: "outline",
+//   },
+// ];
 
-          {/* Right content */}
-          <div>
-            <h2 className="text-[24px] font-normal text-[#333] mb-4">
-              Cancelling an Emirates flight booking
-            </h2>
-            <div className="border border-[#ddd] rounded-sm overflow-hidden mb-6">
-              <button
-                onClick={() => toggleAccordion("cancel")}
-                className="w-full flex justify-between items-center bg-white py-3 px-4 border-b border-[#ddd]"
-              >
-                <span className="text-[#333] font-semibold">
-                  Can I cancel my booking?
-                </span>
-                {openAccordion === "cancel" ? (
-                  <ChevronUp className="h-5 w-5 text-[#c60c30]" />
-                ) : (
-                  <ChevronDown className="h-5 w-5 text-[#c60c30]" />
-                )}
-              </button>
-              {openAccordion === "cancel" && (
-                <div className="p-4 text-[#333]">
-                  <p className="mb-4">
-                    Yes, you can make any changes to your booking on
-                    emirates.com through{" "}
-                    <Link href="#" className="text-[#c60c30] hover:underline">
-                      Manage your booking
-                    </Link>
-                    .
-                  </p>
-                  <p>
-                    We're currently receiving a lot of calls, so to avoid long
-                    wait times, here are some other ways to{" "}
-                    <Link href="#" className="text-[#c60c30] hover:underline">
-                      contact us
-                    </Link>
-                    . You can also try calling us closer to your planned travel
-                    date.
-                  </p>
-                </div>
-              )}
-            </div>
+// const quickActions: QuickAction[] = [
+//   {
+//     icon: Ticket,
+//     label: "FAQs",
+//     href: "/faqs",
+//   },
+//   {
+//     icon: RotateCcw,
+//     label: "Change Booking",
+//     href: "/change-booking",
+//   },
+//   {
+//     icon: X,
+//     label: "Refunds",
+//     href: "/refunds",
+//   },
+// ];
 
-            <h2 className="text-[24px] font-normal text-[#333] mb-4">
-              Change a booking
-            </h2>
-            <div className="border border-[#ddd] rounded-sm overflow-hidden">
-              <button
-                onClick={() => toggleAccordion("change")}
-                className="w-full flex justify-between items-center bg-white py-3 px-4 border-b border-[#ddd]"
-              >
-                <span className="text-[#333] font-semibold">
-                  How do I change details of my trip online after I've completed
-                  the booking?
-                </span>
-                {openAccordion === "change" ? (
-                  <ChevronUp className="h-5 w-5 text-[#c60c30]" />
-                ) : (
-                  <ChevronDown className="h-5 w-5 text-[#c60c30]" />
-                )}
-              </button>
-              {openAccordion === "change" && (
-                <div className="p-4 text-[#333]">
-                  <p className="mb-4">
-                    You can make changes to your booking through Manage your
-                    booking. It's important to note that you'll find a Change my
-                    booking link if your booking is eligible for online changes.
-                    You might be charged for certain changes, depending on the
-                    fare conditions of your ticket.
-                  </p>
-                  <p>
-                    If your booking is not eligible for online changes, you can
-                    contact your travel agent or our Contact Centres if you
-                    booked with us directly.
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
+// const ManageBookingPage: React.FC = () => {
+//   const [isLoading, setIsLoading] = React.useState<boolean>(false);
 
-        <div className="flex justify-end mt-4">
-          <button
-            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            className="text-[#333] hover:underline flex items-center"
-          >
-            <ChevronUp className="mr-1 h-4 w-4" />
-            Back to top
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}
-export default ManageBooking;
+//   const handleActionClick = async (href: string) => {
+//     try {
+//       setIsLoading(true);
+//       // Add your navigation or action logic here
+//       console.log(`Navigating to: ${href}`);
+//     } catch (error) {
+//       console.error("Error:", error);
+//     } finally {
+//       setIsLoading(false);
+//     }
+//   };
+
+//   return (
+//     <div className="min-h-screen bg-gradient-to-br from-gray-100 to-gray-200 p-4 md:p-8">
+//       <Card className="mx-auto max-w-4xl rounded-3xl border-none bg-white/80 shadow-2xl backdrop-blur">
+//         <CardHeader className="flex flex-row items-center gap-4 space-y-0 p-6">
+//           <div className="relative h-16 w-16 overflow-hidden rounded-full bg-red-600">
+//             <Image
+//               src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/DALL%C2%B7E%202025-01-31%2017.39.01%20-%20A%20modern%20UI%20design%20for%20a%20'Manage%20Booking'%20system%20for%20Ethiopian%20Midr%20Babur%20E-Ticket.%20The%20interface%20includes%20a%20sidebar%20with%20options%20like%20'Cancel%20Ticket,-ZDQLPKTnu7znmwZAXh2lGbLycUcziX.webp"
+//               alt="Midr Babur Logo"
+//               width={64}
+//               height={64}
+//               className="object-cover"
+//               priority
+//             />
+//           </div>
+//           <div className="flex flex-col">
+//             <h1 className="text-2xl font-bold">Manage Booking</h1>
+//             <p className="text-sm text-muted-foreground">
+//               Ethiopian Midr E-Ticket
+//             </p>
+//           </div>
+//           <Button
+//             variant="ghost"
+//             size="icon"
+//             className="ml-auto rounded-full"
+//             onClick={() => handleActionClick("/faqs")}
+//           >
+//             <HelpCircle className="h-6 w-6" />
+//             <span className="sr-only">FAQs</span>
+//           </Button>
+//         </CardHeader>
+//         <CardContent className="grid gap-6 p-6">
+//           <div className="grid gap-4 md:grid-cols-2">
+//             {mainActions.map((action, index) => (
+//               <Button
+//                 key={index}
+//                 variant={action.variant}
+//                 size="lg"
+//                 className="flex items-center justify-start gap-3 rounded-xl border-2 p-6 shadow-sm hover:bg-red-50"
+//                 onClick={() => handleActionClick(action.href)}
+//                 disabled={isLoading}
+//               >
+//                 <action.icon className="h-5 w-5 text-red-600" />
+//                 <div className="flex flex-col items-start">
+//                   <span className="font-semibold">{action.label}</span>
+//                   <span className="text-xs text-muted-foreground">
+//                     {action.description}
+//                   </span>
+//                 </div>
+//               </Button>
+//             ))}
+//           </div>
+
+//           <Separator />
+
+//           <div className="space-y-4">
+//             <h2 className="text-lg font-semibold">Quick Actions</h2>
+//             <div className="grid gap-3">
+//               {quickActions.map((action, index) => (
+//                 <Button
+//                   key={index}
+//                   variant="outline"
+//                   className="justify-start rounded-xl border-none bg-red-50 px-4 py-6 text-red-600 shadow-sm hover:bg-red-100"
+//                   onClick={() => handleActionClick(action.href)}
+//                   disabled={isLoading}
+//                 >
+//                   <action.icon className="mr-2 h-4 w-4" />
+//                   {action.label}
+//                 </Button>
+//               ))}
+//             </div>
+//           </div>
+
+//           <div className="mt-6 flex justify-center">
+//             <Link
+//               href="/support"
+//               className="text-sm text-muted-foreground hover:text-red-600"
+//               onClick={(e) => {
+//                 e.preventDefault();
+//                 handleActionClick("/support");
+//               }}
+//             >
+//               Need help? Contact support
+//             </Link>
+//           </div>
+//         </CardContent>
+//       </Card>
+//     </div>
+//   );
+// };
+
+// export default ManageBookingPage;

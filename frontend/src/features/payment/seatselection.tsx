@@ -2,6 +2,9 @@ import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
+import { useSelector } from "react-redux";
+import { selectTrain } from "../searchResult/searchSlice";
+import { useGetSeatNumbersQuery } from "./bookApiSlice";
 
 interface Seat {
   id: number;
@@ -119,23 +122,37 @@ export default function SeatSelection({
 }: {
   handleNext: (step: number) => void;
 }) {
+  const { capacity, id } = useSelector(selectTrain);
+
+  const { data: seatData, error } = useGetSeatNumbersQuery(id);
+
   const [seats, setSeats] = useState<Seat[]>(() => {
-    return Array.from({ length: 100 }, (_, index) => ({
+    return Array.from({ length: capacity }, (_, index) => ({
       id: index + 1,
-      isSelected: false,
+      isSelected: seatData?.takenSets?.includes(index + 1),
     }));
   });
 
-  const [selectedCount, setSelectedCount] = useState(0);
+  const [selectedCount, setSelectedCount] = useState(
+    seatData?.takenSets?.length ?? 0
+  );
 
   const handleSeatClick = (clickedSeat: Seat) => {
-    if (selectedCount >= 4 && !clickedSeat.isSelected) {
+    console.log(seats.filter((seat) => seat.isSelected).length);
+    console.log(selectedCount + 1);
+    if (
+      seatData.takenSets.includes(clickedSeat?.id) &&
+      clickedSeat.isSelected
+    ) {
       return;
     }
 
     setSeats((currentSeats) =>
       currentSeats.map((seat) => {
-        if (seat.id === clickedSeat.id) {
+        if (
+          seat.id === clickedSeat.id &&
+          
+        ) {
           return { ...seat, isSelected: !seat.isSelected };
         }
         return seat;

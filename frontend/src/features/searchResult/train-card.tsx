@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { getTimeDifference } from "@/lib/utils";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setTrain } from "./searchSlice";
 
 export type TrainCardProps = {
   HardSeatPrice: number;
@@ -31,10 +33,18 @@ const TrainCard = ({
   stops,
   tabs,
   id,
+  name,
+  adminId,
+  capacity,
+  trainNo,
+  type,
+  status,
 }: TrainCardProps) => {
   const [selectedTab, setSelectedTab] = useState<"HardSeat" | "HardSleep">(
     tabs
   );
+
+  const dispatch = useDispatch();
 
   return (
     <Link to={""}>
@@ -119,7 +129,31 @@ const TrainCard = ({
                 <Link to={`/PaymentReview/${id}`}>
                   <button
                     className="border border-green-700 px-4 py-1 rounded hover:bg-green-700 hover:text-white transition-colors duration-300"
-                    onClick={() => setSelectedTab("HardSeat")}
+                    onClick={() => {
+                      setSelectedTab("HardSeat");
+
+                      dispatch(
+                        setTrain({
+                          train: {
+                            HardSeatPrice,
+                            HardSleepPrice,
+                            arrivalDate,
+                            departureDate,
+                            endStation,
+                            startStation,
+                            stops,
+                            tabs,
+                            id,
+                            name,
+                            adminId,
+                            capacity,
+                            trainNo,
+                            type,
+                            status,
+                          },
+                        })
+                      );
+                    }}
                   >
                     Select
                   </button>

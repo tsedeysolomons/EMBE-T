@@ -12,7 +12,7 @@ export const navbar = [
     lable: "View History",
   },
   {
-    lable: "Download E-Ticket",
+    lable: "CONTACT US",
   },
 ];
 

@@ -68,29 +68,31 @@ function PassengerDetails({ handleNext }: PassengerDetailsProps) {
         phone: mobileNumber,
       }).unwrap();
 
-      dispatch(
-        setUser({
-          user: {
-            title,
-            firstName,
-            middleName,
-            lastName,
-            dateOfBirth: new Date(),
-            country,
-            email,
-            phone: mobileNumber,
-          },
-        })
-      );
+      if (!isLoading && result) {
+        dispatch(
+          setUser({
+            user: {
+              title,
+              firstName,
+              middleName,
+              lastName,
+              dateOfBirth: new Date().toISOString(),
+              country,
+              email,
+              phone: mobileNumber,
+            },
+          })
+        );
 
-      handleNext(2);
+        handleNext(2);
 
-      setTitle("");
-      setFirstName("");
-      setLastName("");
-      setCountry("");
-      setEmail("");
-      setMobileNumber("");
+        setTitle("");
+        setFirstName("");
+        setLastName("");
+        setCountry("");
+        setEmail("");
+        setMobileNumber("");
+      }
     } catch (err: {
       status?: number;
       data?: { message: string };

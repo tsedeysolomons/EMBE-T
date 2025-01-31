@@ -82,27 +82,28 @@ model Train {
   admin          Admin         @relation(fields: [adminId], references: [id])
 }
 
-
 model Reservation {
-  id                Int       @id @default(autoincrement())
+  id                Int        @id @default(autoincrement())
   trainId           Int
   ticketNo          Int
-  startStation   String // Starting station
-  endStation     String // Ending station
+  startStation      String // Starting station
+  endStation        String // Ending station
   departureDate     DateTime
   arrivalDate       DateTime
   dateOfReservation DateTime
   setNo             Int
   class             String
-  status            String    @default("Pending") // Confirmed, Cancelled, Pending
-  referenceCode     String    @unique // A unique code for tracking
-  relatedTo         String    // "PASSENGER" or "GUEST"
-  relatedId         Int       // ID of the passenger or guest
-  train             Train     @relation(fields: [trainId], references: [id])
+  status            String     @default("Pending") // Confirmed, Cancelled, Pending
+  referenceCode     String     @unique // A unique code for tracking
+  relatedTo         String // "PASSENGER" or "GUEST"
+  relatedId         Int // ID of the passenger or guest
+  train             Train      @relation(fields: [trainId], references: [id])
+  Passenger         Passenger? @relation(fields: [passengerId], references: [id])
+  passengerId       Int?
+  Payment           Payment?
 
   @@index([relatedTo, relatedId]) // Composite index for polymorphic relationship
 }
-
 
 model ETicket {
   id              Int        @id @default(autoincrement())

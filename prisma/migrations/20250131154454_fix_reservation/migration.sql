@@ -83,9 +83,9 @@ CREATE TABLE `Train` (
 CREATE TABLE `Reservation` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `trainId` INTEGER NOT NULL,
-    `passengerId` INTEGER NOT NULL,
     `ticketNo` INTEGER NOT NULL,
-    `selectFromTo` VARCHAR(191) NOT NULL,
+    `startStation` VARCHAR(191) NOT NULL,
+    `endStation` VARCHAR(191) NOT NULL,
     `departureDate` DATETIME(3) NOT NULL,
     `arrivalDate` DATETIME(3) NOT NULL,
     `dateOfReservation` DATETIME(3) NOT NULL,
@@ -93,8 +93,12 @@ CREATE TABLE `Reservation` (
     `class` VARCHAR(191) NOT NULL,
     `status` VARCHAR(191) NOT NULL DEFAULT 'Pending',
     `referenceCode` VARCHAR(191) NOT NULL,
+    `relatedTo` VARCHAR(191) NOT NULL,
+    `relatedId` INTEGER NOT NULL,
+    `passengerId` INTEGER NULL,
 
     UNIQUE INDEX `Reservation_referenceCode_key`(`referenceCode`),
+    INDEX `Reservation_relatedTo_relatedId_idx`(`relatedTo`, `relatedId`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -151,7 +155,7 @@ ALTER TABLE `Train` ADD CONSTRAINT `Train_adminId_fkey` FOREIGN KEY (`adminId`) 
 ALTER TABLE `Reservation` ADD CONSTRAINT `Reservation_trainId_fkey` FOREIGN KEY (`trainId`) REFERENCES `Train`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Reservation` ADD CONSTRAINT `Reservation_passengerId_fkey` FOREIGN KEY (`passengerId`) REFERENCES `Passenger`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Reservation` ADD CONSTRAINT `Reservation_passengerId_fkey` FOREIGN KEY (`passengerId`) REFERENCES `Passenger`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `ETicket` ADD CONSTRAINT `ETicket_trainId_fkey` FOREIGN KEY (`trainId`) REFERENCES `Train`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

@@ -205,8 +205,6 @@ Content-Type: application/json
   "currency": "ETB",
   "status": "Completed",
   "reservationId": 12
-  
-   
 }  
 
 ###
@@ -289,17 +287,10 @@ POST http://localhost:3000/api/reservation/create
 Content-Type: application/json
 
 {
-      "trainId":101,
-      "passengerId":1,
-      "ticketNo":8,
-      "selectFromTo":"Adiss Ababa- Dredawa",
-      "departureDate":"2017/04/01",
-      "arrivalDate":"2017/04/01",
-      "dateOfReservation":"2017/04/02",
-      "setNo":15,
-      "class": "hardseat",
-      "status":"pending",
-      "referenceCode":"AD101"
+          "trainId": 1,
+          "setNo": 28,
+          "classType": "hardSeat",
+          "passengerId": "9"
 }
 
 ###

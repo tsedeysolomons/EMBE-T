@@ -2,39 +2,73 @@ const prisma = require("../../service/db");
 const { filterNotUndefined } = require("../../utiles");
 const axios = require("axios");
 
+const { v4: uuidv4 } = require("uuid");
+
 const initiatePayment = async (req, res) => {
   try {
     const { amount, currency, email, firstName, lastName, callbackUrl } =
       req.body;
 
     // Replace with your Chapa public key
-    const publicKey = process.env.CHAPA_PUBLIC_KEY;
+    const publicKey = process.env.CHAPA_SECRET_KEY;
 
-    const response = await axios.post(
+    // const response = await axios.post(
+    //   "https://api.chapa.co/v1/transaction/initialize",
+    //   {
+    //     amount,
+    //     currency,
+    //     email,
+    //     first_name: firstName,
+    //     last_name: lastName,
+    //     tx_ref: "TX_REF_" + Date.now(),
+    //     callback_url: callbackUrl,
+    //     customization: {
+    //       title: "ETMBET",
+    //       description: "Payment for train ticket",
+    //       logo: "https://www.chinadaily.com.cn/world/images/attachement/jpg/site1/20161005/eca86bd9d543195e77c102.jpg", // Replace with your logo URL
+    //     },
+    //   },
+    //   {
+    //     headers: {
+    //       Authorization: `Bearer ${publicKey}`,
+    //     },
+    //   }
+    // );
+
+    const response = await fetch(
       "https://api.chapa.co/v1/transaction/initialize",
       {
-        amount,
-        currency,
-        email,
-        first_name: firstName,
-        last_name: lastName,
-        tx_ref: "TX_REF_" + Date.now(),
-        callback_url: callbackUrl,
-        customization: {
-          title: "Ethiopian Midr Babur",
-          description: "Payment for train ticket",
-          logo: "https://www.chinadaily.com.cn/world/images/attachement/jpg/site1/20161005/eca86bd9d543195e77c102.jpg", // Replace with your logo URL
-        },
-      },
-      {
+        method: "POST",
         headers: {
-          Authorization: `Bearer ${publicKey}`,
+          Authorization: `Bearer ${"CHASECK_TEST-LsZNIkHCQdY702eamWMhONgNu6rcCaHN"}`,
+          "Content-Type": "application/json",
         },
+        body: JSON.stringify({
+          amount,
+          currency,
+          email,
+          firstName,
+          lastName,
+          callbackUrl,
+          tx_ref: "TX_REF_" + uuidv4(),
+          customization: {
+            title: "ETMBET",
+            description: "Payment for train ticket",
+            logo: "https://www.chinadaily.com.cn/world/images/attachement/jpg/site1/20161005/eca86bd9d543195e77c102.jpg",
+          },
+        }),
       }
     );
 
-    res.status(200).json(response.data);
+    const data = await response.json();
+
+    if (response.ok) {
+      res.status(200).json(data);
+    } else {
+      res.status(response.status).json(data);
+    }
   } catch (error) {
+    console.log(error);
     res.status(500).send(error.message);
   }
 };

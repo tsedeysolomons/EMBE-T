@@ -5,6 +5,7 @@ const prisma = require("../../service/db");
 const createUse = async (req, res) => {
   try {
     const {
+      type,
       title,
       firstName,
       middleName,
@@ -16,9 +17,11 @@ const createUse = async (req, res) => {
       phone,
     } = req.body;
 
+    console.log("req.body");
     console.log(req.body);
 
     if (
+      !type ||
       !title ||
       !firstName ||
       !middleName ||
@@ -26,22 +29,24 @@ const createUse = async (req, res) => {
       !dateOfBirth ||
       !country ||
       !email ||
-      !password ||
       !phone
     )
       return res.status(400).send({ message: "All fields are required!" });
 
-    const userExist = await prisma.passenger.findUnique({
+    const userExist = await prisma.user.findUnique({
       where: { email: email },
     });
 
     if (userExist)
       return res.status(400).send({ message: "User already exists!" });
+    let hashPassword = "";
 
-    const hashPassword = await bcrypt.hash(password, 10);
+    if (type === "passger" && password)
+      hashPassword = await bcrypt.hash(password, 10);
 
-    await prisma.passenger.create({
+    const user = await prisma.user.create({
       data: {
+        type,
         title,
         firstName: firstName,
         middleName: middleName,
@@ -54,7 +59,7 @@ const createUse = async (req, res) => {
       },
     });
 
-    res.status(201).json({ message: "User created successfully" });
+    res.status(201).json({ message: "User created successfully", user });
   } catch (e) {
     console.log(`${e.message} this is error.`);
     res.status(500).send(e.message);
@@ -67,7 +72,7 @@ const login = async (req, res) => {
     if (!email || !password)
       return res.status(400).send({ message: "Invalid email or password" });
 
-    const foundUser = await prisma.passenger.findUnique({
+    const foundUser = await prisma.user.findUnique({
       where: { email: email },
     });
     if (!foundUser) return res.status(401).send({ message: "User not found!" });
@@ -151,7 +156,7 @@ const getUser = async (req, res) => {
     const { id } = req.params;
     if (!id) return res.status(400).send({ message: "User ID is required" });
 
-    const user = await prisma.passenger.findUnique({
+    const user = await prisma.user.findUnique({
       where: { id: parseInt(id) },
     });
 
@@ -186,7 +191,7 @@ const registerGust = async (req, res) => {
     if (guestExist)
       return res.status(400).send({ message: "Guest already registered!" });
 
-    await prisma.guest.create({
+    const gust = await prisma.guest.create({
       data: {
         title,
         email,
@@ -198,7 +203,9 @@ const registerGust = async (req, res) => {
       },
     });
 
-    return res.status(201).json({ message: "Guest registered successfully" });
+    return res
+      .status(201)
+      .json({ gust, message: "Guest registered successfully" });
   } catch (e) {
     console.log(`${e.message} this is error.`);
     return res.status(500).send(e.message);

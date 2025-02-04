@@ -1,34 +1,20 @@
 -- CreateTable
-CREATE TABLE `Passenger` (
+CREATE TABLE `User` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `type` ENUM('PASSENGER', 'GUEST') NOT NULL,
     `title` VARCHAR(191) NOT NULL,
     `first_name` VARCHAR(191) NOT NULL,
-    `middle_name` VARCHAR(191) NOT NULL,
+    `middle_name` VARCHAR(191) NULL,
     `last_name` VARCHAR(191) NOT NULL,
-    `date_of_birth` DATETIME(3) NOT NULL,
     `country` VARCHAR(191) NOT NULL,
     `email` VARCHAR(191) NOT NULL,
-    `password` VARCHAR(191) NOT NULL,
-    `role` ENUM('Admin', 'CONDUCTOR', 'USER') NOT NULL DEFAULT 'USER',
     `phone` VARCHAR(191) NOT NULL,
+    `date_of_birth` DATETIME(3) NULL,
+    `password` VARCHAR(191) NULL,
+    `role` ENUM('Admin', 'CONDUCTOR', 'USER') NULL DEFAULT 'USER',
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
-    UNIQUE INDEX `Passenger_email_key`(`email`),
-    PRIMARY KEY (`id`)
-) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
--- CreateTable
-CREATE TABLE `Guest` (
-    `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `title` VARCHAR(191) NOT NULL,
-    `firstName` VARCHAR(191) NOT NULL,
-    `middleName` VARCHAR(191) NOT NULL,
-    `lastName` VARCHAR(191) NOT NULL,
-    `country` VARCHAR(191) NOT NULL,
-    `email` VARCHAR(191) NOT NULL,
-    `phone` VARCHAR(191) NOT NULL,
-
-    UNIQUE INDEX `Guest_email_key`(`email`),
+    UNIQUE INDEX `User_email_key`(`email`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -83,7 +69,7 @@ CREATE TABLE `Train` (
 CREATE TABLE `Reservation` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `trainId` INTEGER NOT NULL,
-    `ticketNo` INTEGER NOT NULL,
+    `ticketNo` VARCHAR(191) NOT NULL,
     `startStation` VARCHAR(191) NOT NULL,
     `endStation` VARCHAR(191) NOT NULL,
     `departureDate` DATETIME(3) NOT NULL,
@@ -93,20 +79,18 @@ CREATE TABLE `Reservation` (
     `class` VARCHAR(191) NOT NULL,
     `status` VARCHAR(191) NOT NULL DEFAULT 'Pending',
     `referenceCode` VARCHAR(191) NOT NULL,
-    `relatedTo` VARCHAR(191) NOT NULL,
-    `relatedId` INTEGER NOT NULL,
-    `passengerId` INTEGER NULL,
+    `userId` INTEGER NOT NULL,
 
     UNIQUE INDEX `Reservation_referenceCode_key`(`referenceCode`),
-    INDEX `Reservation_relatedTo_relatedId_idx`(`relatedTo`, `relatedId`),
+    INDEX `Reservation_userId_idx`(`userId`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
 CREATE TABLE `ETicket` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `ticketNo` INTEGER NOT NULL,
-    `passengerId` INTEGER NULL,
+    `ticketNo` VARCHAR(191) NOT NULL,
+    `userId` INTEGER NOT NULL,
     `trainId` INTEGER NOT NULL,
     `setNo` INTEGER NOT NULL,
     `class` VARCHAR(191) NOT NULL,
@@ -115,7 +99,6 @@ CREATE TABLE `ETicket` (
     `ticketPrice` INTEGER NOT NULL,
     `bookingInfo` VARCHAR(191) NOT NULL,
     `paymentId` INTEGER NULL,
-    `guestId` INTEGER NULL,
 
     UNIQUE INDEX `ETicket_ticketNo_key`(`ticketNo`),
     PRIMARY KEY (`id`)
@@ -152,22 +135,19 @@ CREATE TABLE `OnlineTransaction` (
 ALTER TABLE `Train` ADD CONSTRAINT `Train_adminId_fkey` FOREIGN KEY (`adminId`) REFERENCES `Admin`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Reservation` ADD CONSTRAINT `Reservation_trainId_fkey` FOREIGN KEY (`trainId`) REFERENCES `Train`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Reservation` ADD CONSTRAINT `Reservation_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Reservation` ADD CONSTRAINT `Reservation_passengerId_fkey` FOREIGN KEY (`passengerId`) REFERENCES `Passenger`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE `Reservation` ADD CONSTRAINT `Reservation_trainId_fkey` FOREIGN KEY (`trainId`) REFERENCES `Train`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `ETicket` ADD CONSTRAINT `ETicket_trainId_fkey` FOREIGN KEY (`trainId`) REFERENCES `Train`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `ETicket` ADD CONSTRAINT `ETicket_passengerId_fkey` FOREIGN KEY (`passengerId`) REFERENCES `Passenger`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE `ETicket` ADD CONSTRAINT `ETicket_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `ETicket` ADD CONSTRAINT `ETicket_paymentId_fkey` FOREIGN KEY (`paymentId`) REFERENCES `Payment`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE `ETicket` ADD CONSTRAINT `ETicket_guestId_fkey` FOREIGN KEY (`guestId`) REFERENCES `Guest`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Payment` ADD CONSTRAINT `Payment_reservationId_fkey` FOREIGN KEY (`reservationId`) REFERENCES `Reservation`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

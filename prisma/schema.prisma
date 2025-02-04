@@ -1,8 +1,5 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+// This is your Prisma schema file.
+// Learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
   provider = "prisma-client-js"
@@ -13,33 +10,36 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Passenger {
-  id           Int           @id @default(autoincrement())
-  title        String
-  firstName    String        @map("first_name")
-  middleName   String        @map("middle_name")
-  lastName     String        @map("last_name")
-  dateOfBirth  DateTime      @map("date_of_birth")
-  country      String
-  email        String        @unique
-  password     String
-  role         Role          @default(USER)
-  phone        String
-  createdAt    DateTime      @default(now())
-  reservations Reservation[]
-  eTickets     ETicket[] // One Passenger can have multiple E-Tickets
+enum Role {
+  Admin
+  CONDUCTOR
+  USER
 }
 
-model Guest {
-  id         Int       @id @default(autoincrement())
-  title      String
-  firstName  String
-  middleName String
-  lastName   String
-  country    String
-  email      String    @unique
-  phone      String
-  eTickets   ETicket[]
+enum UserType {
+  PASSENGER
+  GUEST
+}
+
+model User {
+  id          Int           @id @default(autoincrement())
+  type        UserType
+  title       String
+  firstName   String        @map("first_name")
+  middleName  String?       @map("middle_name")
+  lastName    String        @map("last_name")
+  country     String
+  email       String        @unique
+  phone       String
+  // For a PASSENGER, you might require a password and role.
+  // For a GUEST, these can be left null.
+  
+  dateOfBirth  DateTime?      @map("date_of_birth")
+  password    String?       
+  role        Role?         @default(USER)
+  createdAt   DateTime      @default(now())
+  reservations Reservation[]
+  eTickets     ETicket[]
 }
 
 model Conductor {
@@ -66,15 +66,15 @@ model Train {
   id             Int           @id @default(autoincrement())
   name           String
   trainNo        Int           @unique
-  startStation   String // Starting station
-  endStation     String // Ending station
-  stops          Json? // List of intermediate stops (optional)
+  startStation   String        // Starting station
+  endStation     String        // Ending station
+  stops          Json?         // List of intermediate stops (optional)
   departureDate  DateTime
   arrivalDate    DateTime
-  type           String // e.g., "Express", "Local", "Freight"
-  status         String // e.g., "On-Time", "Delayed", "Cancelled"
-  HardSeatPrice  Float // Price for Economy class
-  HardSleepPrice Float // Price for Business class
+  type           String        // e.g., "Express", "Local", "Freight"
+  status         String        // e.g., "On-Time", "Delayed", "Cancelled"
+  HardSeatPrice  Float         // Price for Economy class
+  HardSleepPrice Float         // Price for Business class
   capacity       Int
   reservations   Reservation[]
   eTickets       ETicket[]
@@ -85,30 +85,27 @@ model Train {
 model Reservation {
   id                Int        @id @default(autoincrement())
   trainId           Int
-  ticketNo          Int
-  startStation      String // Starting station
-  endStation        String // Ending station
+  ticketNo          String
+  startStation      String      // Starting station
+  endStation        String      // Ending station
   departureDate     DateTime
   arrivalDate       DateTime
   dateOfReservation DateTime
   setNo             Int
   class             String
   status            String     @default("Pending") // Confirmed, Cancelled, Pending
-  referenceCode     String     @unique // A unique code for tracking
-  relatedTo         String // "PASSENGER" or "GUEST"
-  relatedId         Int // ID of the passenger or guest
+  referenceCode     String     @unique             // A unique code for tracking
+  userId            Int
+  user              User       @relation(fields: [userId], references: [id])
   train             Train      @relation(fields: [trainId], references: [id])
-  Passenger         Passenger? @relation(fields: [passengerId], references: [id])
-  passengerId       Int?
   Payment           Payment?
-
-  @@index([relatedTo, relatedId]) // Composite index for polymorphic relationship
+  
+  @@index([userId])
 }
-
 model ETicket {
   id              Int        @id @default(autoincrement())
-  ticketNo        Int        @unique
-  passengerId     Int? // Remove @unique to allow multiple E-Tickets for one Passenger
+  ticketNo        String     @unique
+  userId          Int
   trainId         Int
   setNo           Int
   class           String
@@ -117,12 +114,11 @@ model ETicket {
   ticketPrice     Int
   bookingInfo     String
   train           Train      @relation(fields: [trainId], references: [id])
-  passenger       Passenger? @relation(fields: [passengerId], references: [id])
+  user            User       @relation(fields: [userId], references: [id])
   payment         Payment?   @relation(fields: [paymentId], references: [id])
   paymentId       Int?
-  guestId         Int?
-  Guest           Guest?     @relation(fields: [guestId], references: [id])
 }
+
 
 model Payment {
   id                Int                @id @default(autoincrement())
@@ -145,10 +141,4 @@ model OnlineTransaction {
   date      DateTime
   paymentId Int      @unique
   payment   Payment  @relation(fields: [paymentId], references: [id])
-}
-
-enum Role {
-  Admin
-  CONDUCTOR
-  USER
 }

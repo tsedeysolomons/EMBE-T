@@ -1,50 +1,51 @@
+const { v4: uuidv4 } = require("uuid");
+
 const prisma = require("../../service/db");
 const { filterNotUndefined } = require("../../utiles");
 
 const createReservation = async (req, res) => {
   try {
     const {
-      trainId,
       passengerId,
-      ticketNo,
-      selectFromTo,
-      departureDate,
-      arrivalDate,
-      dateOfReservation,
+      trainId,
       setNo,
-      class: reservationClass,
-      status,
-      referenceCode,
+      classType: reservationClass,
     } = req.body;
 
-    if (
-      !trainId ||
-      !passengerId ||
-      !ticketNo ||
-      !selectFromTo ||
-      !departureDate ||
-      !arrivalDate ||
-      !dateOfReservation ||
-      !setNo ||
-      !reservationClass ||
-      !referenceCode
-    ) {
+    if (!trainId || !passengerId || !setNo || !reservationClass) {
       return res.status(400).send({ message: "All fields are required!" });
     }
+
+    // Check if the seat is already reserved
+    const existingReservation = await prisma.reservation.findFirst({
+      where: {
+        trainId: parseInt(trainId),
+        setNo: parseInt(setNo),
+      },
+    });
+
+    if (existingReservation) {
+      return res.status(400).send({ message: "Seat is already reserved!" });
+    }
+
+    const { startStation, endStation, departureDate, arrivalDate } =
+      await prisma.train.findUnique({
+        where: { id: parseInt(trainId) },
+      });
 
     const reservation = await prisma.reservation.create({
       data: {
         trainId,
-        passengerId,
-        ticketNo,
-        selectFromTo,
-        departureDate: new Date(departureDate),
-        arrivalDate: new Date(arrivalDate),
-        dateOfReservation: new Date(dateOfReservation),
+        ticketNo: uuidv4(),
+        userId: parseInt(passengerId),
+        startStation,
+        endStation,
+        departureDate,
+        arrivalDate,
+        dateOfReservation: new Date(),
         setNo,
         class: reservationClass,
-        status,
-        referenceCode,
+        referenceCode: uuidv4(),
       },
     });
 
@@ -90,7 +91,8 @@ const updateReservation = async (req, res) => {
       trainId,
       passengerId,
       ticketNo,
-      selectFromTo,
+      startStation,
+      endStation,
       departureDate,
       arrivalDate,
       dateOfReservation,
@@ -98,6 +100,8 @@ const updateReservation = async (req, res) => {
       class: reservationClass,
       status,
       referenceCode,
+      relatedTo,
+      relatedId,
     } = req.body;
 
     const reservation = await prisma.reservation.update({
@@ -107,7 +111,8 @@ const updateReservation = async (req, res) => {
           trainId,
           passengerId,
           ticketNo,
-          selectFromTo,
+          startStation,
+          endStation,
           departureDate: new Date(departureDate),
           arrivalDate: new Date(arrivalDate),
           dateOfReservation: new Date(dateOfReservation),
@@ -115,6 +120,8 @@ const updateReservation = async (req, res) => {
           class: reservationClass,
           status,
           referenceCode,
+          relatedTo,
+          relatedId,
         }),
       },
     });

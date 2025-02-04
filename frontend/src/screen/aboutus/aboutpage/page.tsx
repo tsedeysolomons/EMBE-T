@@ -1,12 +1,27 @@
-import {} from "@/asset";
-import { Button } from "@/components/ui/button";
+import dynamic from "next/dynamic";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+} from "../../../components/ui/card";
+import { Button } from "../../../components/ui/button";
+
+// Dynamically import MapComponent to avoid SSR issues
+const MapComponent = dynamic(() => import("./map-component"), {
+  ssr: false,
+  loading: () => (
+    <div className="h-[600px] w-full flex items-center justify-center bg-gray-100 rounded-lg">
+      Loading map...
+    </div>
+  ),
+});
 
 export default function About() {
   return (
     <div className="min-h-screen">
-      {/*video */}
+      {/* Video Background */}
       <div className="relative h-[400px] w-full overflow-hidden">
-        {/* Video Background */}
         <video
           autoPlay
           muted
@@ -15,16 +30,12 @@ export default function About() {
           className="absolute inset-0 h-full w-full object-cover"
         >
           <source
-            src="@/asset/image/video_2025-01-09_10-18-32"
+            src="/asset/image/video_2025-01-09_10-18-32.mp4"
             type="video/mp4"
           />
           Your browser does not support the video tag.
         </video>
-
-        {/* Overlay */}
         <div className="absolute inset-0 bg-black/40" />
-
-        {/* Content */}
         <div className="relative z-10 flex h-full items-center justify-center">
           <h1 className="text-6xl font-bold text-white md:text-8xl"></h1>
         </div>
@@ -35,7 +46,7 @@ export default function About() {
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
             <img
-              src="/placeholder.svg"
+              src="/placeholder.svg?height=60&width=120"
               alt="Emirates Logo"
               width={120}
               height={60}
@@ -62,9 +73,9 @@ export default function About() {
       {/* Hero Section */}
       <div className="relative h-[600px]">
         <img
-          src="/placeholder.svg"
+          src="/placeholder.svg?height=600&width=1200"
           alt="Coastal cityscape with beach"
-          className="object-cover"
+          className="object-cover w-full h-full"
         />
         <div className="absolute inset-0 bg-black bg-opacity-30">
           <div className="container mx-auto px-4 h-full flex flex-col justify-center items-center text-white">
@@ -90,6 +101,20 @@ export default function About() {
             shared travel benefits.
           </p>
         </div>
+      </div>
+
+      {/* Railway Map Section */}
+      <div className="container mx-auto px-4 py-16">
+        <Card className="w-full max-w-4xl mx-auto">
+          <CardHeader>
+            <CardTitle className="text-2xl font-bold text-center">
+              Ethiopia-Djibouti Railway Route
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <MapComponent />
+          </CardContent>
+        </Card>
       </div>
     </div>
   );

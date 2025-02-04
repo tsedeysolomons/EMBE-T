@@ -7,19 +7,22 @@ import {
   CardHeader,
   CardTitle,
   CardDescription,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+} from "../../components/ui/card";
+import { Button } from "../../components/ui/button";
+import { Input } from "../../components/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Collapsible, CollapsibleContent } from "@/components/ui/collapsible";
+} from "../../components/ui/select";
+import {
+  Collapsible,
+  CollapsibleContent,
+} from "../../components/ui/collapsible";
 import { useNavigate } from "react-router-dom";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "../../hooks/use-toast";
 import { selectCurrentToken } from "../auth/login/authSlice";
 import { useSelector } from "react-redux";
 import { useRegisterGustMutation } from "./bookApiSlice";
@@ -46,12 +49,14 @@ function PassengerDetails({ handleNext }: PassengerDetailsProps) {
   const dispatch = useDispatch();
   const [registerGust, { isLoading }] = useRegisterGustMutation();
   const { toast } = useToast();
+
   const token = useSelector(selectCurrentToken);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       const result = await registerGust({
+        type: "GUEST",
         title,
         firstName,
         middleName,
@@ -63,17 +68,11 @@ function PassengerDetails({ handleNext }: PassengerDetailsProps) {
       }).unwrap();
 
       if (result) {
+        console.log(result);
         dispatch(
           setUser({
             user: {
-              title,
-              firstName,
-              middleName,
-              lastName,
-              dateOfBirth: new Date().toISOString(),
-              country,
-              email,
-              phone: mobileNumber,
+              ...result?.user,
             },
           })
         );
@@ -89,16 +88,16 @@ function PassengerDetails({ handleNext }: PassengerDetailsProps) {
         setEmail("");
         setMobileNumber("");
       }
-    } catch (err: unknown) {
+    } catch (err: any) {
       console.error("Error submitting form:", err);
       let errorMessage = "An unexpected error occurred. Please try again.";
 
-      if (err.status === 400) {
+      if (err?.status === 400) {
         errorMessage = "Missing required fields. Please check your input.";
-      } else if (err.status === 401) {
+      } else if (err?.status === 401) {
         errorMessage = "Unauthorized. Please log in and try again.";
-      } else if (err.data && err.data.message) {
-        errorMessage = err.data.message;
+      } else if (err?.data && err?.data.message) {
+        errorMessage = err?.data.message;
       }
 
       toast({

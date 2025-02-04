@@ -4,9 +4,9 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+} from "../../components/ui/select";
+import { Input } from "../../components/ui/input";
+import { Button } from "../../components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import {
@@ -14,14 +14,14 @@ import {
   Tooltip,
   TooltipTrigger,
   TooltipContent,
-} from "@/components/ui/tooltip";
+} from "../../components/ui/tooltip";
 import { Info } from "lucide-react";
 
 const SearchTrain = () => {
   const [departure, setDeparture] = useState("");
   const [arrival, setArrival] = useState("");
   const [departureDate, setDepartureDate] = useState<string>("");
-  const [classType, setClassType] = useState("");
+  const [classType] = useState("");
   const navigate = useNavigate();
 
   const searchResult = () => {

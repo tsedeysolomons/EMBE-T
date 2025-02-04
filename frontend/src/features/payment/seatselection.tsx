@@ -1,10 +1,24 @@
 import { useState, useEffect } from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "../../components/ui/card";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "../../components/ui/tabs";
+import { Button } from "../../components/ui/button";
 import { useSelector } from "react-redux";
-import { selectTrain } from "../searchResult/searchSlice";
-import { useGetSeatNumbersQuery } from "./bookApiSlice";
+import {
+  selectClassType,
+  selectTrain,
+  setClassType,
+} from "../searchResult/searchSlice";
+import {
+  useCreateBookingMutation,
+  useGetSeatNumbersQuery,
+} from "./bookApiSlice";
+import { useDispatch } from "react-redux";
+import { selectUser, setReservationInfo } from "./bookSlice";
 
 interface Seat {
   id: number;
@@ -110,6 +124,14 @@ export default function SeatSelection({
   handleNext: (step: number) => void;
 }) {
   const { capacity, id } = useSelector(selectTrain);
+
+  const dispatch = useDispatch();
+  const classType = useSelector(selectClassType);
+
+  const user = useSelector(selectUser);
+
+ 
+
   const { data: seatData, error } = useGetSeatNumbersQuery(id);
 
   const [seats, setSeats] = useState<Seat[]>([]);
@@ -126,6 +148,10 @@ export default function SeatSelection({
       );
     }
   }, [capacity, seatData]);
+
+  useEffect(() => {
+    handleClassChange(selectedSeat! > 48 ? "HardSleep" : "HardSeat");
+  }, [selectedSeat]);
 
   const handleSeatClick = (clickedSeat: Seat) => {
     if (clickedSeat.isDisabled) return;
@@ -144,6 +170,33 @@ export default function SeatSelection({
 
   const hardSeats = seats.slice(0, 48);
   const hardSleepSeats = seats.slice(48);
+
+  const [createBooking, { isLoading }] = useCreateBookingMutation();
+
+  const handleClassChange = (classType: string) => {
+    dispatch(setClassType({ classType }));
+  };
+
+  const handleSubmit = async () => {
+    const newBooking = await createBooking({
+      newBooking: {
+        passengerId: String(user?.id),
+        trainId: id,
+        setNo: selectedSeat!,
+        classType,
+      },
+    });
+
+    if (newBooking) {
+      handleNext(4);
+
+      dispatch(
+        setReservationInfo({
+          reservation: newBooking,
+        })
+      );
+    }
+  };
 
   return (
     <div>
@@ -203,7 +256,7 @@ export default function SeatSelection({
         </Button>
         <Button
           className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white shadow-md"
-          onClick={() => handleNext(5)}
+          onClick={handleSubmit}
           disabled={!selectedSeat}
         >
           Go-To Pay

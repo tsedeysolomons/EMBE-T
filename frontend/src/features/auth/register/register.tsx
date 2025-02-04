@@ -1,20 +1,21 @@
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import React, { FormEvent, useEffect, useRef, useState } from "react";
+import { useState } from "react";
+import { Button } from "../../../components/ui/button";
+import { Input } from "../../../components/ui/input";
+import { Label } from "../../../components/ui/label";
+import React, { FormEvent, useEffect, useRef } from "react";
 import { useSignUpMutation } from "../login/authApiSlice";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { useToast } from "@/hooks/use-toast";
+import { ScrollArea } from "../../../components/ui/scroll-area";
+import { useToast } from "../../../hooks/use-toast";
 import {
   Popover,
   PopoverTrigger,
   PopoverContent,
-} from "@/components/ui/popover"; // Adjust the import path as necessary
+} from "../../../components/ui/popover"; // Adjust the import path as necessary
 //import { FormLabel, FormControl } from "@/components/ui/form"; // Adjust the import path as necessary
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import { format } from "date-fns";
-import { cn } from "@/lib/utils";
-import { Calendar } from "@/components/ui/calendar"; // Adjust the import path as necessary
+import { cn } from "../../../lib/utils";
+import { Calendar } from "../../../components/ui/calendar"; // Adjust the import path as necessary
 import {
   Select,
   SelectContent,
@@ -23,7 +24,7 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"; // Adjust the import path as necessary
+} from "../../../components/ui/select"; // Adjust the import path as necessary
 type SignUpProps = {
   switchPage: () => void;
 };

@@ -6,7 +6,7 @@ import { store } from "./app/index.ts";
 import { Provider } from "react-redux";
 
 import { BrowserRouter, Routes, Route } from "react-router";
-import { Toaster } from "@/components/ui/toaster";
+import { Toaster } from "./components/ui/toaster";
 import AppProvider from "./context/AppProvider.tsx";
 
 createRoot(document.getElementById("root")!).render(

@@ -1,5 +1,5 @@
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "../../components/ui/button";
+import { Card, CardContent } from "../../components/ui/card";
 
 import { Tag, Info } from "lucide-react";
 import TrainIcon from "@mui/icons-material/Train";

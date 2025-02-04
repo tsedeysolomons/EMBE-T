@@ -1,13 +1,13 @@
-import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "../../components/ui/card";
+import { Input } from "../../components/ui/input";
+import { Button } from "../../components/ui/button";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
-import SignIn from "@/features/auth/login/login-form.tsx";
+} from "../../components/ui/tooltip";
+import SignIn from "../../features/auth/login/login-form.tsx";
 import { useState } from "react";
 
 type TabsType = "login" | "Lastname"; // Define the TabsType

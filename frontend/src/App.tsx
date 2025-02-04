@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router";
 import Home from "./features/home/home";
-import About from "./screen/about";
+import About from "./screen/aboutus/aboutpage/page";
 import RequireAuth from "./features/auth/login/require-auth";
 import MainLayout from "./layout/main-layout";
 import Footer from "./components/footer";
@@ -16,7 +16,9 @@ import PaymentReview from "./features/payment/Paymentggetway";
 //import SeatSelection from "./features/payment/seatselection"; // Adjust the path as necessary
 import ETicket from "./screen/eticket";
 import PersistLogin from "./features/auth/login/PersistLogin";
-//import ManageBookingPage from "./screen/managebooking";
+import ManageBooking from "./screen/managebooking";
+import Contact from "./screen/contactus/contactas";
+import './index.css';
 
 // Adjust the path as necessary
 //import AppProvider from "./context/AppProvider";
@@ -29,13 +31,15 @@ const App = () => {
         <Route index element={<Footer />} />
         <Route element={<PersistLogin />}>
           <Route element={<RequireAuth />}></Route>
+          {/* <Route path="manage-booking" element={<ManageBooking />} /> */}
         </Route>
 
         <Route path="/trainavalability" element={<SearchTrainAvalability />} />
         <Route path="/BookingHistory" element={<BookingHistory />} />
         <Route path="/about" element={<About />} />
       </Route>
-      {/* <Route path="/ManageBookingPage" element={<ManageBookingPage />} /> */}
+      <Route path="/manage-booking" element={<ManageBooking />} />
+      <Route path="/contactus" element={<Contact />} />
       <Route path="/PaymentReview/:trainId" element={<PaymentReview />} />
       <Route path="/TrainDetails" element={<TrainDetails />} />
       <Route path="/SearchApiSlice" element={<SearchApiSlice />} />

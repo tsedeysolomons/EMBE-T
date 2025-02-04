@@ -1,11 +1,13 @@
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import { Button } from "../../components/ui/button";
+import { Card } from "../../components/ui/card";
 import { Check } from "lucide-react";
 import { useState } from "react";
 import TrainIcon from "@mui/icons-material/Train";
 import { selectClassType } from "../searchResult/searchSlice";
 import { useSelector } from "react-redux";
 import { Train } from "./types";
+import { useInitiatPaymentMutation } from "./bookApiSlice";
+import { selectUser } from "./bookSlice";
 
 export default function ConfirmationPage({
   handleNext,
@@ -23,6 +25,8 @@ export default function ConfirmationPage({
   };
 
   const clasType = useSelector(selectClassType);
+
+  const user = useSelector(selectUser);
   /*
   const handlePayment = () => {
     const chapa = new.chapa({
@@ -45,6 +49,27 @@ export default function ConfirmationPage({
     });
   };
 */
+
+  const priceAmount =
+    clasType === "HardSleep"
+      ? train?.HardSleepPrice.toFixed(2)
+      : train?.HardSeatPrice.toFixed(2);
+
+  const [initiatPayment, { isLoading }] = useInitiatPaymentMutation();
+
+  const handlePayment = async () => {
+    const url = await initiatPayment({
+      newBookingInfo: {
+        amount: parseFloat(priceAmount),
+        currency: "ETB",
+        email: user?.email,
+        firstName: user?.firstName,
+        lastName: user?.lastName,
+        callbackUrl: window.location.href,
+      },
+    });
+  };
+
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
@@ -164,13 +189,14 @@ export default function ConfirmationPage({
                 <span className="text-gray-700">ETB</span>
                 <span className="text-md font-semibold">
                   <div className="text-xl text-green-500 font-semibold">
-                    {clasType === "HardSleep"
-                      ? train?.HardSleepPrice.toFixed(2)
-                      : train?.HardSeatPrice.toFixed(2)}
+                    {priceAmount}
                   </div>
                 </span>
               </div>
-              <Button className="bg-red-500 hover:bg-red-700 text-white  text-md h-auto">
+              <Button
+                onClick={handlePayment}
+                className="bg-red-500 hover:bg-red-700 text-white  text-md h-auto"
+              >
                 Pay now with Chapa <TrainIcon className="ml-2" />
               </Button>
             </div>

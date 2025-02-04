@@ -1,10 +1,10 @@
 import { Luggage, CreditCard, Building2 } from "lucide-react";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader } from "../../components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../components/ui/tabs";
+import { Button } from "../../components/ui/button";
 //import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "../../components/ui/label";
+import { Checkbox } from "../../components/ui/checkbox";
 import TrainIcon from "@mui/icons-material/Train";
 import { Train } from "./types";
 import { useSelector } from "react-redux";

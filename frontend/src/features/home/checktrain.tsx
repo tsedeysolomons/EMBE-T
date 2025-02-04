@@ -2,12 +2,16 @@ import {
   CalendarIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
-  LuggageIcon,
   PlaneIcon,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Button } from "../../components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "../../components/ui/card";
+import { Tabs, TabsList, TabsTrigger } from "../../components/ui/tabs";
 
 export default function Payment() {
   return (

@@ -131,6 +131,7 @@ model Payment {
   reservation       Reservation        @relation(fields: [reservationId], references: [id])
   onlineTransaction OnlineTransaction?
   ETicket           ETicket[]
+  tx_ref            String
 }
 
 model OnlineTransaction {

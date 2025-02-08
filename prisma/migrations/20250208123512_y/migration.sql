@@ -113,6 +113,7 @@ CREATE TABLE `Payment` (
     `currency` VARCHAR(191) NOT NULL DEFAULT 'ETB',
     `status` VARCHAR(191) NOT NULL,
     `reservationId` INTEGER NOT NULL,
+    `tx_ref` VARCHAR(191) NOT NULL,
 
     UNIQUE INDEX `Payment_reservationId_key`(`reservationId`),
     PRIMARY KEY (`id`)

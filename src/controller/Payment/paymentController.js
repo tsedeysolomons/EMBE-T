@@ -6,34 +6,30 @@ const { v4: uuidv4 } = require("uuid");
 
 const initiatePayment = async (req, res) => {
   try {
-    const { amount, currency, email, firstName, lastName, callbackUrl } =
-      req.body;
+    const {
+      amount,
+      currency,
+      email,
+      firstName,
+      lastName,
+      callbackUrl,
+      reservationId,
+    } = req.body;
 
     // Replace with your Chapa public key
     const publicKey = process.env.CHAPA_SECRET_KEY;
 
-    // const response = await axios.post(
-    //   "https://api.chapa.co/v1/transaction/initialize",
-    //   {
-    //     amount,
-    //     currency,
-    //     email,
-    //     first_name: firstName,
-    //     last_name: lastName,
-    //     tx_ref: "TX_REF_" + Date.now(),
-    //     callback_url: callbackUrl,
-    //     customization: {
-    //       title: "ETMBET",
-    //       description: "Payment for train ticket",
-    //       logo: "https://www.chinadaily.com.cn/world/images/attachement/jpg/site1/20161005/eca86bd9d543195e77c102.jpg", // Replace with your logo URL
-    //     },
-    //   },
-    //   {
-    //     headers: {
-    //       Authorization: `Bearer ${publicKey}`,
-    //     },
-    //   }
-    // );
+    if (
+      !amount ||
+      !currency ||
+      !email ||
+      !firstName ||
+      !lastName ||
+      !reservationId
+    )
+      return res.status(400).send({ message: "All fields are required!" });
+
+    const tx_ref = "TX_REF_" + uuidv4();
 
     const response = await fetch(
       "https://api.chapa.co/v1/transaction/initialize",
@@ -50,7 +46,7 @@ const initiatePayment = async (req, res) => {
           firstName,
           lastName,
           callbackUrl,
-          tx_ref: "TX_REF_" + uuidv4(),
+          tx_ref,
           customization: {
             title: "ETMBET",
             description: "Payment for train ticket",
@@ -63,6 +59,18 @@ const initiatePayment = async (req, res) => {
     const data = await response.json();
 
     if (response.ok) {
+      const payment = await prisma.payment.create({
+        data: {
+          paymentType: "online",
+          paymentAmount: amount,
+          paymentDate: new Date(),
+          currency,
+          status: "pending",
+          reservationId,
+          tx_ref,
+        },
+      });
+
       res.status(200).json(data);
     } else {
       res.status(response.status).json(data);

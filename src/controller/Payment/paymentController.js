@@ -46,6 +46,7 @@ const initiatePayment = async (req, res) => {
           firstName,
           lastName,
           callbackUrl,
+          return_url: "http://localhost:5173/ETicket",
           tx_ref,
           customization: {
             title: "ETMBET",
@@ -202,6 +203,31 @@ const deletePayment = async (req, res) => {
     res.status(500).send(error.message);
   }
 };
+
+const varifiedPayment = async (req, res) => {
+  try {
+    const { tx_ref } = req.body;
+
+    const payment = await prisma.payment.findUnique({
+      where: { tx_ref: tx_ref },
+    });
+
+    const updatePayment = await prisma.payment.update({
+      where: { tx_ref: tx_ref },
+      data: {
+        status: "success",
+      },
+    });
+
+    if (!payment) {
+      return res.status(404).send({ message: "Payment not found!" });
+    }
+
+    res.status(200).json(payment);
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+}
 
 module.exports = {
   createPayment,

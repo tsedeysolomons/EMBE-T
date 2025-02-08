@@ -1,8 +1,16 @@
 const paymentWebhook = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { tx_ref } = req.body;
+
     const payment = await prisma.payment.findUnique({
-      where: { id: parseInt(id) },
+      where: { tx_ref: tx_ref },
+    });
+
+    const updatePayment = await prisma.payment.update({
+      where: { tx_ref: tx_ref },
+      data: {
+        status: "success",
+      },
     });
 
     if (!payment) {
@@ -13,4 +21,8 @@ const paymentWebhook = async (req, res) => {
   } catch (error) {
     res.status(500).send(error.message);
   }
+};
+
+module.exports = {
+  paymentWebhook,
 };

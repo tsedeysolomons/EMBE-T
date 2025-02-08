@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const bookSlice = createSlice({
   name: "book",
-  initialState: { seatNo: "", user: {}, reservationInfo: {} },
+  initialState: { seatNo: "", user: {}, reservationInfo: {} , paymentDetels: {}},
   reducers: {
     setSeatNo: (state, action) => {
       const { seatNo } = action.payload;

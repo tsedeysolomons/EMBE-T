@@ -7,7 +7,7 @@ import { selectClassType } from "../searchResult/searchSlice";
 import { useSelector } from "react-redux";
 import { Train } from "./types";
 import { useInitiatPaymentMutation } from "./bookApiSlice";
-import { selectUser } from "./bookSlice";
+import { selecReservation, selectUser } from "./bookSlice";
 
 export default function ConfirmationPage({
   handleNext,
@@ -26,7 +26,14 @@ export default function ConfirmationPage({
 
   const clasType = useSelector(selectClassType);
 
+  const reservation = useSelector(selecReservation);
+
   const user = useSelector(selectUser);
+
+  const handlRedirctToChapa = (checkOutUrl: string) => {
+    window.location.href = checkOutUrl;
+  };
+
   /*
   const handlePayment = () => {
     const chapa = new.chapa({
@@ -66,8 +73,10 @@ export default function ConfirmationPage({
         firstName: user?.firstName,
         lastName: user?.lastName,
         callbackUrl: window.location.href,
+        reservationId: reservation.id,
       },
     });
+    if (url?.data) handlRedirctToChapa(url?.data?.data?.checkout_url);
   };
 
   return (

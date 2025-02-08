@@ -130,8 +130,6 @@ export default function SeatSelection({
 
   const user = useSelector(selectUser);
 
- 
-
   const { data: seatData, error } = useGetSeatNumbersQuery(id);
 
   const [seats, setSeats] = useState<Seat[]>([]);
@@ -188,7 +186,7 @@ export default function SeatSelection({
     });
 
     if (newBooking) {
-      handleNext(4);
+      handleNext(5);
 
       dispatch(
         setReservationInfo({

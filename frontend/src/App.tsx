@@ -19,6 +19,7 @@ import PersistLogin from "./features/auth/login/PersistLogin";
 import ManageBooking from "./screen/managebooking";
 import Contact from "./screen/contactus/contactas";
 import './index.css';
+import Viewhistory from "./screen/viewhistory";
 
 // Adjust the path as necessary
 //import AppProvider from "./context/AppProvider";
@@ -37,6 +38,7 @@ const App = () => {
         <Route path="/trainavalability" element={<SearchTrainAvalability />} />
         <Route path="/BookingHistory" element={<BookingHistory />} />
         <Route path="/about" element={<About />} />
+        <Route path="/viewhistory" element={< Viewhistory/>} />
       </Route>
       <Route path="/manage-booking" element={<ManageBooking />} />
       <Route path="/contactus" element={<Contact />} />

@@ -6,7 +6,7 @@ import {
   CardContent,
 } from "../../../components/ui/card";
 import { Button } from "../../../components/ui/button";
-
+import video from "../../../asset/image/trainvideo.mp4";
 // Dynamically import MapComponent to avoid SSR issues
 const MapComponent = dynamic(() => import("./map-component"), {
   ssr: false,
@@ -29,10 +29,7 @@ export default function About() {
           playsInline
           className="absolute inset-0 h-full w-full object-cover"
         >
-          <source
-            src="/asset/image/video_2025-01-09_10-18-32.mp4"
-            type="video/mp4"
-          />
+          <source src={video} type="video/mp4" />
           Your browser does not support the video tag.
         </video>
         <div className="absolute inset-0 bg-black/40" />

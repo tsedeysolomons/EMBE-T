@@ -19,7 +19,7 @@ interface NewBookingInfo {
   firstName: string;
   lastName: string;
   callbackUrl: string;
-  reservationId: number;
+  reservationId: string;
 }
 
 interface NewBooking {

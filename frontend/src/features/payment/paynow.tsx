@@ -26,12 +26,16 @@ export default function ConfirmationPage({
 
   const clasType = useSelector(selectClassType);
 
-  const reservation = useSelector(selecReservation);
+  const {
+    data: { reservation },
+  } = useSelector(selecReservation);
+
+  console.log(reservation);
 
   const user = useSelector(selectUser);
 
   const handlRedirctToChapa = (checkOutUrl: string) => {
-    window.location.href = checkOutUrl;
+    window.open(checkOutUrl, "_blank");
   };
 
   /*
@@ -73,6 +77,7 @@ export default function ConfirmationPage({
         firstName: user?.firstName,
         lastName: user?.lastName,
         callbackUrl: window.location.href,
+        returnUrl: "http://localhost:3000/eTicket",
         reservationId: reservation.id,
       },
     });

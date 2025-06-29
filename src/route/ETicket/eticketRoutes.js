@@ -12,5 +12,6 @@ router.get("/", getETickets);
 router.get("/:id", getETicketById);
 router.put("/:id", updateETicket);
 router.delete("/:id", deleteETicket);
+router.delete("/:${reservationId}", deleteETicket);
 
 module.exports = router;

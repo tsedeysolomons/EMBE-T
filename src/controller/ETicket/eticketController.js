@@ -3,22 +3,46 @@ const { filterNotUndefined } = require("../../utiles");
 
 const createETicket = async (req, res) => {
   try {
+    const { reservationId } = req.body;
+
+    if (!reservationId) {
+      return res.status(400).send({ message: "Reservation ID is required!" });
+    }
+
+    const reservationExist = await prisma.reservation.findUnique({
+      where: {
+        id: parseInt(reservationId),
+      },
+    });
+
+    const paymentExist = await prisma.payment.findUnique({
+      where: {
+        reservationId: parseInt(reservationId),
+      },
+    });
+
+    if (!reservationExist || !paymentExist) {
+      return res
+        .status(404)
+        .send({ message: "Reservation or Payment not found!" });
+    }
+
     const {
       ticketNo,
-      passengerId,
+      userId,
       trainId,
       setNo,
       class: ticketClass,
-      journeyDate,
-      departureStatus,
-      ticketPrice,
-      bookingInfo,
-      paymentId,
-    } = req.body;
+      departureDate: journeyDate,
+      status: departureStatus,
+      paymentAmount: ticketPrice,
+    } = { ...reservationExist, ...paymentExist };
+
+    const bookingInfo = `Reservation ID: ${reservationId}, Train ID: ${trainId}, Seat No: ${setNo}, Class: ${ticketClass}`;
 
     if (
       !ticketNo ||
-      !passengerId ||
+      !userId ||
       !trainId ||
       !setNo ||
       !ticketClass ||
@@ -42,15 +66,15 @@ const createETicket = async (req, res) => {
 
     const eticketData = filterNotUndefined({
       ticketNo,
-      passengerId,
+      userId,
       trainId,
       setNo,
       class: ticketClass,
-      journeyDate: new Date(journeyDate),
+      journeyDate,
       departureStatus,
       ticketPrice,
       bookingInfo,
-      paymentId,
+      paymentId: paymentExist.id,
     });
 
     const eticket = await prisma.eTicket.create({
@@ -60,7 +84,7 @@ const createETicket = async (req, res) => {
     });
 
     res.status(201).json({ message: "ETicket created successfully", eticket });
-    consle.log("ETicket created successfully");
+    console.log("ETicket created successfully");
   } catch (error) {
     console.error(`Error creating E-Ticket: ${error.message}`);
     res.status(500).send({ message: error.message });
@@ -100,7 +124,7 @@ const updateETicket = async (req, res) => {
     const { id } = req.params;
     const {
       ticketNo,
-      passengerId,
+      userId,
       trainId,
       setNo,
       class: ticketClass,
@@ -123,7 +147,7 @@ const updateETicket = async (req, res) => {
     // Merge existing values with new values (prioritize new values if provided)
     const updatedData = {
       ticketNo: ticketNo ?? existingETicket.ticketNo,
-      passengerId: passengerId ?? existingETicket.passengerId,
+      userId: userId ?? existingETicket.userId,
       trainId: trainId ?? existingETicket.trainId,
       setNo: setNo ?? existingETicket.setNo,
       class: ticketClass ?? existingETicket.class,
@@ -150,6 +174,7 @@ const updateETicket = async (req, res) => {
     res.status(500).send({ message: error.message });
   }
 };
+
 const deleteETicket = async (req, res) => {
   try {
     const { id } = req.params;

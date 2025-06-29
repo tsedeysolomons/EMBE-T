@@ -8,6 +8,7 @@ const initiatePayment = async (req, res) => {
   try {
     const {
       amount,
+      returnUrl,
       currency,
       email,
       firstName,
@@ -21,6 +22,7 @@ const initiatePayment = async (req, res) => {
 
     if (
       !amount ||
+      !returnUrl ||
       !currency ||
       !email ||
       !firstName ||
@@ -46,7 +48,7 @@ const initiatePayment = async (req, res) => {
           firstName,
           lastName,
           callbackUrl,
-          return_url: "http://localhost:5173/ETicket",
+          return_url: returnUrl,
           tx_ref,
           customization: {
             title: "ETMBET",
@@ -66,7 +68,7 @@ const initiatePayment = async (req, res) => {
           paymentAmount: amount,
           paymentDate: new Date(),
           currency,
-          status: "pending",
+          status: "Complited",
           reservationId,
           tx_ref,
         },
@@ -227,7 +229,7 @@ const varifiedPayment = async (req, res) => {
   } catch (error) {
     res.status(500).send(error.message);
   }
-}
+};
 
 module.exports = {
   createPayment,

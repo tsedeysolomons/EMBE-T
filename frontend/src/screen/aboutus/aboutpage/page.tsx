@@ -27,7 +27,7 @@ export default function About() {
           muted
           loop
           playsInline
-          className="absolute inset-0 h-full w-full object-cover"
+          className="absolute inset-0 h-96 w-full object-cover"
         >
           <source src={video} type="video/mp4" />
           Your browser does not support the video tag.

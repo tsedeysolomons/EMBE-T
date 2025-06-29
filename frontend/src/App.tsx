@@ -18,7 +18,7 @@ import ETicket from "./screen/eticket";
 import PersistLogin from "./features/auth/login/PersistLogin";
 import ManageBooking from "./screen/managebooking";
 import Contact from "./screen/contactus/contactas";
-import './index.css';
+import "./index.css";
 import Viewhistory from "./screen/viewhistory";
 
 // Adjust the path as necessary
@@ -38,7 +38,7 @@ const App = () => {
         <Route path="/trainavalability" element={<SearchTrainAvalability />} />
         <Route path="/BookingHistory" element={<BookingHistory />} />
         <Route path="/about" element={<About />} />
-        <Route path="/viewhistory" element={< Viewhistory/>} />
+        <Route path="/viewhistory" element={<Viewhistory />} />
       </Route>
       <Route path="/manage-booking" element={<ManageBooking />} />
       <Route path="/contactus" element={<Contact />} />
@@ -46,24 +46,7 @@ const App = () => {
       <Route path="/TrainDetails" element={<TrainDetails />} />
       <Route path="/SearchApiSlice" element={<SearchApiSlice />} />
 
-      <Route
-        path="/ETicket"
-        element={
-          <ETicket
-            ticketNo={0}
-            passengerId={0}
-            trainId={0}
-            setNo={0}
-            class={""}
-            journeyDate={new Date()}
-            departureStatus={""}
-            ticketPrice={0}
-            passenger={{
-              name: "",
-            }}
-          />
-        }
-      />
+      <Route path="/:reservationId/ETicket" element={<ETicket />} />
     </Routes>
   );
 };

@@ -7,7 +7,12 @@ import { selectClassType } from "../searchResult/searchSlice";
 import { useSelector } from "react-redux";
 import { Train } from "./types";
 import { useInitiatPaymentMutation } from "./bookApiSlice";
-import { selecReservation, selectUser } from "./bookSlice";
+import {
+  selecReservation,
+  selectPaymentDetails,
+  selectUser,
+  setPaymentDetails,
+} from "./bookSlice";
 
 export default function ConfirmationPage({
   handleNext,
@@ -68,20 +73,30 @@ export default function ConfirmationPage({
 
   const [initiatPayment, { isLoading }] = useInitiatPaymentMutation();
 
-  const handlePayment = async () => {
-    const url = await initiatPayment({
-      newBookingInfo: {
-        amount: parseFloat(priceAmount),
-        currency: "ETB",
-        email: user?.email,
-        firstName: user?.firstName,
-        lastName: user?.lastName,
-        callbackUrl: window.location.href,
-        returnUrl: "http://localhost:3000/eTicket",
-        reservationId: reservation.id,
-      },
-    });
-    if (url?.data) handlRedirctToChapa(url?.data?.data?.checkout_url);
+  const paymentDetails = useSelector(selectPaymentDetails);
+
+  const handlePayment = async (): Promise<void> => {
+    if (!paymentDetails.checkout_url) {
+      const url: { data: { data: { checkout_url: string } } } =
+        await initiatPayment({
+          newBookingInfo: {
+            amount: parseFloat(priceAmount),
+            currency: "ETB",
+            email: user?.email,
+            firstName: user?.firstName,
+            lastName: user?.lastName,
+            callbackUrl: window.location.href,
+            returnUrl: `http://localhost:5173/${reservation.id}/eTicket`,
+            reservationId: reservation.id,
+          },
+        });
+
+      setPaymentDetails(url?.data?.data);
+
+      if (url?.data) handlRedirctToChapa(url?.data?.data?.checkout_url);
+    }
+
+    handlRedirctToChapa(paymentDetails?.checkout_url);
   };
 
   return (

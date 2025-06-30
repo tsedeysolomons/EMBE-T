@@ -1,6 +1,7 @@
 import HroMenu from "./heroMenu";
 import { Card, CardContent } from "../../components/ui/card";
 import { Button } from "../../components/ui/button";
+// import { Image } from "react-feather";
 
 interface Destination {
   city: string;
@@ -45,12 +46,12 @@ interface CircleItem {
 const defaultItems: CircleItem[] = [
   {
     title: "Our business",
-    image: "/asset/image/train2.png",
+    image: "train2.png",
     href: "/business",
   },
   {
     title: "Our planet",
-    image: "/asset/image/train2.png",
+    image: "/asset/image/train1.png",
     href: "/planet",
   },
   {
@@ -73,8 +74,8 @@ const Home = () => {
           {/* Hero Image */}
           <div className="relative border border-red-900">
             <img
-              src="/asset/image/train2.png" // Direct path from public folder
-              alt="Description of the image"
+              src="https://ethiopianmonitor.com/wp-content/uploads/2020/09/91533788_hi035499568-800x445.jpg"
+              alt="Description of the imagess"
               className="object-cover w-full h-[400px]"
             />
             {/* Caption Section */}
@@ -85,8 +86,10 @@ const Home = () => {
               </p>
             </div>
 
-            <div className="absolute left-1/2 transform -translate-x-1/2 -bottom-1/2 z-50">
-              <HroMenu />
+            <div className="bg-white rounded-lg shadow-md max-w-4xl mx-auto p-6 z-10 relative">
+              <div className="flex flex-wrap border-b pb-4 gap-4 text-sm font-semibold text-gray-700">
+                <HroMenu />
+              </div>
             </div>
           </div>
 

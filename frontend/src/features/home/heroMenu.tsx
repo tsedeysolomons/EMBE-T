@@ -14,8 +14,8 @@ export default function Search() {
   const [tabs, setTabs] = useState<TabsType>("search");
 
   return (
-    <div className="bg-white rounded-lg shadow-md max-w-4xl mx-auto p-6 z-10 relative">
-      <div className="flex flex-wrap border-b pb-4 gap-4 text-sm font-semibold text-gray-700">
+    <div className="ml-36 left-64 mx-auto p-10 z-10 relative w-full max-w-none">
+      <div className="flex flex-wrap  text-sm font-semibold text-gray-700">
         <Card className="border-none shadow-lg">
           <CardContent className="p-6 border-2 border-red-">
             {/* Navigation Tabs */}

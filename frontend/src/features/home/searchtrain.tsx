@@ -1,3 +1,4 @@
+// Import components and hooks
 import {
   Select,
   SelectContent,
@@ -18,12 +19,14 @@ import {
 import { Info } from "lucide-react";
 
 const SearchTrain = () => {
+  // State management for form fields
   const [departure, setDeparture] = useState("");
   const [arrival, setArrival] = useState("");
   const [departureDate, setDepartureDate] = useState<string>("");
   const [classType] = useState("");
   const navigate = useNavigate();
 
+  // Handle search button click
   const searchResult = () => {
     navigate(
       `/TrainAvalability?departure=${departure}&arrival=${arrival}&departureDate=${departureDate}&classType=${classType}`
@@ -31,17 +34,18 @@ const SearchTrain = () => {
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Departure Station */}
-        <div className="space-y-2">
-          <label className="text-sm font-medium">Departure TrainRide</label>
-          <Select
-            defaultValue={departure}
-            onValueChange={(e) => setDeparture(e)}
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="" />
+    // Main container with wider width and padding
+    <div className="pl-6 w-full max-w-none  mx-auto bg-white  ml-2 mr-4">
+      {/* Form layout using horizontal flex with spacing */}
+      <div className="flex flex-wrap gap-6 items-end justify-between">
+        {/* Departure */}
+        <div className="flex items-center space-x-2 w-[18%]">
+          <label className="text-sm font-medium text-gray-700 whitespace-nowrap">
+            Departure
+          </label>
+          <Select value={departure} onValueChange={(e) => setDeparture(e)}>
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Select" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="Addis Ababa">Addis Ababa</SelectItem>
@@ -51,82 +55,78 @@ const SearchTrain = () => {
               <SelectItem value="Dire Dawa">Dire Dawa</SelectItem>
               <SelectItem value="Dewele">Dewele</SelectItem>
               <SelectItem value="Ali Sabieh">Ali Sabieh</SelectItem>
-              <SelectItem value="Djibouti">Djibouti(Nagad)</SelectItem>
+              <SelectItem value="Djibouti">Djibouti (Nagad)</SelectItem>
             </SelectContent>
           </Select>
         </div>
 
-        {/* Arrival Station */}
-        <div className="space-y-2">
-          <label className="text-sm font-medium">Arrival TrainRide</label>
-          <Select defaultValue={arrival} onValueChange={(e) => setArrival(e)}>
-            <SelectTrigger>
-              <SelectValue />
+        {/* Arrival */}
+        <div className="flex items-center space-x-5 w-[18%]">
+          <label className="text-sm font-medium text-gray-700 whitespace-nowrap">
+            Arrival
+          </label>
+          <Select value={arrival} onValueChange={(e) => setArrival(e)}>
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Select" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="Addis Ababa">Addiss Ababa</SelectItem>
+              <SelectItem value="Addis Ababa">Addis Ababa</SelectItem>
               <SelectItem value="Modjo">Modjo</SelectItem>
               <SelectItem value="Adama">Adama</SelectItem>
               <SelectItem value="Awash">Awash</SelectItem>
               <SelectItem value="Dire Dawa">Dire Dawa</SelectItem>
               <SelectItem value="Dewele">Dewele</SelectItem>
               <SelectItem value="Ali Sabieh">Ali Sabieh</SelectItem>
-              <SelectItem value="Djibouti">Djibouti(Nagad)</SelectItem>
+              <SelectItem value="Djibouti">Djibouti (Nagad)</SelectItem>
             </SelectContent>
           </Select>
         </div>
 
-        {/* Date Selection */}
-        <div className="space-y-2 md:col-span-2">
-          <div className="flex items-center justify-between">
-            <label className="text-sm font-medium">
-              Travel dates and times
-            </label>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Input
-              type="date"
-              placeholder="Departing Date"
-              onChange={(e) => setDepartureDate(e.target.value)}
-              value={departureDate}
-            />
-            <Input type="date" placeholder="Returning Date" />
-          </div>
+        {/* Travel Dates */}
+        <div className="flex items-center space-x-2 w-[18%]">
+          <label className="text-sm font-medium text-gray-700 whitespace-nowrap">
+            Travel Date
+          </label>
+          <Input
+            type="date"
+            value={departureDate}
+            onChange={(e) => setDepartureDate(e.target.value)}
+            className="w-full"
+          />
         </div>
 
-        {/* Passengers section with tooltip */}
-        <div className="space-y-2">
-          <div className="flex items-start gap-2">
-            <label className="text-sm font-medium">Passengers</label>
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <button className="inline-flex items-center justify-center rounded-full border border-input bg-background hover:bg-accent hover:text-accent-foreground h-6 w-6">
-                    <Info className="h-4 w-4" />
-                    <span className="sr-only">Passenger Information</span>
-                  </button>
-                </TooltipTrigger>
-                <TooltipContent className="w-[350px] p-4" side="bottom">
-                  <div className="space-y-4 text-sm">
-                    <p>
-                      - You can book a maximum of one passenger per reservation.
-                    </p>
-                    <p>
-                      This applies to all adults, children, and infants.{""}
-                      Each adult passenger may bring one infant. Children
-                      traveling alone, or in a different cabin class than their
-                      parents, are considered Unaccompanied Minors and are
-                      subject to the full adult fare. Please contact us to
-                      arrange this service.
-                    </p>
-                  </div>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          </div>
+        {/* Return Date (Optional) */}
+        <div className="flex items-center space-x-2 w-[18%]">
+          <label className="text-sm font-medium text-gray-700 whitespace-nowrap">
+            Return
+          </label>
+          <Input type="date" className="w-full" />
+        </div>
+
+        {/* Passengers with Tooltip */}
+        <div className="flex items-center space-x-2 w-[18%]">
+          <label className="text-sm font-medium text-gray-700 whitespace-nowrap">
+            Passengers
+          </label>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <button className="inline-flex items-center justify-center rounded-full border border-gray-300 bg-white hover:bg-gray-100 h-6 w-6">
+                  <Info className="h-4 w-4" />
+                  <span className="sr-only">Passenger Info</span>
+                </button>
+              </TooltipTrigger>
+              <TooltipContent className="w-[300px] p-4" side="bottom">
+                <p className="text-sm">
+                  - Max one passenger per booking. Each adult may bring one
+                  infant. Contact support for unaccompanied minors.
+                </p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
           <Select defaultValue="1">
-            <SelectTrigger>
-              <SelectValue placeholder="Select passengers" />
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Select" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="1">1 Passenger</SelectItem>
@@ -134,10 +134,10 @@ const SearchTrain = () => {
           </Select>
         </div>
 
-        {/* Search Button - Full width on mobile, half width on desktop */}
-        <div className="md:col-span-2">
+        {/* Search Button aligned to bottom */}
+        <div className="w-full md:w-auto mt-4">
           <Button
-            className="w-full bg-red-600 hover:bg-red-700 text-white h-11 text-base"
+            className="w-56 bg-red-600 hover:bg-red-700 text-white h-11 text-base"
             onClick={searchResult}
           >
             Search Train

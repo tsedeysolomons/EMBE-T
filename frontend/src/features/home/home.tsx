@@ -72,28 +72,41 @@ const Home = () => {
       <div>
         <div>
           {/* Hero Image */}
-          <div className="relative border border-red-900">
+          <div className="relative border border-red-900 ">
             <img
               src="https://ethiopianmonitor.com/wp-content/uploads/2020/09/91533788_hi035499568-800x445.jpg"
               alt="Description of the imagess"
               className="object-cover w-full h-[400px]"
             />
-            {/* Caption Section */}
-            <div className="px-4 text-lg text-white bottom-6 absolute top-1/2 left-[5%]">
-              <p>
+            {/* Overlay Text (Visible and Centered) */}
+            <div className="absolute top-10 left-1/2 transform -translate-x-1/2 z-20 text-center">
+              <p
+                className="text-white px-6 py-3 rounded-lg shadow-md"
+                style={{
+                  fontSize: "40px",
+                  fontWeight: "bold",
+                  fontStyle: "italic",
+                  fontFamily: "Georgia, 'Times New Roman', serif",
+                  lineHeight: 1.1,
+                  letterSpacing: "0.05em",
+                  marginTop: "20px",
+                  marginBottom: "20px",
+                }}
+              >
                 Do you want to get notified when a new component is added to
                 Flowbite?
               </p>
             </div>
+            {/* Menu Section */}
 
-            <div className="bg-white rounded-lg shadow-md max-w-4xl mx-auto p-6 z-10 relative">
-              <div className="flex flex-wrap border-b pb-4 gap-4 text-sm font-semibold text-gray-700">
+            <div className=" mr-4 ml-96 w-full max-w-none mx-auto p-6 z-10 relative top-1/2 transform -translate-x-1/2 -translate-y-1/2 min-h-unset">
+              <div className="flex flex-wrap gap-2 text-sm font-semibold text-gray-700 ">
                 <HroMenu />
               </div>
             </div>
           </div>
 
-          <div className="container mx-auto px-4 py-8">
+          <div className="container mx-auto px-4 ">
             <h1 className="text-3xl font-semibold text-center mb-8">
               Featured destinations from{" "}
               <span className="font-bold">Ethiopia</span>

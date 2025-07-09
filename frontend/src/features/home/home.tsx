@@ -72,7 +72,7 @@ const Home = () => {
       <div>
         <div>
           {/* Hero Image */}
-          <div className="relative border border-red-900 ">
+          <div className="relative mx-auto">
             <img
               src="https://ethiopianmonitor.com/wp-content/uploads/2020/09/91533788_hi035499568-800x445.jpg"
               alt="Description of the imagess"
@@ -99,15 +99,15 @@ const Home = () => {
             </div>
             {/* Menu Section */}
 
-            <div className=" mr-4 ml-96 w-full max-w-none mx-auto p-6 z-10 relative top-1/2 transform -translate-x-1/2 -translate-y-1/2 min-h-unset">
-              <div className="flex flex-wrap gap-2 text-sm font-semibold text-gray-700 ">
+            <div className=" mr-4 ml-96 w-full max-w-none p-6 pb-2 z-10 relative top-1/2 transform -translate-x-1/2 -translate-y-1/2 ">
+              <div className="flex gap-2 text-sm font-semibold text-gray-700 ">
                 <HroMenu />
               </div>
             </div>
           </div>
 
-          <div className="container mx-auto px-4 ">
-            <h1 className="text-3xl font-semibold text-center mb-8">
+          <div className="container mx-auto p-4">
+            <h1 className="text-3xl font-semibold text-center mb-12 mt-0">
               Featured destinations from{" "}
               <span className="font-bold">Ethiopia</span>
             </h1>

@@ -262,8 +262,12 @@ const Home = () => {
             <div className="max-w-6xl mx-auto text-center">
               <h2 className="text-3xl font-bold mb-2">About us</h2>
               <p className="text-muted-foreground mb-12">
-                Learn more about our history, our business and sustainability
-                initiatives
+                Discover Our Legacy, Business Excellence, and Commitment to
+                Sustainability Delve into the rich history that shaped our
+                vision, explore the innovative strategies driving our business
+                forward, and learn how we integrate sustainability into every
+                facet of our operations—pioneering a future where progress and
+                responsibility go hand in hand.
               </p>
 
               <div className="flex flex-nowrap gap-8 overflow-x-auto pb-4 px-4 snap-x snap-mandatory">

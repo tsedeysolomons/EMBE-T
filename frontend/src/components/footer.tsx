@@ -49,7 +49,7 @@ const Footer: React.FC = () => {
                     href="https://github.com/themesberg/flowbite"
                     className="hover:underline"
                   >
-                    Github
+                    Face Book
                   </a>
                 </li>
                 <li>
@@ -57,7 +57,23 @@ const Footer: React.FC = () => {
                     href="https://discord.gg/4eeurUVvTy"
                     className="hover:underline"
                   >
-                    Discord
+                    Instagram
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://discord.gg/4eeurUVvTy"
+                    className="hover:underline"
+                  >
+                    Twitter
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://discord.gg/4eeurUVvTy"
+                    className="hover:underline"
+                  >
+                    Telegram
                   </a>
                 </li>
               </ul>

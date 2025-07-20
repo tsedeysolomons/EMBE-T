@@ -37,14 +37,14 @@ export default function Payment() {
         {/* Main Content */}
         <Card>
           <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle>Choose your outbound flight</CardTitle>
+            <CardTitle>Choose your outbound Train</CardTitle>
             <div className="text-right">
               <div className="text-sm text-muted-foreground">
                 Lowest total price for 1 passenger
               </div>
               <div className="flex items-baseline space-x-1">
                 <span className="text-sm">ETB</span>
-                <span className="text-2xl font-bold">644,206</span>
+                <span className="text-2xl font-bold">644</span>
               </div>
             </div>
           </CardHeader>

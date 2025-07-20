@@ -13,25 +13,25 @@ interface Destination {
 const destinations: Destination[] = [
   {
     city: "DJIBUOTI",
-    country: "UNITED ARAB EMIRATES",
+    country: "Djibuoti",
     image: "/asset/image/train6.jpg",
     tagline: "Discover for yourself",
   },
   {
     city: "ADISS ABABA",
-    country: "UNITED KINGDOM",
+    country: "Addis Ababa",
     image: "/asset/image/train2.png",
     tagline: "Discover for yourself",
   },
   {
     city: "DREDAWA",
-    country: "MALDIVES",
+    country: "Dredawa",
     image: "/asset/image/train2.png",
     tagline: "Discover for yourself",
   },
   {
-    city: "NAGAD",
-    country: "PAKISTAN",
+    city: "Awash",
+    country: "Afar",
     image: "/asset/image/train3.jpg",
     tagline: "Discover for yourself",
   },
